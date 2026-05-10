@@ -1,158 +1,136 @@
-# Owner Guide — Sevastopol Apartments Website
+# Owner Guide — Sevastopol Apartments
 
-This guide is written for a non-technical owner. No technical knowledge needed.
+Your website is live at **https://sevastopol-apartments.vercel.app**
 
----
-
-## How to Log In to the Admin Panel
-
-1. Open your website: `https://sevastopolapartments.com/admin`
-2. Enter your email: `5areood@gmail.com`
-3. Enter your password (change this after first login!)
-4. Enter the 6-digit code from your **Google Authenticator** or **Authy** app
-
-**Important:** Set up 2FA on first login (Admin → Settings → Enable 2FA). Scan the QR code with Google Authenticator.
+Everything is in **test mode** right now — no real money moves. This guide explains how to use the site for testing, and what to do when you're ready to go live.
 
 ---
 
-## How to See Your Bookings
+## How to Log Into Admin
 
-1. Log in → click **Bookings** in the left menu
-2. You'll see all bookings with:
-   - Guest name, email, phone
-   - Apartment, dates, number of guests
-   - Total paid
-   - Status (Pending / Confirmed / Cancelled)
+1. Go to **https://sevastopol-apartments.vercel.app/admin/login**
+2. Email: `5areood@gmail.com`
+3. Password: `P77H82P04V06`
 
-**Pending requests** (orange) need your approval. Click **Approve** or **Decline**.
+> **Important:** Change your password immediately after first login. Go to Admin → Settings → Change Password.
 
----
-
-## How to Approve a Booking Request
-
-1. In Bookings, find the request with status **PENDING**
-2. Click **Approve**
-3. The system automatically sends the guest a payment link by email
-4. Once the guest pays, status changes to **CONFIRMED**
+From the admin panel you can:
+- See all bookings (pending, confirmed, cancelled)
+- Approve or reject booking requests
+- Edit apartment details, prices, and photos
+- View the calendar sync logs
 
 ---
 
-## How to Add a Manual Booking (Phone Reservations)
+## How to Test a Booking (End-to-End)
 
-1. Bookings → click **+ New Booking**
-2. Fill in:
-   - Apartment
-   - Check-in / Check-out dates
-   - Guest name, email, phone
-   - Number of guests
-3. Set Source to **Manual**
-4. Click **Create**
+This tests the full flow — just like a real guest would experience it.
 
-This blocks the dates immediately.
+1. Open the site: **https://sevastopol-apartments.vercel.app**
+2. Click on any apartment → choose dates → click **Book Now**
+3. Fill in any name, email, and phone number
+4. Click **Continue to Payment**
+5. You'll see a yellow banner: **TEST MODE — NO REAL CHARGES**
+6. Use these test card details:
+   - **Card number:** `4242 4242 4242 4242`
+   - **Expiry:** any future date (e.g. `12/28`)
+   - **CVC:** any 3 digits (e.g. `123`)
+   - **Name:** anything
+7. Click **Confirm & Pay**
+8. You should be redirected to a booking confirmation page
+9. Check your email (`5areood@gmail.com`) — you should receive:
+   - A guest confirmation email (you are CC'd on it in test mode)
+   - An owner notification email
+
+If any of these steps fail, take a screenshot and contact your developer.
+
+### Other test card numbers
+
+| Card number | What it tests |
+|---|---|
+| `4242 4242 4242 4242` | Successful payment |
+| `4000 0000 0000 0002` | Card declined |
+| `4000 0025 0000 3155` | Requires 3D Secure authentication |
 
 ---
 
-## How to Cancel a Booking
+## How to Update Apartment Prices
 
-1. Open the booking → click **Cancel**
-2. If the guest paid, Stripe will automatically refund them within 5–10 business days
-3. The dates become available again automatically
+1. Log into admin
+2. Go to **Apartments** → click on the apartment you want to edit
+3. Change **Base price (EUR)**, **Cleaning fee**, **Weekend uplift %**, or **Min stay nights**
+4. Click **Save**
+
+Prices take effect immediately for new bookings.
 
 ---
 
 ## How to Update Apartment Photos
 
-1. Admin → **Apartments** → click on the apartment
-2. Scroll to **Photos**
-3. Click **Upload Photos** → select files from your computer (max 5 MB each, JPG/PNG)
-4. Drag photos to reorder them (first photo = main photo shown in listings)
-5. Click **Save**
+Photos are stored as web links (URLs). To add a new photo:
+
+1. Upload the photo to a free image host such as **https://imgbb.com** (upload → copy "Direct link")
+2. Log into admin → Apartments → edit the apartment → scroll to Photos
+3. Paste the URL and save
 
 ---
 
-## How to Change Prices
+## How to Connect Airbnb / Booking.com Calendars
 
-1. Admin → **Apartments** → click on the apartment
-2. Change **Base nightly price (EUR)**
-3. Change **Cleaning fee (EUR)**
-4. To set seasonal prices: scroll to **Pricing Rules** → edit the date ranges and multipliers
-   - Example: multiplier 1.4 = 40% higher in high season
+This prevents double-bookings by syncing your OTA calendars every 15 minutes.
 
----
+### Get your Airbnb iCal link
+1. Log into Airbnb → go to your listing → **Manage listing**
+2. Go to **Availability** → **Sync calendars** → **Export calendar**
+3. Copy the `.ics` URL
 
-## How to Connect Airbnb Calendar (prevents double bookings)
+### Get your Booking.com iCal link
+1. Log into Booking.com Extranet → **Calendar** → **Sync**
+2. Click **Export calendar** → copy the URL
 
-**Get your Airbnb iCal export URL:**
-1. Go to Airbnb → Hosting → your listing → **Availability** (or Calendar)
-2. Click **Sync calendars** → **Export calendar**
-3. Copy the URL that appears (starts with `https://www.airbnb.com/calendar/ical/...`)
-
-**Paste it in the admin panel:**
-1. Admin → **Settings** → scroll to **iCal Sync**
-2. Find the apartment → paste the Airbnb URL in **Airbnb iCal URL**
-3. Click **Save**
-4. The system will check for new bookings every 15 minutes automatically
+### Paste them in admin
+1. Log into admin → **Apartments** → click the apartment
+2. Paste the Airbnb URL into **Airbnb iCal URL**
+3. Paste the Booking.com URL into **Booking.com iCal URL**
+4. Save — the system syncs every 15 minutes automatically
 
 ---
 
-## How to Connect Booking.com Calendar
+## How to Read the Calendar Sync Logs
 
-**Get your Booking.com iCal URL:**
-1. Log in to Booking.com Extranet → your property → **Calendar**
-2. Click **Sync** → **Export calendar** (or **iCal export**)
-3. Copy the URL
+1. Log into admin → **Dashboard**
+2. Look for **Sync Logs** — shows last sync time, success/fail, and how many events were imported
 
-**Paste it:**
-1. Admin → Settings → iCal Sync
-2. Paste in **Booking.com iCal URL** → Save
+If you see errors, the iCal URL has probably changed on Airbnb/Booking.com — paste the new one.
 
 ---
 
-## How to Give Booking.com / Airbnb Your Direct Booking Calendar
+## What's Still in Test Mode
 
-This lets Booking.com and Airbnb see your direct bookings (so they show the dates as unavailable):
+| Feature | Status | What this means |
+|---|---|---|
+| Payments | **TEST MODE** | No real money charged. Use card `4242 4242 4242 4242`. |
+| Emails | **TEST MODE** | Subjects say `[TEST MODE]`. You are CC'd on all guest emails. |
+| Domain | **Temporary** | URL is `sevastopol-apartments.vercel.app`, not your final domain. |
 
-1. Admin → **Settings** → copy the **Outbound iCal URL** for each apartment
-2. **On Airbnb:** Availability → Sync calendars → Import → paste the URL
-3. **On Booking.com:** Extranet → Calendar → Sync → Import iCal → paste the URL
-
----
-
-## How to Edit Website Text
-
-1. Admin → **Content**
-2. Click on the page you want to edit (e.g., Area Guide)
-3. Edit the text (supports basic formatting)
-4. Click **Save**
+When you're ready to go live, see `GO_LIVE_CHECKLIST.md`.
 
 ---
 
-## What to Do if a Payment Fails
+## How to Reach Support
 
-1. The booking stays in **Pending** status
-2. The guest will receive an email to try again
-3. Check Admin → Bookings → look for pending with expired dates
-4. You can manually cancel expired pending bookings
-
----
-
-## What to Do if There's a Double Booking
-
-This should be extremely rare due to the automatic 15-minute sync and real-time verification. But if it happens:
-
-1. The system automatically refunds the guest who booked second
-2. You'll receive an urgent email alert
-3. Contact the guest by WhatsApp/email to apologize and offer a discount or alternative dates
-4. The incident is logged in Admin → Audit Log
+- **Developer:** contact the developer who built this site
+- **Vercel (hosting):** https://vercel.com/help
+- **Stripe (payments):** https://support.stripe.com
+- **Resend (emails):** https://resend.com/docs
 
 ---
 
-## Who to Contact for Technical Support
+## Admin Credentials Summary
 
-Contact your web developer at: `petargta8@gmail.com`
-
-When reporting an issue, include:
-- What you were trying to do
-- What happened instead
-- The URL of the page where the issue occurred
-- A screenshot if possible
+| What | Value |
+|---|---|
+| Admin URL | https://sevastopol-apartments.vercel.app/admin |
+| Email | 5areood@gmail.com |
+| Password | `P77H82P04V06` (change this after first login!) |
+| Test card | `4242 4242 4242 4242` |
