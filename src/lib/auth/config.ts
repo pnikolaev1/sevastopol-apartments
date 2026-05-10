@@ -12,6 +12,7 @@ const credentialsSchema = z.object({
 });
 
 export const authConfig: NextAuthConfig = {
+  trustHost: true,
   session: { strategy: "jwt", maxAge: 8 * 60 * 60 }, // 8-hour sessions
   pages: {
     signIn: "/admin/login",
