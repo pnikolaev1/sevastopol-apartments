@@ -1,5 +1,5 @@
 import createMiddleware from "next-intl/middleware";
-import { auth } from "@/lib/auth";
+import { auth } from "@/lib/auth/edge";
 import { routing } from "@/i18n/routing";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
