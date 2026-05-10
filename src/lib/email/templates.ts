@@ -2,6 +2,10 @@ import { Resend } from "resend";
 import { logger } from "@/lib/logger";
 
 const IS_TEST = process.env.EMAIL_MODE !== "live";
+// In sandbox mode (onboarding@resend.dev sender), Resend only delivers to the
+// account owner's email. Set EMAIL_TEST_RECIPIENT to that address to receive
+// all test emails in one inbox regardless of who the nominal recipient is.
+const TEST_RECIPIENT = IS_TEST ? (process.env.EMAIL_TEST_RECIPIENT ?? null) : null;
 
 function getResend() {
   return new Resend(process.env.RESEND_API_KEY ?? "re_placeholder");
@@ -13,6 +17,11 @@ function getFrom() {
 
 function subject(base: string): string {
   return IS_TEST ? `[TEST MODE] ${base}` : base;
+}
+
+// Resolve the actual delivery address in test mode
+function to(nominal: string): string {
+  return TEST_RECIPIENT ?? nominal;
 }
 
 const OWNER_EMAIL = process.env.OWNER_EMAIL ?? "5areood@gmail.com";
@@ -109,9 +118,7 @@ export async function sendBookingConfirmation(params: BookingConfirmationParams)
   try {
     await getResend().emails.send({
       from: getFrom(),
-      to: guestEmail,
-      // In test mode CC the owner so they see exactly what guests receive
-      ...(IS_TEST && guestEmail !== OWNER_EMAIL ? { cc: OWNER_EMAIL } : {}),
+      to: to(guestEmail),
       subject: subject(`✅ Booking Confirmed — ${aptName} | ${formatDate(checkIn)}`),
       html,
     });
@@ -157,7 +164,7 @@ export async function sendOwnerNotification(params: OwnerNotificationParams) {
   try {
     await getResend().emails.send({
       from: getFrom(),
-      to: OWNER_EMAIL,
+      to: to(OWNER_EMAIL),
       subject: subject(`💰 New Booking — ${aptName} | ${formatDate(checkIn)}`),
       html,
     });
@@ -208,7 +215,7 @@ export async function sendOwnerBookingRequest(params: OwnerBookingRequestParams)
   try {
     await getResend().emails.send({
       from: getFrom(),
-      to: OWNER_EMAIL,
+      to: to(OWNER_EMAIL),
       subject: subject(`📋 Booking Request — ${aptName} | ${formatDate(checkIn)} (NEEDS APPROVAL)`),
       html,
     });
@@ -225,7 +232,7 @@ export async function sendContactEmail(params: { name: string; email: string; me
   try {
     await getResend().emails.send({
       from: getFrom(),
-      to: OWNER_EMAIL,
+      to: to(OWNER_EMAIL),
       replyTo: email,
       subject: subject(`Contact form message from ${name}`),
       html: `<p><strong>From:</strong> ${name} (${email})</p><p><strong>Message:</strong></p><p>${message.replace(/\n/g, "<br/>")}</p>`,

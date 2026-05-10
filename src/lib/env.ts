@@ -51,6 +51,10 @@ const envSchema = z.object({
   // Email mode — "test" prefixes subjects + CCs owner on guest emails
   EMAIL_MODE: z.enum(["test", "live"]).default("test"),
 
+  // In test mode, all emails are rerouted to this address (Resend sandbox restriction:
+  // onboarding@resend.dev can only deliver to the Resend account's own email address)
+  EMAIL_TEST_RECIPIENT: z.string().email().optional(),
+
   // Cron job shared secret (must match Authorization header sent by scheduler)
   CRON_SECRET: z.string().min(32),
 
