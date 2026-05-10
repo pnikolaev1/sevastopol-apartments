@@ -27,12 +27,14 @@
     },
     "apartments": {
       "title": "Unsere Apartments",
+      "stayWith": "Bei uns übernachten",
       "viewAll": "Alle Apartments",
       "from": "Ab",
       "perNight": "/ Nacht",
       "guests": "{count} Gäste",
       "bedrooms": "{count} Schlafzimmer",
-      "sqm": "{count} m²"
+      "sqm": "{count} m²",
+      "moreAmenities": "+{count} weitere"
     },
     "location": {
       "title": "Beste Lage in Varna",
@@ -62,7 +64,9 @@
     },
     "noResults": "Keine Apartments für Ihre Suche gefunden. Bitte wählen Sie andere Daten.",
     "available": "Verfügbar",
-    "unavailable": "Nicht verfügbar"
+    "unavailable": "Für diese Daten nicht verfügbar",
+    "groupSuggestion": "Ihre Gruppe von {count} Gästen ist größer als jedes einzelne Apartment. Sie können unten mehrere Apartments buchen — alle sind für Ihre Daten verfügbar.",
+    "groupSuggestionNoDates": "Ihre Gruppe von {count} Gästen ist größer als jedes einzelne Apartment. Erwägen Sie, 2 oder mehr Apartments für Ihre Gruppe zu buchen."
   },
   "apartment": {
     "overview": "Überblick",

@@ -27,12 +27,14 @@
     },
     "apartments": {
       "title": "Our Apartments",
+      "stayWith": "Stay with us",
       "viewAll": "View All Apartments",
       "from": "From",
       "perNight": "/ night",
       "guests": "{count} guests",
       "bedrooms": "{count} bedrooms",
-      "sqm": "{count} m²"
+      "sqm": "{count} m²",
+      "moreAmenities": "+{count} more"
     },
     "location": {
       "title": "Prime Varna Location",
@@ -62,7 +64,9 @@
     },
     "noResults": "No apartments match your search. Try different dates.",
     "available": "Available",
-    "unavailable": "Unavailable"
+    "unavailable": "Not available for these dates",
+    "groupSuggestion": "Your group of {count} guests is larger than any single apartment. You can book multiple apartments below — all are available for your dates.",
+    "groupSuggestionNoDates": "Your group of {count} guests is larger than any single apartment. Consider booking 2 or more apartments for your group."
   },
   "apartment": {
     "overview": "Overview",

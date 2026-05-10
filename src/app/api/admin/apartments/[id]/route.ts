@@ -17,7 +17,7 @@ const bodySchema = z.object({
     minStayNights: z.number().int().min(1).max(365),
   }),
   translations: z.record(
-    z.enum(["bg", "en", "ro"]),
+    z.enum(["bg", "en", "ro", "de"]),
     z.object({
       name: z.string().min(1).max(200),
       shortDesc: z.string().min(1).max(500),

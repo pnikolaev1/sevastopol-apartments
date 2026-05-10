@@ -84,7 +84,7 @@ export default function ApartmentEditor({ apartment, allAmenities }: Props) {
   });
 
   // Translations
-  const [translations, setTranslations] = useState<Record<string, { name: string; shortDesc: string; description: string }>>(
+  const [translations, setTranslations] = useState<Partial<Record<"bg" | "en" | "ro" | "de", { name: string; shortDesc: string; description: string }>>>(
     Object.fromEntries(
       apartment.translations.map((t) => [t.locale, { name: t.name, shortDesc: t.shortDesc, description: t.description }])
     )
@@ -207,9 +207,9 @@ export default function ApartmentEditor({ apartment, allAmenities }: Props) {
       {/* Translations */}
       {activeTab === "translations" && (
         <div className="space-y-4">
-          {(["bg", "en", "ro"] as const).map((locale) => {
+          {(["bg", "en", "ro", "de"] as const).map((locale) => {
             const t = translations[locale] ?? { name: "", shortDesc: "", description: "" };
-            const flag = { bg: "🇧🇬", en: "🇬🇧", ro: "🇷🇴" }[locale];
+            const flag = { bg: "🇧🇬", en: "🇬🇧", ro: "🇷🇴", de: "🇩🇪" }[locale];
             return (
               <div key={locale} className="bg-white rounded-xl border border-gray-200 p-5 space-y-3">
                 <h3 className="text-sm font-semibold text-gray-700">{flag} {locale.toUpperCase()}</h3>
@@ -217,7 +217,7 @@ export default function ApartmentEditor({ apartment, allAmenities }: Props) {
                   <input
                     type="text"
                     value={t.name}
-                    onChange={(e) => setTranslations((p) => ({ ...p, [locale]: { ...t, name: e.target.value } }))}
+                    onChange={(e) => setTranslations((p) => ({ ...p, [locale]: { ...(p[locale] ?? { name: "", shortDesc: "", description: "" }), name: e.target.value } }))}
                     className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
                   />
                 </Field>
@@ -225,7 +225,7 @@ export default function ApartmentEditor({ apartment, allAmenities }: Props) {
                   <input
                     type="text"
                     value={t.shortDesc}
-                    onChange={(e) => setTranslations((p) => ({ ...p, [locale]: { ...t, shortDesc: e.target.value } }))}
+                    onChange={(e) => setTranslations((p) => ({ ...p, [locale]: { ...(p[locale] ?? { name: "", shortDesc: "", description: "" }), shortDesc: e.target.value } }))}
                     className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
                   />
                 </Field>
@@ -233,7 +233,7 @@ export default function ApartmentEditor({ apartment, allAmenities }: Props) {
                   <textarea
                     rows={8}
                     value={t.description}
-                    onChange={(e) => setTranslations((p) => ({ ...p, [locale]: { ...t, description: e.target.value } }))}
+                    onChange={(e) => setTranslations((p) => ({ ...p, [locale]: { ...(p[locale] ?? { name: "", shortDesc: "", description: "" }), description: e.target.value } }))}
                     className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 resize-y"
                   />
                 </Field>

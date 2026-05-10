@@ -27,12 +27,14 @@
     },
     "apartments": {
       "title": "Apartamentele noastre",
+      "stayWith": "Cazați-vă la noi",
       "viewAll": "Toate apartamentele",
       "from": "De la",
       "perNight": "/ noapte",
       "guests": "{count} oaspeți",
       "bedrooms": "{count} dormitoare",
-      "sqm": "{count} m²"
+      "sqm": "{count} m²",
+      "moreAmenities": "+{count} mai multe"
     },
     "location": {
       "title": "Locație centrală în Varna",
@@ -62,7 +64,9 @@
     },
     "noResults": "Nu există apartamente disponibile pentru datele selectate. Încercați alte date.",
     "available": "Disponibil",
-    "unavailable": "Ocupat"
+    "unavailable": "Indisponibil pentru aceste date",
+    "groupSuggestion": "Grupul dvs. de {count} oaspeți este mai mare decât orice apartament individual. Puteți rezerva mai multe apartamente de mai jos — toate sunt disponibile pentru datele dvs.",
+    "groupSuggestionNoDates": "Grupul dvs. de {count} oaspeți este mai mare decât orice apartament individual. Luați în considerare rezervarea a 2 sau mai multe apartamente."
   },
   "apartment": {
     "overview": "Prezentare",

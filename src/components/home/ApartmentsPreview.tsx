@@ -17,7 +17,7 @@ interface Props {
   locale: string;
 }
 
-export function ApartmentsPreview({ apartments, locale }: Props) {
+export function ApartmentsPreview({ apartments }: Props) {
   const t = useTranslations("home.apartments");
 
   return (
@@ -26,7 +26,7 @@ export function ApartmentsPreview({ apartments, locale }: Props) {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
           <div>
             <p className="text-accent font-semibold text-sm uppercase tracking-widest mb-3">
-              {locale === "bg" ? "Настанете се" : locale === "de" ? "Unterkünfte" : locale === "ro" ? "Cazare" : "Stay with us"}
+              {t("stayWith")}
             </p>
             <h2
               id="apartments-heading"
