@@ -6,7 +6,8 @@
       "Bash(npm run *)",
       "Bash(git push *)",
       "WebFetch(domain:www.booking.com)",
-      "WebFetch(domain:www.airbnb.com)"
+      "WebFetch(domain:www.airbnb.com)",
+      "WebFetch(domain:webcache.googleusercontent.com)"
     ]
   }
 }

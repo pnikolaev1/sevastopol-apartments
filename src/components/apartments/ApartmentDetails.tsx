@@ -6,6 +6,9 @@ import {
   Wifi, AirVent, Tv, Utensils, WashingMachine,
   Waves, ParkingSquare, Wind, Coffee,
   Ban, PawPrint, PartyPopper, Cigarette,
+  Wand2, Shirt, ArrowUpDown, Droplets,
+  Thermometer, ShieldCheck, Laptop, DoorOpen,
+  Car, UtensilsCrossed, Sunset, Key,
 } from "lucide-react";
 import type {
   Apartment,
@@ -20,11 +23,31 @@ const AMENITY_ICONS: Record<string, React.ElementType> = {
   air_conditioning: AirVent,
   tv: Tv,
   kitchen: Utensils,
+  kitchen_supplies: UtensilsCrossed,
   washing_machine: WashingMachine,
+  dryer: WashingMachine,
   sea_view: Waves,
-  parking: ParkingSquare,
+  garden_view: Sunset,
+  parking: Car,
+  free_parking: Car,
+  parking_garage: Car,
   balcony: Wind,
+  patio: Wind,
   coffee_maker: Coffee,
+  hair_dryer: Wand2,
+  iron: Shirt,
+  elevator: ArrowUpDown,
+  towels: Bath,
+  linens: Bath,
+  hot_water: Droplets,
+  heating: Thermometer,
+  smoke_detector: ShieldCheck,
+  carbon_monoxide_detector: ShieldCheck,
+  workspace: Laptop,
+  dedicated_workspace: Laptop,
+  private_entrance: DoorOpen,
+  keypad: Key,
+  self_checkin: Key,
 };
 
 type ApartmentWithRelations = Apartment & {
@@ -88,7 +111,7 @@ export function ApartmentDetails({ apartment: apt, translation }: Props) {
           <h2 className="text-xl font-semibold mb-4">{t("amenities")}</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {apt.amenities.map(({ amenity }) => {
-              const Icon = AMENITY_ICONS[amenity.key] ?? Wifi;
+              const Icon = AMENITY_ICONS[amenity.key] ?? ShieldCheck;
               return (
                 <div key={amenity.id} className="flex items-center gap-2 text-sm">
                   <Icon className="w-5 h-5 text-primary shrink-0" aria-hidden />
