@@ -56,7 +56,13 @@ const nextConfig: NextConfig = {
   serverExternalPackages: ["node-ical", "pg", "@prisma/adapter-pg"],
   experimental: {
     serverActions: {
-      allowedOrigins: ["localhost:3000"],
+      allowedOrigins: [
+        "localhost:3000",
+        // Allow the deployed URL (set via NEXT_PUBLIC_APP_URL in each environment)
+        ...(process.env.NEXT_PUBLIC_APP_URL
+          ? [process.env.NEXT_PUBLIC_APP_URL.replace(/^https?:\/\//, "")]
+          : []),
+      ],
     },
   },
 };

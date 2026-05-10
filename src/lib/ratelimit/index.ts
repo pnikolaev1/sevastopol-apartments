@@ -14,29 +14,43 @@ function createRatelimit(limit: number, window: string, prefix: string): Ratelim
   });
 }
 
+const FAIL_OPEN = { success: true, limit: 0, remaining: 0, reset: 0, pending: Promise.resolve() };
+
 // Lazy singletons — only instantiated when first called at runtime
 let _bookingRatelimit: Ratelimit | undefined;
 let _contactRatelimit: Ratelimit | undefined;
 let _adminLoginRatelimit: Ratelimit | undefined;
 
 export const bookingRatelimit = {
-  limit: (id: string) => {
-    _bookingRatelimit ??= createRatelimit(5, "1 m", "rl:booking");
-    return _bookingRatelimit.limit(id);
+  limit: async (id: string) => {
+    try {
+      _bookingRatelimit ??= createRatelimit(5, "1 m", "rl:booking");
+      return await _bookingRatelimit.limit(id);
+    } catch {
+      return FAIL_OPEN;
+    }
   },
 };
 
 export const contactRatelimit = {
-  limit: (id: string) => {
-    _contactRatelimit ??= createRatelimit(10, "1 m", "rl:contact");
-    return _contactRatelimit.limit(id);
+  limit: async (id: string) => {
+    try {
+      _contactRatelimit ??= createRatelimit(10, "1 m", "rl:contact");
+      return await _contactRatelimit.limit(id);
+    } catch {
+      return FAIL_OPEN;
+    }
   },
 };
 
 export const adminLoginRatelimit = {
-  limit: (id: string) => {
-    _adminLoginRatelimit ??= createRatelimit(5, "15 m", "rl:admin-login");
-    return _adminLoginRatelimit.limit(id);
+  limit: async (id: string) => {
+    try {
+      _adminLoginRatelimit ??= createRatelimit(5, "15 m", "rl:admin-login");
+      return await _adminLoginRatelimit.limit(id);
+    } catch {
+      return FAIL_OPEN;
+    }
   },
 };
 

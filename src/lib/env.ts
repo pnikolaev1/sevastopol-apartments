@@ -45,6 +45,12 @@ const envSchema = z.object({
   // Optional: Plausible analytics
   NEXT_PUBLIC_PLAUSIBLE_DOMAIN: z.string().optional(),
 
+  // Stripe mode flag — "test" shows the TEST MODE banner, "live" hides it
+  NEXT_PUBLIC_STRIPE_MODE: z.enum(["test", "live"]).default("test"),
+
+  // Cron job shared secret (must match Authorization header sent by scheduler)
+  CRON_SECRET: z.string().min(32),
+
   NODE_ENV: z
     .enum(["development", "test", "production"])
     .default("development"),
