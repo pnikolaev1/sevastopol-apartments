@@ -1,0 +1,313 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Apartments ──────────────────────────────────────────────────────────────
+
+model Apartment {
+  id           String  @id @default(cuid())
+  slug         String  @unique
+  active       Boolean @default(true)
+  maxGuests    Int
+  bedrooms     Int
+  bathrooms    Int
+  sqm          Int
+  floor        Int
+  basePriceEur Decimal @db.Decimal(10, 2)
+  weekendUpliftPct Int @default(0)
+  cleaningFeeEur   Decimal @db.Decimal(10, 2)
+  minStayNights    Int     @default(1)
+
+  bookingIcalUrl String?
+  airbnbIcalUrl  String?
+  icalSecret     String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  translations     ApartmentTranslation[]
+  photos           ApartmentPhoto[]
+  amenities        ApartmentAmenity[]
+  bookings         Booking[]
+  externalBookings ExternalBooking[]
+  pricingRules     PricingRule[]
+  syncLogs         SyncLog[]
+
+  @@map("apartments")
+}
+
+model ApartmentTranslation {
+  id          String @id @default(cuid())
+  apartmentId String
+  locale      String
+  name        String
+  description String @db.Text
+  shortDesc   String
+
+  apartment Apartment @relation(fields: [apartmentId], references: [id], onDelete: Cascade)
+
+  @@unique([apartmentId, locale])
+  @@map("apartment_translations")
+}
+
+model ApartmentPhoto {
+  id          String  @id @default(cuid())
+  apartmentId String
+  url         String
+  alt         String  @default("")
+  position    Int     @default(0)
+  isPrimary   Boolean @default(false)
+
+  apartment Apartment @relation(fields: [apartmentId], references: [id], onDelete: Cascade)
+
+  @@map("apartment_photos")
+}
+
+model Amenity {
+  id   String @id @default(cuid())
+  key  String @unique
+  icon String
+
+  apartments ApartmentAmenity[]
+
+  @@map("amenities")
+}
+
+model ApartmentAmenity {
+  apartmentId String
+  amenityId   String
+
+  apartment Apartment @relation(fields: [apartmentId], references: [id], onDelete: Cascade)
+  amenity   Amenity   @relation(fields: [amenityId], references: [id], onDelete: Cascade)
+
+  @@id([apartmentId, amenityId])
+  @@map("apartment_amenities")
+}
+
+// ─── Guests ──────────────────────────────────────────────────────────────────
+
+model Guest {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  firstName String
+  lastName  String
+  phone     String?
+  country   String?
+  locale    String   @default("en")
+  createdAt DateTime @default(now())
+
+  bookings Booking[]
+
+  @@map("guests")
+}
+
+// ─── Bookings ─────────────────────────────────────────────────────────────────
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  REFUNDED
+}
+
+enum BookingSource {
+  DIRECT
+  BOOKING_COM
+  AIRBNB
+  MANUAL
+}
+
+model Booking {
+  id          String        @id @default(cuid())
+  apartmentId String
+  guestId     String
+  status      BookingStatus @default(PENDING)
+  source      BookingSource @default(DIRECT)
+
+  checkIn    DateTime @db.Date
+  checkOut   DateTime @db.Date
+  nights     Int
+  guestCount Int
+
+  baseAmount  Decimal @db.Decimal(10, 2)
+  cleaningFee Decimal @db.Decimal(10, 2)
+  touristTax  Decimal @db.Decimal(10, 2)
+  totalAmount Decimal @db.Decimal(10, 2)
+  currency    String  @default("EUR")
+
+  specialRequests String? @db.Text
+  internalNotes   String? @db.Text
+
+  stripePaymentIntentId String?   @unique
+  stripePaidAt          DateTime?
+
+  expiresAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  apartment Apartment @relation(fields: [apartmentId], references: [id])
+  guest     Guest     @relation(fields: [guestId], references: [id])
+
+  @@index([apartmentId, checkIn, checkOut])
+  @@index([status])
+  @@map("bookings")
+}
+
+// ─── External Bookings (from iCal) ────────────────────────────────────────────
+
+model ExternalBooking {
+  id          String        @id @default(cuid())
+  apartmentId String
+  source      BookingSource
+  externalId  String
+  summary     String?
+  checkIn     DateTime @db.Date
+  checkOut    DateTime @db.Date
+  syncedAt    DateTime @default(now())
+
+  apartment Apartment @relation(fields: [apartmentId], references: [id], onDelete: Cascade)
+
+  @@unique([apartmentId, source, externalId])
+  @@index([apartmentId, checkIn, checkOut])
+  @@map("external_bookings")
+}
+
+// ─── Pricing ──────────────────────────────────────────────────────────────────
+
+enum PricingRuleType {
+  SEASONAL
+  LENGTH_OF_STAY
+  LAST_MINUTE
+}
+
+model PricingRule {
+  id          String          @id @default(cuid())
+  apartmentId String
+  type        PricingRuleType
+  name        String
+  active      Boolean         @default(true)
+
+  startDate  DateTime? @db.Date
+  endDate    DateTime? @db.Date
+  multiplier Decimal?  @db.Decimal(5, 2)
+
+  minNights   Int?
+  discountPct Int?
+
+  daysBeforeCheckIn Int?
+
+  apartment Apartment @relation(fields: [apartmentId], references: [id], onDelete: Cascade)
+
+  @@map("pricing_rules")
+}
+
+// ─── Content ──────────────────────────────────────────────────────────────────
+
+model Article {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  translations ArticleTranslation[]
+
+  @@map("articles")
+}
+
+model ArticleTranslation {
+  id        String  @id @default(cuid())
+  articleId String
+  locale    String
+  title     String
+  excerpt   String  @db.Text
+  content   String  @db.Text
+  metaTitle String?
+  metaDesc  String?
+
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@unique([articleId, locale])
+  @@map("article_translations")
+}
+
+// ─── Admin ────────────────────────────────────────────────────────────────────
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  totpSecret   String?
+  totpEnabled  Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  sessions  AdminSession[]
+  auditLogs AdminAuditLog[]
+
+  @@map("admin_users")
+}
+
+model AdminSession {
+  id        String   @id @default(cuid())
+  adminId   String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  admin AdminUser @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  @@map("admin_sessions")
+}
+
+model AdminAuditLog {
+  id        String   @id @default(cuid())
+  adminId   String
+  action    String
+  entity    String?
+  entityId  String?
+  metadata  Json?
+  ipAddress String?
+  createdAt DateTime @default(now())
+
+  admin AdminUser @relation(fields: [adminId], references: [id])
+
+  @@index([adminId])
+  @@index([createdAt])
+  @@map("admin_audit_logs")
+}
+
+// ─── Sync Logs ────────────────────────────────────────────────────────────────
+
+model SyncLog {
+  id          String        @id @default(cuid())
+  apartmentId String
+  source      BookingSource
+  success     Boolean
+  errorMsg    String?
+  recordCount Int           @default(0)
+  syncedAt    DateTime      @default(now())
+
+  apartment Apartment @relation(fields: [apartmentId], references: [id], onDelete: Cascade)
+
+  @@index([apartmentId, source, syncedAt])
+  @@map("sync_logs")
+}
+
+// ─── GDPR ─────────────────────────────────────────────────────────────────────
+
+model CookieConsent {
+  id        String   @id @default(cuid())
+  sessionId String   @unique
+  necessary Boolean  @default(true)
+  analytics Boolean  @default(false)
+  marketing Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("cookie_consents")
+}

@@ -1,0 +1,246 @@
+{
+  "nav": {
+    "home": "Acasă",
+    "apartments": "Apartamente",
+    "areaGuide": "Ghid local",
+    "about": "Despre noi",
+    "contact": "Contact",
+    "bookNow": "Rezervă",
+    "menu": "Meniu",
+    "close": "Închide"
+  },
+  "home": {
+    "hero": {
+      "headline": "Casa ta la Marea Neagră",
+      "subheadline": "3 apartamente private în inima Varnei — complet utilate, îngrijite cu drag.",
+      "cta": "Vezi apartamentele",
+      "directDiscount": "Rezervați direct și economisiți 10% față de Booking.com și Airbnb"
+    },
+    "usp": {
+      "title": "De ce să rezervați direct?",
+      "saving": "Economisiți 10%",
+      "savingDesc": "Fără comision OTA — prețuri mai mici pentru dumneavoastră.",
+      "direct": "Contact direct",
+      "directDesc": "Scrieți direct proprietarului pe WhatsApp pentru răspuns rapid.",
+      "flexible": "Flexibilitate",
+      "flexibleDesc": "Solicitați check-in personalizat și check-out timpuriu/târziu."
+    },
+    "apartments": {
+      "title": "Apartamentele noastre",
+      "viewAll": "Toate apartamentele",
+      "from": "De la",
+      "perNight": "/ noapte",
+      "guests": "{count} oaspeți",
+      "bedrooms": "{count} dormitoare",
+      "sqm": "{count} m²"
+    },
+    "location": {
+      "title": "Locație centrală în Varna",
+      "desc": "La pași de Grădina Mării, plajele Varnei și centrul orașului. Tot ce aveți nevoie la distanță de mers pe jos.",
+      "beach": "5 min până la plajă",
+      "seaGarden": "Grădina Mării aproape",
+      "centre": "Acces în centrul orașului",
+      "airport": "25 min de la aeroport"
+    },
+    "reviews": {
+      "title": "Ce spun oaspeții"
+    },
+    "contact": {
+      "title": "Gata să rezervați?",
+      "desc": "Contactați-ne direct pentru cele mai bune tarife și servicii personalizate.",
+      "cta": "Luați legătura"
+    }
+  },
+  "apartments": {
+    "title": "Toate apartamentele",
+    "filter": {
+      "checkIn": "Check-in",
+      "checkOut": "Check-out",
+      "guests": "Oaspeți",
+      "search": "Verificare disponibilitate",
+      "clear": "Șterge filtrele"
+    },
+    "noResults": "Nu există apartamente disponibile pentru datele selectate. Încercați alte date.",
+    "available": "Disponibil",
+    "unavailable": "Ocupat"
+  },
+  "apartment": {
+    "overview": "Prezentare",
+    "amenities": "Dotări",
+    "availability": "Disponibilitate",
+    "location": "Locație",
+    "houseRules": "Regulament",
+    "cancellation": "Politica de anulare",
+    "bookNow": "Rezervă acum",
+    "requestBooking": "Solicitare rezervare",
+    "priceCalculator": "Calculator preț",
+    "nights": "{count} nopți",
+    "guests": "{count} oaspeți",
+    "sleeps": "Până la {count} oaspeți",
+    "bedrooms": "{count} dormitoare",
+    "bathrooms": "{count} băi",
+    "sqm": "{count} m²",
+    "floor": "Etajul {number}",
+    "priceBreakdown": {
+      "nightly": "Tarif pe noapte",
+      "nights": "{rate} × {nights} nopți",
+      "cleaning": "Taxă curățenie",
+      "touristTax": "Taxă turistică",
+      "directDiscount": "Reducere rezervare directă (10%)",
+      "total": "Total",
+      "inBgn": "≈ {amount} BGN"
+    },
+    "houseRulesContent": {
+      "checkIn": "Check-in: de la 15:00",
+      "checkOut": "Check-out: până la 11:00",
+      "noSmoking": "Fumatul interzis în interior",
+      "noPets": "Fără animale de companie",
+      "noParties": "Fără petreceri sau evenimente",
+      "maxGuests": "Maximum {count} oaspeți"
+    },
+    "cancellationContent": "Anulare gratuită cu până la 7 zile înainte de check-in. Anulările în mai puțin de 7 zile nu sunt rambursabile. În caz de conflict între platforme, veți fi rambursat integral imediat.",
+    "disclaimer": "Rezervările sunt confirmate în decurs de 1 oră. În cazuri rare de conflict între platforme, veți fi rambursat integral imediat."
+  },
+  "booking": {
+    "title": "Finalizați rezervarea",
+    "steps": {
+      "dates": "Date și oaspeți",
+      "details": "Datele dvs.",
+      "payment": "Plată"
+    },
+    "form": {
+      "firstName": "Prenume",
+      "lastName": "Nume de familie",
+      "email": "Adresă de email",
+      "phone": "Telefon",
+      "country": "Țară",
+      "specialRequests": "Solicitări speciale (opțional)",
+      "agreeTerms": "Sunt de acord cu Termenii și Politica de confidențialitate",
+      "submit": "Confirmă și plătește",
+      "submitRequest": "Trimite solicitarea"
+    },
+    "payment": {
+      "securedBy": "Securizat de Stripe",
+      "threeDSecure": "3D Secure activat"
+    },
+    "confirmation": {
+      "title": "Rezervare confirmată!",
+      "thankYou": "Mulțumim, {name}. Rezervarea dvs. este confirmată.",
+      "emailSent": "A fost trimis un email de confirmare la {email}.",
+      "bookingRef": "Număr rezervare",
+      "checkIn": "Check-in",
+      "checkOut": "Check-out",
+      "guests": "Oaspeți",
+      "total": "Total plătit",
+      "backHome": "Înapoi acasă"
+    },
+    "requestSent": {
+      "title": "Solicitare primită!",
+      "desc": "Proprietarul va confirma solicitarea dvs. în 24 de ore. Veți primi un link de plată pe email.",
+      "expire": "Solicitarea expiră în 24 de ore dacă nu este confirmată."
+    },
+    "errors": {
+      "datesUnavailable": "Aceste date nu mai sunt disponibile. Vă rugăm să selectați alte date.",
+      "paymentFailed": "Plata a eșuat. Vă rugăm să încercați din nou sau să folosiți un alt card.",
+      "generic": "Ceva nu a mers bine. Vă rugăm să încercați din nou."
+    }
+  },
+  "contact": {
+    "title": "Contact",
+    "desc": "De obicei răspundem în decurs de 1 oră în timpul programului.",
+    "phone": "Telefon",
+    "whatsapp": "WhatsApp",
+    "viber": "Viber",
+    "email": "Email",
+    "facebook": "Facebook",
+    "form": {
+      "name": "Numele dvs.",
+      "email": "Email-ul dvs.",
+      "message": "Mesaj",
+      "send": "Trimite mesajul",
+      "success": "Mesaj trimis! Vă vom răspunde în scurt timp.",
+      "error": "Eroare la trimitere. Vă rugăm să ne scrieți direct pe email."
+    }
+  },
+  "about": {
+    "title": "Despre Sevastopol Apartments",
+    "desc": "Trei apartamente îngrijite în Varna, Bulgaria — la câteva minute de plajă și Grădina Mării. Primim oaspeți din 2018 și suntem mândri de curățenie, confort și dotări complete."
+  },
+  "areaGuide": {
+    "title": "Ghid pentru zona Varna",
+    "desc": "Tot ce trebuie să știți pentru a profita la maximum de șederea dvs. în Varna.",
+    "readMore": "Citește mai mult",
+    "minRead": "{count} min de citit"
+  },
+  "footer": {
+    "rights": "© {year} Sevastopol Apartments. Toate drepturile rezervate.",
+    "terms": "Termeni",
+    "privacy": "Confidențialitate",
+    "cookies": "Cookie-uri",
+    "madeWith": "Creat cu grijă în Varna, Bulgaria"
+  },
+  "legal": {
+    "terms": {
+      "title": "Termeni și condiții"
+    },
+    "privacy": {
+      "title": "Politica de confidențialitate"
+    },
+    "cookies": {
+      "title": "Politica de cookie-uri"
+    }
+  },
+  "cookies": {
+    "banner": {
+      "title": "Folosim cookie-uri",
+      "desc": "Folosim cookie-uri pentru a îmbunătăți experiența și a analiza traficul.",
+      "acceptAll": "Acceptă toate",
+      "manage": "Gestionează preferințele",
+      "necessary": "Necesare",
+      "analytics": "Analiză",
+      "marketing": "Marketing",
+      "save": "Salvează preferințele"
+    }
+  },
+  "errors": {
+    "notFound": "Pagina nu a fost găsită",
+    "notFoundDesc": "Pagina pe care o căutați nu există.",
+    "backHome": "Înapoi acasă",
+    "serverError": "Ceva nu a mers bine",
+    "serverErrorDesc": "A apărut o eroare neașteptată. Vă rugăm să încercați din nou."
+  },
+  "admin": {
+    "login": {
+      "title": "Autentificare administrator",
+      "email": "Email",
+      "password": "Parolă",
+      "totp": "Cod autentificator",
+      "submit": "Conectare",
+      "invalid": "Date invalide"
+    },
+    "dashboard": {
+      "title": "Tablou de bord",
+      "todayCheckIns": "Check-in-uri azi",
+      "todayCheckOuts": "Check-out-uri azi",
+      "revenueMonth": "Venituri luna aceasta",
+      "revenueYtd": "Venituri YTD",
+      "occupancyRate": "Rata de ocupare",
+      "pendingRequests": "Solicitări în așteptare",
+      "syncHealth": "Stare sincronizare iCal"
+    },
+    "bookings": {
+      "title": "Rezervări",
+      "new": "Rezervare nouă",
+      "export": "Export CSV"
+    },
+    "apartments": {
+      "title": "Apartamente"
+    },
+    "content": {
+      "title": "Conținut"
+    },
+    "settings": {
+      "title": "Setări"
+    }
+  }
+}

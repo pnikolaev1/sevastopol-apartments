@@ -1,0 +1,246 @@
+{
+  "nav": {
+    "home": "Home",
+    "apartments": "Apartments",
+    "areaGuide": "Area Guide",
+    "about": "About",
+    "contact": "Contact",
+    "bookNow": "Book Now",
+    "menu": "Menu",
+    "close": "Close"
+  },
+  "home": {
+    "hero": {
+      "headline": "Your Home by the Black Sea",
+      "subheadline": "3 private apartments in the heart of Varna — fully equipped, lovingly maintained.",
+      "cta": "View Apartments",
+      "directDiscount": "Book direct and save 10% vs Booking.com & Airbnb"
+    },
+    "usp": {
+      "title": "Why Book Direct?",
+      "saving": "Save 10%",
+      "savingDesc": "No OTA commission means lower prices for you.",
+      "direct": "Direct Contact",
+      "directDesc": "Message the owner directly on WhatsApp for instant answers.",
+      "flexible": "Flexible",
+      "flexibleDesc": "Request custom check-in times and early/late checkout."
+    },
+    "apartments": {
+      "title": "Our Apartments",
+      "viewAll": "View All Apartments",
+      "from": "From",
+      "perNight": "/ night",
+      "guests": "{count} guests",
+      "bedrooms": "{count} bedrooms",
+      "sqm": "{count} m²"
+    },
+    "location": {
+      "title": "Prime Varna Location",
+      "desc": "Steps from the Sea Garden, Varna's beaches, and the city centre. Everything you need within walking distance.",
+      "beach": "5 min to beach",
+      "seaGarden": "Sea Garden nearby",
+      "centre": "City centre access",
+      "airport": "25 min from airport"
+    },
+    "reviews": {
+      "title": "What Guests Say"
+    },
+    "contact": {
+      "title": "Ready to Book?",
+      "desc": "Contact us directly for the best rates and personal service.",
+      "cta": "Get in Touch"
+    }
+  },
+  "apartments": {
+    "title": "All Apartments",
+    "filter": {
+      "checkIn": "Check-in",
+      "checkOut": "Check-out",
+      "guests": "Guests",
+      "search": "Search Availability",
+      "clear": "Clear filters"
+    },
+    "noResults": "No apartments match your search. Try different dates.",
+    "available": "Available",
+    "unavailable": "Unavailable"
+  },
+  "apartment": {
+    "overview": "Overview",
+    "amenities": "Amenities",
+    "availability": "Availability",
+    "location": "Location",
+    "houseRules": "House Rules",
+    "cancellation": "Cancellation Policy",
+    "bookNow": "Book Now",
+    "requestBooking": "Request Booking",
+    "priceCalculator": "Price Calculator",
+    "nights": "{count} nights",
+    "guests": "{count} guests",
+    "sleeps": "Sleeps {count}",
+    "bedrooms": "{count} bedrooms",
+    "bathrooms": "{count} bathrooms",
+    "sqm": "{count} m²",
+    "floor": "Floor {number}",
+    "priceBreakdown": {
+      "nightly": "Nightly rate",
+      "nights": "{rate} × {nights} nights",
+      "cleaning": "Cleaning fee",
+      "touristTax": "Tourist tax",
+      "directDiscount": "Direct booking discount (10%)",
+      "total": "Total",
+      "inBgn": "≈ {amount} BGN"
+    },
+    "houseRulesContent": {
+      "checkIn": "Check-in: from 15:00",
+      "checkOut": "Check-out: by 11:00",
+      "noSmoking": "No smoking inside",
+      "noPets": "No pets",
+      "noParties": "No parties or events",
+      "maxGuests": "Maximum {count} guests"
+    },
+    "cancellationContent": "Free cancellation up to 7 days before check-in. Cancellations within 7 days are non-refundable. In case of a cross-platform conflict, you will be fully refunded immediately.",
+    "disclaimer": "Bookings are confirmed within 1 hour. In rare cases of cross-platform conflicts, you'll be fully refunded immediately."
+  },
+  "booking": {
+    "title": "Complete Your Booking",
+    "steps": {
+      "dates": "Dates & Guests",
+      "details": "Your Details",
+      "payment": "Payment"
+    },
+    "form": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email address",
+      "phone": "Phone number",
+      "country": "Country",
+      "specialRequests": "Special requests (optional)",
+      "agreeTerms": "I agree to the Terms and Privacy Policy",
+      "submit": "Confirm & Pay",
+      "submitRequest": "Submit Booking Request"
+    },
+    "payment": {
+      "securedBy": "Secured by Stripe",
+      "threeDSecure": "3D Secure enabled"
+    },
+    "confirmation": {
+      "title": "Booking Confirmed!",
+      "thankYou": "Thank you, {name}. Your booking is confirmed.",
+      "emailSent": "A confirmation email has been sent to {email}.",
+      "bookingRef": "Booking reference",
+      "checkIn": "Check-in",
+      "checkOut": "Check-out",
+      "guests": "Guests",
+      "total": "Total paid",
+      "backHome": "Back to Home"
+    },
+    "requestSent": {
+      "title": "Request Received!",
+      "desc": "The owner will confirm your request within 24 hours. You'll receive a payment link by email once confirmed.",
+      "expire": "Your request expires in 24 hours if not confirmed."
+    },
+    "errors": {
+      "datesUnavailable": "These dates are no longer available. Please select different dates.",
+      "paymentFailed": "Payment failed. Please try again or use a different card.",
+      "generic": "Something went wrong. Please try again."
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "desc": "We typically respond within 1 hour during daytime hours.",
+    "phone": "Phone",
+    "whatsapp": "WhatsApp",
+    "viber": "Viber",
+    "email": "Email",
+    "facebook": "Facebook",
+    "form": {
+      "name": "Your name",
+      "email": "Your email",
+      "message": "Message",
+      "send": "Send Message",
+      "success": "Message sent! We'll reply shortly.",
+      "error": "Failed to send. Please email us directly."
+    }
+  },
+  "about": {
+    "title": "About Sevastopol Apartments",
+    "desc": "Three carefully maintained apartments in Varna, Bulgaria — just minutes from the beach and the Sea Garden park. We've been welcoming guests since 2018 and take pride in clean, comfortable, well-equipped stays."
+  },
+  "areaGuide": {
+    "title": "Varna Area Guide",
+    "desc": "Everything you need to know to make the most of your stay in Varna.",
+    "readMore": "Read more",
+    "minRead": "{count} min read"
+  },
+  "footer": {
+    "rights": "© {year} Sevastopol Apartments. All rights reserved.",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "cookies": "Cookies",
+    "madeWith": "Made with care in Varna, Bulgaria"
+  },
+  "legal": {
+    "terms": {
+      "title": "Terms & Conditions"
+    },
+    "privacy": {
+      "title": "Privacy Policy"
+    },
+    "cookies": {
+      "title": "Cookie Policy"
+    }
+  },
+  "cookies": {
+    "banner": {
+      "title": "We use cookies",
+      "desc": "We use cookies to improve your experience and analyse site usage.",
+      "acceptAll": "Accept All",
+      "manage": "Manage Preferences",
+      "necessary": "Necessary",
+      "analytics": "Analytics",
+      "marketing": "Marketing",
+      "save": "Save Preferences"
+    }
+  },
+  "errors": {
+    "notFound": "Page not found",
+    "notFoundDesc": "The page you're looking for doesn't exist.",
+    "backHome": "Back to Home",
+    "serverError": "Something went wrong",
+    "serverErrorDesc": "An unexpected error occurred. Please try again."
+  },
+  "admin": {
+    "login": {
+      "title": "Admin Login",
+      "email": "Email",
+      "password": "Password",
+      "totp": "Authenticator code",
+      "submit": "Sign In",
+      "invalid": "Invalid credentials"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "todayCheckIns": "Check-ins today",
+      "todayCheckOuts": "Check-outs today",
+      "revenueMonth": "Revenue this month",
+      "revenueYtd": "Revenue YTD",
+      "occupancyRate": "Occupancy rate",
+      "pendingRequests": "Pending requests",
+      "syncHealth": "iCal sync health"
+    },
+    "bookings": {
+      "title": "Bookings",
+      "new": "New Booking",
+      "export": "Export CSV"
+    },
+    "apartments": {
+      "title": "Apartments"
+    },
+    "content": {
+      "title": "Content"
+    },
+    "settings": {
+      "title": "Settings"
+    }
+  }
+}

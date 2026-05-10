@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sevastopol Apartments — Direct Booking Website
+
+Production booking website for Sevastopol Apartments, Varna, Bulgaria.
 
 ## Getting Started
 
