@@ -1,12 +1,18 @@
 import { Resend } from "resend";
 import { logger } from "@/lib/logger";
 
+const IS_TEST = process.env.EMAIL_MODE !== "live";
+
 function getResend() {
   return new Resend(process.env.RESEND_API_KEY ?? "re_placeholder");
 }
 
 function getFrom() {
-  return `${process.env.RESEND_FROM_NAME ?? "Sevastopol Apartments"} <${process.env.RESEND_FROM_EMAIL ?? "bookings@sevastopolapartments.com"}>`;
+  return `${process.env.RESEND_FROM_NAME ?? "Sevastopol Apartments"} <${process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev"}>`;
+}
+
+function subject(base: string): string {
+  return IS_TEST ? `[TEST MODE] ${base}` : base;
 }
 
 const OWNER_EMAIL = process.env.OWNER_EMAIL ?? "5areood@gmail.com";
@@ -104,7 +110,9 @@ export async function sendBookingConfirmation(params: BookingConfirmationParams)
     await getResend().emails.send({
       from: getFrom(),
       to: guestEmail,
-      subject: `✅ Booking Confirmed — ${aptName} | ${formatDate(checkIn)}`,
+      // In test mode CC the owner so they see exactly what guests receive
+      ...(IS_TEST && guestEmail !== OWNER_EMAIL ? { cc: OWNER_EMAIL } : {}),
+      subject: subject(`✅ Booking Confirmed — ${aptName} | ${formatDate(checkIn)}`),
       html,
     });
   } catch (err) {
@@ -150,7 +158,7 @@ export async function sendOwnerNotification(params: OwnerNotificationParams) {
     await getResend().emails.send({
       from: getFrom(),
       to: OWNER_EMAIL,
-      subject: `💰 New Booking — ${aptName} | ${formatDate(checkIn)}`,
+      subject: subject(`💰 New Booking — ${aptName} | ${formatDate(checkIn)}`),
       html,
     });
   } catch (err) {
@@ -201,7 +209,7 @@ export async function sendOwnerBookingRequest(params: OwnerBookingRequestParams)
     await getResend().emails.send({
       from: getFrom(),
       to: OWNER_EMAIL,
-      subject: `📋 Booking Request — ${aptName} | ${formatDate(checkIn)} (NEEDS APPROVAL)`,
+      subject: subject(`📋 Booking Request — ${aptName} | ${formatDate(checkIn)} (NEEDS APPROVAL)`),
       html,
     });
   } catch (err) {
@@ -219,7 +227,7 @@ export async function sendContactEmail(params: { name: string; email: string; me
       from: getFrom(),
       to: OWNER_EMAIL,
       replyTo: email,
-      subject: `Contact form message from ${name}`,
+      subject: subject(`Contact form message from ${name}`),
       html: `<p><strong>From:</strong> ${name} (${email})</p><p><strong>Message:</strong></p><p>${message.replace(/\n/g, "<br/>")}</p>`,
     });
   } catch (err) {
