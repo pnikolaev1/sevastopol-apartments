@@ -16,10 +16,10 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/bookings", label: "Bookings", icon: CalendarDays },
-  { href: "/admin/apartments", label: "Apartments", icon: Building2 },
-  { href: "/admin/settings", label: "Settings", icon: Settings },
+  { href: "/admin/dashboard", label: "Табло", icon: LayoutDashboard },
+  { href: "/admin/bookings", label: "Резервации", icon: CalendarDays },
+  { href: "/admin/apartments", label: "Апартаменти", icon: Building2 },
+  { href: "/admin/settings", label: "Настройки", icon: Settings },
 ];
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {
@@ -45,7 +45,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
       >
         <div className="flex h-16 items-center gap-2 px-6 border-b border-gray-200">
           <Building2 className="h-6 w-6 text-blue-600" />
-          <span className="font-semibold text-gray-900">Sevapart Admin</span>
+          <span className="font-semibold text-gray-900">Администрация</span>
         </div>
 
         <nav className="flex-1 px-3 py-4 space-y-1">
@@ -73,7 +73,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
             className="flex w-full items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors"
           >
             <LogOut className="h-4 w-4" />
-            Sign out
+            Изход
           </button>
         </div>
       </aside>
@@ -88,7 +88,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
           >
             <Menu className="h-5 w-5" />
           </button>
-          <span className="font-semibold text-gray-900">Sevapart Admin</span>
+          <span className="font-semibold text-gray-900">Администрация</span>
         </header>
 
         <main className="flex-1 overflow-y-auto p-6">

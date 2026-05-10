@@ -11,7 +11,7 @@ function formatEur(amount: number | string | { valueOf(): string }) {
 }
 
 function formatDate(d: Date) {
-  return d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+  return d.toLocaleDateString("bg-BG", { day: "numeric", month: "long", year: "numeric" });
 }
 
 export default async function DashboardPage() {
@@ -70,7 +70,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
+      <h1 className="text-2xl font-semibold text-gray-900">Табло</h1>
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -79,10 +79,10 @@ export default async function DashboardPage() {
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-yellow-100">
               <Clock className="h-4 w-4 text-yellow-700" />
             </div>
-            <span className="text-sm font-medium text-gray-600">Pending</span>
+            <span className="text-sm font-medium text-gray-600">Чакащи</span>
           </div>
           <p className="text-3xl font-bold text-gray-900">{pendingBookings}</p>
-          <p className="text-xs text-gray-500 mt-1">awaiting payment</p>
+          <p className="text-xs text-gray-500 mt-1">без плащане</p>
         </div>
 
         <div className="bg-white rounded-xl border border-gray-200 p-5">
@@ -90,10 +90,10 @@ export default async function DashboardPage() {
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-100">
               <CalendarDays className="h-4 w-4 text-blue-700" />
             </div>
-            <span className="text-sm font-medium text-gray-600">Today check-ins</span>
+            <span className="text-sm font-medium text-gray-600">Настанявания днес</span>
           </div>
           <p className="text-3xl font-bold text-gray-900">{todayCheckIns.length}</p>
-          <p className="text-xs text-gray-500 mt-1">arriving today</p>
+          <p className="text-xs text-gray-500 mt-1">пристигат днес</p>
         </div>
 
         <div className="bg-white rounded-xl border border-gray-200 p-5">
@@ -101,10 +101,10 @@ export default async function DashboardPage() {
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-purple-100">
               <Users className="h-4 w-4 text-purple-700" />
             </div>
-            <span className="text-sm font-medium text-gray-600">Today check-outs</span>
+            <span className="text-sm font-medium text-gray-600">Напускания днес</span>
           </div>
           <p className="text-3xl font-bold text-gray-900">{todayCheckOuts.length}</p>
-          <p className="text-xs text-gray-500 mt-1">departing today</p>
+          <p className="text-xs text-gray-500 mt-1">заминават днес</p>
         </div>
 
         <div className="bg-white rounded-xl border border-gray-200 p-5">
@@ -112,10 +112,10 @@ export default async function DashboardPage() {
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-green-100">
               <TrendingUp className="h-4 w-4 text-green-700" />
             </div>
-            <span className="text-sm font-medium text-gray-600">This month</span>
+            <span className="text-sm font-medium text-gray-600">Този месец</span>
           </div>
           <p className="text-3xl font-bold text-gray-900">{formatEur(monthTotal)}</p>
-          <p className="text-xs text-gray-500 mt-1">confirmed revenue</p>
+          <p className="text-xs text-gray-500 mt-1">потвърдени приходи</p>
         </div>
       </div>
 
@@ -123,11 +123,11 @@ export default async function DashboardPage() {
         {/* Today's activity */}
         <div className="bg-white rounded-xl border border-gray-200">
           <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-            <h2 className="font-medium text-gray-900">Today — {formatDate(today)}</h2>
+            <h2 className="font-medium text-gray-900">Днес — {formatDate(today)}</h2>
           </div>
           <div className="divide-y divide-gray-50">
             {todayCheckIns.length === 0 && todayCheckOuts.length === 0 && (
-              <p className="px-5 py-6 text-sm text-gray-400 text-center">No arrivals or departures today</p>
+              <p className="px-5 py-6 text-sm text-gray-400 text-center">Няма настанявания или напускания днес</p>
             )}
             {todayCheckIns.map((b) => (
               <Link key={b.id} href={`/admin/bookings/${b.id}`} className="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 transition-colors">
@@ -136,7 +136,7 @@ export default async function DashboardPage() {
                   <p className="text-sm font-medium text-gray-900 truncate">
                     {b.guest.firstName} {b.guest.lastName}
                   </p>
-                  <p className="text-xs text-gray-500">{b.apartment.translations[0]?.name} · check-in</p>
+                  <p className="text-xs text-gray-500">{b.apartment.translations[0]?.name} · настаняване</p>
                 </div>
                 <ArrowRight className="h-3 w-3 text-gray-400" />
               </Link>
@@ -148,7 +148,7 @@ export default async function DashboardPage() {
                   <p className="text-sm font-medium text-gray-900 truncate">
                     {b.guest.firstName} {b.guest.lastName}
                   </p>
-                  <p className="text-xs text-gray-500">{b.apartment.translations[0]?.name} · check-out</p>
+                  <p className="text-xs text-gray-500">{b.apartment.translations[0]?.name} · напускане</p>
                 </div>
                 <ArrowRight className="h-3 w-3 text-gray-400" />
               </Link>
@@ -159,11 +159,11 @@ export default async function DashboardPage() {
         {/* iCal sync health */}
         <div className="bg-white rounded-xl border border-gray-200">
           <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-            <h2 className="font-medium text-gray-900">iCal Sync</h2>
+            <h2 className="font-medium text-gray-900">iCal синхронизация</h2>
           </div>
           <div className="divide-y divide-gray-50">
             {syncLogs.length === 0 && (
-              <p className="px-5 py-6 text-sm text-gray-400 text-center">No sync logs yet</p>
+              <p className="px-5 py-6 text-sm text-gray-400 text-center">Няма записи от синхронизация</p>
             )}
             {syncLogs.map((log) => (
               <div key={log.id} className="flex items-center gap-3 px-5 py-3">
@@ -191,18 +191,18 @@ export default async function DashboardPage() {
       {/* Recent bookings */}
       <div className="bg-white rounded-xl border border-gray-200">
         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-          <h2 className="font-medium text-gray-900">Recent Bookings</h2>
-          <Link href="/admin/bookings" className="text-xs text-blue-600 hover:underline">View all</Link>
+          <h2 className="font-medium text-gray-900">Последни резервации</h2>
+          <Link href="/admin/bookings" className="text-xs text-blue-600 hover:underline">Всички</Link>
         </div>
         <div className="overflow-x-auto">
           <table className="min-w-full text-sm">
             <thead>
               <tr className="border-b border-gray-100">
-                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Guest</th>
-                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Apartment</th>
-                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Dates</th>
-                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Total</th>
-                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Status</th>
+                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Гост</th>
+                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Апартамент</th>
+                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Дати</th>
+                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Сума</th>
+                <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Статус</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
@@ -229,7 +229,7 @@ export default async function DashboardPage() {
                 </tr>
               ))}
               {recentBookings.length === 0 && (
-                <tr><td colSpan={5} className="px-5 py-8 text-center text-sm text-gray-400">No bookings yet</td></tr>
+                <tr><td colSpan={5} className="px-5 py-8 text-center text-sm text-gray-400">Няма резервации</td></tr>
               )}
             </tbody>
           </table>

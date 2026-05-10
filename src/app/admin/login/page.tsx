@@ -30,11 +30,10 @@ export default function AdminLoginPage() {
 
       if (result?.error) {
         if (result.error === "CredentialsSignin" && !showTotp) {
-          // Could be TOTP required — show the field and let user try again
           setShowTotp(true);
-          setError("If 2FA is enabled, enter your authenticator code below.");
+          setError("Ако сте активирали 2FA, въведете кода от приложението по-долу.");
         } else {
-          setError("Invalid email, password, or 2FA code.");
+          setError("Невалиден имейл, парола или 2FA код.");
         }
         return;
       }
@@ -51,14 +50,14 @@ export default function AdminLoginPage() {
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600 mb-4">
             <Building2 className="h-6 w-6 text-white" />
           </div>
-          <h1 className="text-2xl font-semibold text-gray-900">Admin Login</h1>
+          <h1 className="text-2xl font-semibold text-gray-900">Администраторски вход</h1>
           <p className="text-sm text-gray-500 mt-1">Sevastopol Apartments</p>
         </div>
 
         <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 space-y-4">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-              Email
+              Имейл
             </label>
             <input
               id="email"
@@ -73,7 +72,7 @@ export default function AdminLoginPage() {
 
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-              Password
+              Парола
             </label>
             <input
               id="password"
@@ -89,7 +88,7 @@ export default function AdminLoginPage() {
           {showTotp && (
             <div>
               <label htmlFor="totp" className="block text-sm font-medium text-gray-700 mb-1">
-                2FA Code
+                Код за двуфакторна автентикация
               </label>
               <input
                 id="totp"
@@ -115,7 +114,7 @@ export default function AdminLoginPage() {
             className="w-full flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-60 transition-colors"
           >
             {isPending && <Loader2 className="h-4 w-4 animate-spin" />}
-            Sign in
+            Вход
           </button>
         </form>
       </div>

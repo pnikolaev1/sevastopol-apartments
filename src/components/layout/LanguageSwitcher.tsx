@@ -15,6 +15,7 @@ const LOCALES = [
   { code: "bg", label: "Български", flag: "🇧🇬" },
   { code: "en", label: "English", flag: "🇬🇧" },
   { code: "ro", label: "Română", flag: "🇷🇴" },
+  { code: "de", label: "Deutsch", flag: "🇩🇪" },
 ] as const;
 
 export function LanguageSwitcher() {

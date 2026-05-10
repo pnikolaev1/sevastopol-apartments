@@ -1,0 +1,246 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "apartments": "Apartments",
+    "areaGuide": "Stadtführer",
+    "about": "Über uns",
+    "contact": "Kontakt",
+    "bookNow": "Jetzt buchen",
+    "menu": "Menü",
+    "close": "Schließen"
+  },
+  "home": {
+    "hero": {
+      "headline": "Ihr Zuhause am Schwarzen Meer",
+      "subheadline": "3 private Apartments im Herzen von Varna — vollständig ausgestattet, liebevoll gepflegt.",
+      "cta": "Apartments ansehen",
+      "directDiscount": "Direkt buchen und 10% gegenüber Booking.com & Airbnb sparen"
+    },
+    "usp": {
+      "title": "Warum direkt buchen?",
+      "saving": "10% sparen",
+      "savingDesc": "Keine Vermittlungsgebühr — günstigere Preise für Sie.",
+      "direct": "Direkter Kontakt",
+      "directDesc": "Schreiben Sie dem Eigentümer direkt auf WhatsApp für sofortige Antworten.",
+      "flexible": "Flexibilität",
+      "flexibleDesc": "Individuelle Check-in-Zeiten und frühe/späte Abreise auf Anfrage."
+    },
+    "apartments": {
+      "title": "Unsere Apartments",
+      "viewAll": "Alle Apartments",
+      "from": "Ab",
+      "perNight": "/ Nacht",
+      "guests": "{count} Gäste",
+      "bedrooms": "{count} Schlafzimmer",
+      "sqm": "{count} m²"
+    },
+    "location": {
+      "title": "Beste Lage in Varna",
+      "desc": "Nur wenige Schritte vom Meeresgarten, den Stränden Varnas und dem Stadtzentrum entfernt. Alles in Gehweite.",
+      "beach": "5 Min. zum Strand",
+      "seaGarden": "Meeresgarten in der Nähe",
+      "centre": "Stadtzentrum erreichbar",
+      "airport": "25 Min. vom Flughafen"
+    },
+    "reviews": {
+      "title": "Was Gäste sagen"
+    },
+    "contact": {
+      "title": "Bereit zu buchen?",
+      "desc": "Kontaktieren Sie uns direkt für die besten Preise und persönlichen Service.",
+      "cta": "Kontakt aufnehmen"
+    }
+  },
+  "apartments": {
+    "title": "Alle Apartments",
+    "filter": {
+      "checkIn": "Anreise",
+      "checkOut": "Abreise",
+      "guests": "Gäste",
+      "search": "Verfügbarkeit prüfen",
+      "clear": "Filter zurücksetzen"
+    },
+    "noResults": "Keine Apartments für Ihre Suche gefunden. Bitte wählen Sie andere Daten.",
+    "available": "Verfügbar",
+    "unavailable": "Nicht verfügbar"
+  },
+  "apartment": {
+    "overview": "Überblick",
+    "amenities": "Ausstattung",
+    "availability": "Verfügbarkeit",
+    "location": "Lage",
+    "houseRules": "Hausregeln",
+    "cancellation": "Stornierungsbedingungen",
+    "bookNow": "Jetzt buchen",
+    "requestBooking": "Buchungsanfrage",
+    "priceCalculator": "Preiskalkulator",
+    "nights": "{count} Nächte",
+    "guests": "{count} Gäste",
+    "sleeps": "Bis zu {count} Gäste",
+    "bedrooms": "{count} Schlafzimmer",
+    "bathrooms": "{count} Badezimmer",
+    "sqm": "{count} m²",
+    "floor": "Etage {number}",
+    "priceBreakdown": {
+      "nightly": "Preis pro Nacht",
+      "nights": "{rate} × {nights} Nächte",
+      "cleaning": "Reinigungsgebühr",
+      "touristTax": "Kurtaxe",
+      "directDiscount": "Direktbuchungsrabatt (10%)",
+      "total": "Gesamt",
+      "inBgn": "≈ {amount} BGN"
+    },
+    "houseRulesContent": {
+      "checkIn": "Check-in: ab 15:00 Uhr",
+      "checkOut": "Check-out: bis 11:00 Uhr",
+      "noSmoking": "Rauchen im Innenbereich verboten",
+      "noPets": "Keine Haustiere",
+      "noParties": "Keine Partys oder Veranstaltungen",
+      "maxGuests": "Maximal {count} Gäste"
+    },
+    "cancellationContent": "Kostenlose Stornierung bis 7 Tage vor dem Check-in. Stornierungen innerhalb von 7 Tagen sind nicht erstattungsfähig. Bei plattformübergreifenden Konflikten erhalten Sie sofort eine vollständige Rückerstattung.",
+    "disclaimer": "Buchungen werden innerhalb von 1 Stunde bestätigt. In seltenen Fällen von plattformübergreifenden Konflikten werden Sie sofort vollständig erstattet."
+  },
+  "booking": {
+    "title": "Buchung abschließen",
+    "steps": {
+      "dates": "Daten & Gäste",
+      "details": "Ihre Daten",
+      "payment": "Zahlung"
+    },
+    "form": {
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "email": "E-Mail-Adresse",
+      "phone": "Telefonnummer",
+      "country": "Land",
+      "specialRequests": "Sonderwünsche (optional)",
+      "agreeTerms": "Ich stimme den AGB und der Datenschutzerklärung zu",
+      "submit": "Bestätigen & Bezahlen",
+      "submitRequest": "Buchungsanfrage senden"
+    },
+    "payment": {
+      "securedBy": "Gesichert durch Stripe",
+      "threeDSecure": "3D Secure aktiviert"
+    },
+    "confirmation": {
+      "title": "Buchung bestätigt!",
+      "thankYou": "Vielen Dank, {name}. Ihre Buchung ist bestätigt.",
+      "emailSent": "Eine Bestätigungs-E-Mail wurde an {email} gesendet.",
+      "bookingRef": "Buchungsnummer",
+      "checkIn": "Anreise",
+      "checkOut": "Abreise",
+      "guests": "Gäste",
+      "total": "Bezahlter Betrag",
+      "backHome": "Zurück zur Startseite"
+    },
+    "requestSent": {
+      "title": "Anfrage erhalten!",
+      "desc": "Der Eigentümer wird Ihre Anfrage innerhalb von 24 Stunden bestätigen. Sie erhalten per E-Mail einen Zahlungslink.",
+      "expire": "Ihre Anfrage läuft ab, wenn sie nicht innerhalb von 24 Stunden bestätigt wird."
+    },
+    "errors": {
+      "datesUnavailable": "Diese Daten sind nicht mehr verfügbar. Bitte wählen Sie andere Daten.",
+      "paymentFailed": "Zahlung fehlgeschlagen. Bitte versuchen Sie es erneut oder verwenden Sie eine andere Karte.",
+      "generic": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
+    }
+  },
+  "contact": {
+    "title": "Kontakt",
+    "desc": "Wir antworten in der Regel innerhalb von 1 Stunde während der Geschäftszeiten.",
+    "phone": "Telefon",
+    "whatsapp": "WhatsApp",
+    "viber": "Viber",
+    "email": "E-Mail",
+    "facebook": "Facebook",
+    "form": {
+      "name": "Ihr Name",
+      "email": "Ihre E-Mail",
+      "message": "Nachricht",
+      "send": "Nachricht senden",
+      "success": "Nachricht gesendet! Wir melden uns bald.",
+      "error": "Fehler beim Senden. Bitte schreiben Sie uns direkt per E-Mail."
+    }
+  },
+  "about": {
+    "title": "Über Sevastopol Apartments",
+    "desc": "Drei sorgfältig gepflegte Apartments in Varna, Bulgarien — nur wenige Minuten vom Strand und dem Meeresgarten entfernt. Wir begrüßen Gäste seit 2018 und legen großen Wert auf Sauberkeit, Komfort und gute Ausstattung."
+  },
+  "areaGuide": {
+    "title": "Stadtführer Varna",
+    "desc": "Alles, was Sie wissen müssen, um Ihren Aufenthalt in Varna zu genießen.",
+    "readMore": "Mehr lesen",
+    "minRead": "{count} Min. Lesezeit"
+  },
+  "footer": {
+    "rights": "© {year} Sevastopol Apartments. Alle Rechte vorbehalten.",
+    "terms": "AGB",
+    "privacy": "Datenschutz",
+    "cookies": "Cookies",
+    "madeWith": "Mit Sorgfalt in Varna, Bulgarien erstellt"
+  },
+  "legal": {
+    "terms": {
+      "title": "Allgemeine Geschäftsbedingungen"
+    },
+    "privacy": {
+      "title": "Datenschutzerklärung"
+    },
+    "cookies": {
+      "title": "Cookie-Richtlinie"
+    }
+  },
+  "cookies": {
+    "banner": {
+      "title": "Wir verwenden Cookies",
+      "desc": "Wir verwenden Cookies, um Ihre Erfahrung zu verbessern und die Nutzung der Website zu analysieren.",
+      "acceptAll": "Alle akzeptieren",
+      "manage": "Einstellungen verwalten",
+      "necessary": "Notwendig",
+      "analytics": "Analytisch",
+      "marketing": "Marketing",
+      "save": "Einstellungen speichern"
+    }
+  },
+  "errors": {
+    "notFound": "Seite nicht gefunden",
+    "notFoundDesc": "Die gesuchte Seite existiert nicht.",
+    "backHome": "Zurück zur Startseite",
+    "serverError": "Etwas ist schiefgelaufen",
+    "serverErrorDesc": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
+  },
+  "admin": {
+    "login": {
+      "title": "Admin-Login",
+      "email": "E-Mail",
+      "password": "Passwort",
+      "totp": "Authentifizierungscode",
+      "submit": "Anmelden",
+      "invalid": "Ungültige Anmeldedaten"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "todayCheckIns": "Check-ins heute",
+      "todayCheckOuts": "Check-outs heute",
+      "revenueMonth": "Einnahmen diesen Monat",
+      "revenueYtd": "Einnahmen laufendes Jahr",
+      "occupancyRate": "Auslastungsrate",
+      "pendingRequests": "Ausstehende Anfragen",
+      "syncHealth": "iCal-Sync-Status"
+    },
+    "bookings": {
+      "title": "Buchungen",
+      "new": "Neue Buchung",
+      "export": "CSV exportieren"
+    },
+    "apartments": {
+      "title": "Apartments"
+    },
+    "content": {
+      "title": "Inhalte"
+    },
+    "settings": {
+      "title": "Einstellungen"
+    }
+  }
+}
