@@ -1,10 +1,4 @@
 {
-  "crons": [
-    {
-      "path": "/api/cron/sync-ical",
-      "schedule": "*/15 * * * *"
-    }
-  ],
   "functions": {
     "src/app/api/cron/sync-ical/route.ts": {
       "maxDuration": 60
