@@ -15,17 +15,26 @@ async function main() {
   console.log("Seeding database…");
 
   // ─── Admin user ──────────────────────────────────────────────────────────────
-  const passwordHash = await bcrypt.hash("P77H82P04V06", 12);
+  // The admin password must be supplied via env — never commit a real credential.
+  const adminEmail = process.env.SEED_ADMIN_EMAIL ?? "5areood@gmail.com";
+  const adminPassword = process.env.SEED_ADMIN_PASSWORD;
+  if (!adminPassword || adminPassword.length < 12) {
+    throw new Error(
+      "SEED_ADMIN_PASSWORD must be set (min 12 chars) before seeding. " +
+        "Add it to .env.local (e.g. SEED_ADMIN_PASSWORD=$(openssl rand -base64 18)).",
+    );
+  }
+  const passwordHash = await bcrypt.hash(adminPassword, 12);
   await prisma.adminUser.upsert({
-    where: { email: "5areood@gmail.com" },
+    where: { email: adminEmail },
     create: {
-      email: "5areood@gmail.com",
+      email: adminEmail,
       passwordHash,
       totpEnabled: false,
     },
     update: { passwordHash },
   });
-  console.log("✓ Admin user seeded");
+  console.log(`✓ Admin user seeded (${adminEmail})`);
 
   // ─── Amenities ────────────────────────────────────────────────────────────────
   const amenities = [
