@@ -3,6 +3,8 @@ import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import * as speakeasy from "speakeasy";
 import { prisma } from "@/lib/db/prisma";
+import { adminLoginRatelimit, getIp } from "@/lib/ratelimit";
+import { logger } from "@/lib/logger";
 import { z } from "zod";
 
 const credentialsSchema = z.object({
@@ -42,11 +44,22 @@ export const authConfig: NextAuthConfig = {
   },
   providers: [
     Credentials({
-      async authorize(rawCredentials) {
+      async authorize(rawCredentials, request) {
         const parsed = credentialsSchema.safeParse(rawCredentials);
         if (!parsed.success) return null;
 
         const { email, password, totp } = parsed.data;
+
+        // Brute-force throttle: 5 attempts / 15 min per client IP. The IP is
+        // derived from Vercel's trusted `x-real-ip` (see getIp), so it cannot be
+        // spoofed to mint fresh buckets. Without this the credentials endpoint
+        // accepts unlimited password/TOTP guesses.
+        const ip = getIp(request);
+        const { success } = await adminLoginRatelimit.limit(ip);
+        if (!success) {
+          logger.warn("Admin login rate limit exceeded", { ip });
+          return null;
+        }
 
         const admin = await prisma.adminUser.findUnique({ where: { email } });
         if (!admin) return null;

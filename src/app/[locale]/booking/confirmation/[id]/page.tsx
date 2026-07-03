@@ -16,6 +16,15 @@ interface Props {
 
 export const dynamic = "force-dynamic";
 
+// This page is reachable by anyone holding the booking id (no session). Mask the
+// email so a leaked/shared confirmation URL does not expose the full address.
+function maskEmail(email: string): string {
+  const [local, domain] = email.split("@");
+  if (!local || !domain) return "***";
+  const shown = local.slice(0, 2);
+  return `${shown}${"*".repeat(Math.max(1, local.length - shown.length))}@${domain}`;
+}
+
 export default async function ConfirmationPage({ params, searchParams }: Props) {
   const [{ locale, id }, sp] = await Promise.all([params, searchParams]);
   const t = await getTranslations({ locale, namespace: "booking" });
@@ -91,7 +100,7 @@ export default async function ConfirmationPage({ params, searchParams }: Props) 
               )}
               {!isRequest && (
                 <p className="text-xs text-muted-foreground">
-                  {t("confirmation.emailSent", { email: booking.guest.email })}
+                  {t("confirmation.emailSent", { email: maskEmail(booking.guest.email) })}
                 </p>
               )}
 

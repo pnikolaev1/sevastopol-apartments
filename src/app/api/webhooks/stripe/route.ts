@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { stripe } from "@/lib/stripe";
+import { stripe, toStripeAmount } from "@/lib/stripe";
 import { prisma } from "@/lib/db/prisma";
 import { sendBookingConfirmation, sendOwnerNotification } from "@/lib/email/templates";
 import { logger } from "@/lib/logger";
@@ -44,6 +44,19 @@ export async function POST(request: Request) {
     if (booking.status === BookingStatus.CONFIRMED) {
       // Idempotent — already confirmed
       return NextResponse.json({ ok: true });
+    }
+
+    // Defense-in-depth: the PaymentIntent amount is created server-side from the
+    // recomputed price, so this should always match. If it does not, something
+    // tampered between creation and capture — refuse to confirm.
+    const expectedAmount = toStripeAmount(Number(booking.totalAmount));
+    if (typeof pi.amount_received === "number" && pi.amount_received < expectedAmount) {
+      logger.error("Payment amount mismatch — refusing to confirm booking", {
+        bookingId: booking.id,
+        received: pi.amount_received,
+        expected: expectedAmount,
+      });
+      return NextResponse.json({ error: "amount_mismatch" }, { status: 400 });
     }
 
     // Confirm booking in DB

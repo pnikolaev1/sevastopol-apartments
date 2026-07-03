@@ -1,7 +1,12 @@
 import { prisma } from "@/lib/db/prisma";
-import { BookingStatus } from "@prisma/client";
+import { BookingStatus, type Prisma, type PrismaClient } from "@prisma/client";
 
 const ICAL_BUFFER_HOURS = 1;
+
+// Accept either the shared client or an interactive-transaction client, so the
+// availability check can be run *inside* the same transaction that inserts the
+// booking (closing the check-then-insert race).
+type Db = PrismaClient | Prisma.TransactionClient;
 
 export interface AvailabilityResult {
   available: boolean;
@@ -16,12 +21,13 @@ export async function checkAvailability(
   apartmentId: string,
   checkIn: Date,
   checkOut: Date,
-  excludeBookingId?: string
+  excludeBookingId?: string,
+  db: Db = prisma
 ): Promise<AvailabilityResult> {
   const bufferMs = ICAL_BUFFER_HOURS * 60 * 60 * 1000;
 
   // Check direct bookings
-  const directConflict = await prisma.booking.findFirst({
+  const directConflict = await db.booking.findFirst({
     where: {
       apartmentId,
       status: { in: [BookingStatus.CONFIRMED, BookingStatus.PENDING] },
@@ -42,7 +48,7 @@ export async function checkAvailability(
   const bufferedCheckIn = new Date(checkIn.getTime() - bufferMs);
   const bufferedCheckOut = new Date(checkOut.getTime() + bufferMs);
 
-  const externalConflict = await prisma.externalBooking.findFirst({
+  const externalConflict = await db.externalBooking.findFirst({
     where: {
       apartmentId,
       AND: [

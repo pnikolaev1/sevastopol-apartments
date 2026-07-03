@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db/prisma";
+import { logger } from "@/lib/logger";
 
 export const runtime = "nodejs";
 // No caching — always hits the DB so a paused Supabase project wakes up
@@ -10,7 +11,9 @@ export async function GET() {
     await prisma.$queryRaw`SELECT 1`;
     return NextResponse.json({ ok: true, db: "up" });
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json({ ok: false, db: "down", error: message }, { status: 503 });
+    // Log the detail server-side; never return the raw DB error to the caller —
+    // Prisma connection errors include the internal database host and port.
+    logger.error("Health check DB failure", err);
+    return NextResponse.json({ ok: false, db: "down" }, { status: 503 });
   }
 }

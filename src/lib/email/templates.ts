@@ -36,6 +36,19 @@ function formatDate(dateStr: string): string {
   });
 }
 
+// Escape user-controlled values before interpolating them into email HTML.
+// Guest names, phone, special requests and the contact message all originate
+// from unauthenticated request bodies; without escaping they can inject markup
+// (phishing links, tracking pixels) into the owner's inbox.
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 function waLink(text: string): string {
   return `https://wa.me/${OWNER_PHONE}?text=${encodeURIComponent(text)}`;
 }
@@ -70,14 +83,14 @@ export async function sendBookingConfirmation(params: BookingConfirmationParams)
       <p style="color:rgba(255,255,255,0.85);margin:8px 0 0;">Booking Confirmed</p>
     </div>
     <div style="padding:32px;">
-      <h2 style="color:#1a2744;margin:0 0 16px;">Your booking is confirmed, ${guestName}!</h2>
+      <h2 style="color:#1a2744;margin:0 0 16px;">Your booking is confirmed, ${escapeHtml(guestName)}!</h2>
       <p style="color:#5a6a8a;margin:0 0 24px;">Thank you for booking directly with us. Here are your details:</p>
 
       <div style="background:#f0f4ff;border-radius:8px;padding:20px;margin-bottom:24px;">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
           <div>
             <p style="color:#8a95b0;font-size:12px;margin:0 0 4px;text-transform:uppercase;letter-spacing:0.05em;">Apartment</p>
-            <p style="color:#1a2744;font-weight:600;margin:0;">${aptName}</p>
+            <p style="color:#1a2744;font-weight:600;margin:0;">${escapeHtml(aptName)}</p>
           </div>
           <div>
             <p style="color:#8a95b0;font-size:12px;margin:0 0 4px;text-transform:uppercase;letter-spacing:0.05em;">Booking Ref</p>
@@ -149,13 +162,13 @@ export async function sendOwnerNotification(params: OwnerNotificationParams) {
   const html = `
 <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
   <h2>💰 New Confirmed Booking</h2>
-  <p><strong>Apartment:</strong> ${aptName}</p>
+  <p><strong>Apartment:</strong> ${escapeHtml(aptName)}</p>
   <p><strong>Booking ID:</strong> ${bookingId}</p>
   <p><strong>Check-in:</strong> ${formatDate(checkIn)}</p>
   <p><strong>Check-out:</strong> ${formatDate(checkOut)}</p>
   <p><strong>Guests:</strong> ${guests}</p>
-  <p><strong>Guest:</strong> ${guestName} (${guestEmail})</p>
-  <p><strong>Phone:</strong> ${guestPhone}</p>
+  <p><strong>Guest:</strong> ${escapeHtml(guestName)} (${escapeHtml(guestEmail)})</p>
+  <p><strong>Phone:</strong> ${escapeHtml(guestPhone)}</p>
   <p><strong>Total:</strong> €${totalEur.toFixed(2)}</p>
   <hr/>
   <a href="${waLink(waMessage)}" style="background:#25d366;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;display:inline-block;font-weight:600;">Forward to WhatsApp</a>
@@ -197,15 +210,15 @@ export async function sendOwnerBookingRequest(params: OwnerBookingRequestParams)
   const html = `
 <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
   <h2>📋 New Booking Request (Pending Approval)</h2>
-  <p><strong>Apartment:</strong> ${aptName}</p>
+  <p><strong>Apartment:</strong> ${escapeHtml(aptName)}</p>
   <p><strong>Booking ID:</strong> ${bookingId}</p>
   <p><strong>Check-in:</strong> ${formatDate(checkIn)}</p>
   <p><strong>Check-out:</strong> ${formatDate(checkOut)}</p>
   <p><strong>Guests:</strong> ${guests}</p>
-  <p><strong>Guest:</strong> ${guestName} (${guestEmail})</p>
-  <p><strong>Phone:</strong> ${guestPhone}</p>
+  <p><strong>Guest:</strong> ${escapeHtml(guestName)} (${escapeHtml(guestEmail)})</p>
+  <p><strong>Phone:</strong> ${escapeHtml(guestPhone)}</p>
   <p><strong>Total:</strong> €${totalEur.toFixed(2)}</p>
-  ${specialRequests ? `<p><strong>Special requests:</strong> ${specialRequests}</p>` : ""}
+  ${specialRequests ? `<p><strong>Special requests:</strong> ${escapeHtml(specialRequests)}</p>` : ""}
   <hr/>
   <p>This request expires in 24 hours if not confirmed.</p>
   <a href="${appUrl}/admin/bookings" style="background:#3b6cb8;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;display:inline-block;font-weight:600;margin-right:10px;">Manage in Admin Panel</a>
@@ -235,7 +248,7 @@ export async function sendContactEmail(params: { name: string; email: string; me
       to: to(OWNER_EMAIL),
       replyTo: email,
       subject: subject(`Contact form message from ${name}`),
-      html: `<p><strong>From:</strong> ${name} (${email})</p><p><strong>Message:</strong></p><p>${message.replace(/\n/g, "<br/>")}</p>`,
+      html: `<p><strong>From:</strong> ${escapeHtml(name)} (${escapeHtml(email)})</p><p><strong>Message:</strong></p><p>${escapeHtml(message).replace(/\n/g, "<br/>")}</p>`,
     });
   } catch (err) {
     logger.error("Failed to send contact email", err);

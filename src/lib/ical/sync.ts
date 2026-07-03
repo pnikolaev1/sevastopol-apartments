@@ -6,6 +6,82 @@ import { prisma } from "@/lib/db/prisma";
 import { logger } from "@/lib/logger";
 import { BookingSource } from "@prisma/client";
 import crypto from "crypto";
+import dns from "node:dns/promises";
+import net from "node:net";
+
+const MAX_ICAL_BYTES = 5 * 1024 * 1024; // 5 MB cap on a fetched feed
+
+/** True for loopback / private / link-local / CGNAT / cloud-metadata ranges. */
+function isPrivateIp(ip: string): boolean {
+  const v = ip.startsWith("::ffff:") ? ip.slice(7) : ip;
+  if (net.isIPv4(v)) {
+    const [a, b] = v.split(".").map(Number);
+    if (a === undefined || b === undefined) return true;
+    if (a === 0 || a === 10 || a === 127) return true;
+    if (a === 169 && b === 254) return true; // link-local incl. 169.254.169.254 metadata
+    if (a === 172 && b >= 16 && b <= 31) return true;
+    if (a === 192 && b === 168) return true;
+    if (a === 100 && b >= 64 && b <= 127) return true; // CGNAT
+    return false;
+  }
+  const lower = ip.toLowerCase();
+  return (
+    lower === "::1" ||
+    lower === "::" ||
+    lower.startsWith("fc") ||
+    lower.startsWith("fd") ||
+    lower.startsWith("fe80")
+  );
+}
+
+/**
+ * Rejects iCal URLs that could drive a server-side request forgery: non-http(s)
+ * schemes and any host that resolves to a private/loopback/link-local/metadata
+ * address. iCal feed URLs are admin-configured, but this endpoint is also
+ * triggered from the unauthenticated booking-confirm path, so we harden it.
+ */
+async function assertPublicHttpUrl(rawUrl: string): Promise<void> {
+  let url: URL;
+  try {
+    url = new URL(rawUrl);
+  } catch {
+    throw new Error("Invalid iCal URL");
+  }
+  if (url.protocol !== "https:" && url.protocol !== "http:") {
+    throw new Error(`Blocked iCal URL scheme: ${url.protocol}`);
+  }
+  const host = url.hostname;
+  if (net.isIP(host)) {
+    if (isPrivateIp(host)) throw new Error("Blocked private/internal iCal host");
+    return;
+  }
+  const addrs = await dns.lookup(host, { all: true });
+  if (addrs.length === 0) throw new Error("Could not resolve iCal host");
+  for (const { address } of addrs) {
+    if (isPrivateIp(address)) throw new Error("Blocked private/internal iCal host");
+  }
+}
+
+/** Reads a fetch Response body, aborting past maxBytes to bound memory use. */
+async function readCapped(res: Response, maxBytes: number): Promise<string> {
+  if (!res.body) return await res.text();
+  const reader = res.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let total = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    if (value) {
+      total += value.byteLength;
+      if (total > maxBytes) {
+        await reader.cancel();
+        throw new Error("iCal feed exceeds size limit");
+      }
+      chunks.push(value);
+    }
+  }
+  return Buffer.concat(chunks).toString("utf8");
+}
 
 interface ParsedEvent {
   externalId: string;
@@ -42,6 +118,8 @@ function parseIcalFeed(rawText: string): ParsedEvent[] {
 }
 
 async function fetchIcalFeed(url: string): Promise<string> {
+  await assertPublicHttpUrl(url);
+
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 15000);
 
@@ -49,13 +127,16 @@ async function fetchIcalFeed(url: string): Promise<string> {
     const res = await fetch(url, {
       signal: controller.signal,
       headers: { "User-Agent": "SevastopolApartments/1.0 (+https://sevastopolapartments.com)" },
+      // Do not follow redirects: a redirect to an internal host would bypass the
+      // pre-flight private-IP check above.
+      redirect: "error",
     });
 
     if (!res.ok) {
       throw new Error(`HTTP ${res.status} fetching iCal feed: ${url}`);
     }
 
-    return await res.text();
+    return await readCapped(res, MAX_ICAL_BYTES);
   } finally {
     clearTimeout(timeout);
   }
@@ -181,5 +262,11 @@ export function verifyIcalToken(
     .digest("hex")
     .slice(0, 32);
 
-  return crypto.timingSafeEqual(Buffer.from(token), Buffer.from(expected));
+  const a = Buffer.from(token);
+  const b = Buffer.from(expected);
+  // timingSafeEqual throws a RangeError on unequal-length buffers, which would
+  // surface as an unhandled 500 instead of a clean 401. Guard the length first
+  // (an early length mismatch is already non-secret, so this leaks nothing).
+  if (a.length !== b.length) return false;
+  return crypto.timingSafeEqual(a, b);
 }
