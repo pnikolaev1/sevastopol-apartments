@@ -4,20 +4,23 @@ import { routing } from "@/i18n/routing";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const intlMiddleware = createMiddleware(routing);
+// Next 16 renamed the `middleware` file convention to `proxy`. next-intl still
+// ships its handler under `next-intl/middleware`; that's just the package's
+// import path and is unrelated to the file-convention rename.
+const intlProxy = createMiddleware(routing);
 
-export default auth(function middleware(req: NextRequest) {
+export default auth(function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // Admin route protection is handled in authConfig.callbacks.authorized
-  // Apply i18n middleware to all non-admin, non-api, non-ical routes
+  // Apply i18n routing to all non-admin, non-api, non-internal routes
   if (
     !pathname.startsWith("/admin") &&
     !pathname.startsWith("/api") &&
     !pathname.startsWith("/_next") &&
     !pathname.startsWith("/favicon")
   ) {
-    return intlMiddleware(req);
+    return intlProxy(req);
   }
 
   return NextResponse.next();
