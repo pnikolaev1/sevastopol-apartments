@@ -44,9 +44,9 @@ export function HeroSection() {
       <div className="relative z-10 container mx-auto px-4 text-center max-w-5xl py-24">
         <Badge
           variant="secondary"
-          className="mb-8 text-sm px-5 py-2 bg-white/15 text-white border-white/25 backdrop-blur-sm font-medium"
+          className="mb-8 h-auto max-w-full whitespace-normal text-center leading-snug text-xs sm:text-sm px-4 sm:px-5 py-2 bg-white/15 text-white border-white/25 backdrop-blur-sm font-medium"
         >
-          <Tag className="w-3.5 h-3.5 mr-2 text-amber-300" aria-hidden />
+          <Tag className="w-3.5 h-3.5 mr-2 shrink-0 text-amber-300" aria-hidden />
           {t("directDiscount")}
         </Badge>
 

@@ -168,7 +168,7 @@ export function BookingForm({
   return (
     <div className="space-y-6">
       {IS_STRIPE_TEST && (
-        <div className="flex items-start gap-3 rounded-lg border border-amber-400 bg-amber-50 px-4 py-3 text-amber-900">
+        <div className="flex items-start gap-3 rounded-lg border border-amber-400 bg-amber-50 px-4 py-3 text-amber-900 dark:border-amber-700 dark:bg-amber-950/30 dark:text-amber-200">
           <FlaskConical className="mt-0.5 h-5 w-5 shrink-0 text-amber-600" aria-hidden />
           <div className="text-sm">
             <span className="font-semibold">TEST MODE — NO REAL CHARGES.</span>{" "}

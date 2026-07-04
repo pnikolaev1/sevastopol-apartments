@@ -5,10 +5,10 @@ export function LocationSection() {
   const t = useTranslations("home.location");
 
   const highlights = [
-    { icon: Waves, label: t("beach"), color: "bg-blue-50 text-blue-600" },
-    { icon: TreePine, label: t("seaGarden"), color: "bg-emerald-50 text-emerald-600" },
-    { icon: Building2, label: t("centre"), color: "bg-amber-50 text-amber-600" },
-    { icon: Plane, label: t("airport"), color: "bg-purple-50 text-purple-600" },
+    { icon: Waves, label: t("beach"), chip: "bg-blue-50 dark:bg-blue-950/40", fg: "text-blue-600 dark:text-blue-400" },
+    { icon: TreePine, label: t("seaGarden"), chip: "bg-emerald-50 dark:bg-emerald-950/40", fg: "text-emerald-600 dark:text-emerald-400" },
+    { icon: Building2, label: t("centre"), chip: "bg-amber-50 dark:bg-amber-950/40", fg: "text-amber-600 dark:text-amber-400" },
+    { icon: Plane, label: t("airport"), chip: "bg-purple-50 dark:bg-purple-950/40", fg: "text-purple-600 dark:text-purple-400" },
   ] as const;
 
   return (
@@ -31,10 +31,10 @@ export function LocationSection() {
               {t("desc")}
             </p>
             <div className="grid grid-cols-2 gap-4">
-              {highlights.map(({ icon: Icon, label, color }) => (
-                <div key={label} className={`flex items-center gap-3 rounded-xl p-4 ${color.split(" ")[0]} border border-border/40`}>
-                  <div className={`w-9 h-9 rounded-lg ${color.split(" ")[0]} flex items-center justify-center shrink-0`}>
-                    <Icon className={`w-5 h-5 ${color.split(" ")[1]}`} aria-hidden />
+              {highlights.map(({ icon: Icon, label, chip, fg }) => (
+                <div key={label} className={`flex items-center gap-3 rounded-xl p-4 ${chip} border border-border/40`}>
+                  <div className="w-9 h-9 rounded-lg bg-background/60 flex items-center justify-center shrink-0">
+                    <Icon className={`w-5 h-5 ${fg}`} aria-hidden />
                   </div>
                   <span className="text-sm font-semibold text-foreground">{label}</span>
                 </div>

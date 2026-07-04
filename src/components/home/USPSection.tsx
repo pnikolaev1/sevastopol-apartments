@@ -8,9 +8,21 @@ const icons = {
 } as const;
 
 const colors = {
-  saving: { bg: "bg-emerald-50", icon: "bg-emerald-500", text: "text-emerald-600" },
-  direct: { bg: "bg-blue-50", icon: "bg-blue-500", text: "text-blue-600" },
-  flexible: { bg: "bg-amber-50", icon: "bg-amber-500", text: "text-amber-600" },
+  saving: {
+    bg: "bg-emerald-50 dark:bg-emerald-950/30",
+    icon: "bg-emerald-500",
+    text: "text-emerald-600 dark:text-emerald-400",
+  },
+  direct: {
+    bg: "bg-blue-50 dark:bg-blue-950/30",
+    icon: "bg-blue-500",
+    text: "text-blue-600 dark:text-blue-400",
+  },
+  flexible: {
+    bg: "bg-amber-50 dark:bg-amber-950/30",
+    icon: "bg-amber-500",
+    text: "text-amber-600 dark:text-amber-400",
+  },
 } as const;
 
 export function USPSection() {
