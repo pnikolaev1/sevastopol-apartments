@@ -5,7 +5,7 @@ import { routing } from "@/i18n/routing";
 import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 
-type Locale = "bg" | "en" | "ro";
+type Locale = "bg" | "en" | "ro" | "de";
 
 interface LocaleLayoutProps {
   children: React.ReactNode;
@@ -26,6 +26,8 @@ export async function generateMetadata({
         bg: "/",
         en: "/en",
         ro: "/ro",
+        de: "/de",
+        "x-default": "/",
       },
     },
     description: t("subheadline"),

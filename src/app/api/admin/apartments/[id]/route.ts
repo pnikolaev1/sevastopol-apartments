@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db/prisma";
+import { APARTMENTS_TAG } from "@/lib/db/apartments";
 import { z } from "zod";
 
 const bodySchema = z.object({
@@ -94,6 +96,9 @@ export async function PATCH(
       });
     }
   });
+
+  // Invalidate the cached apartment content so edits appear on the next visit.
+  revalidateTag(APARTMENTS_TAG, "max");
 
   return NextResponse.json({ ok: true });
 }

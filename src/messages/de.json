@@ -7,14 +7,19 @@
     "contact": "Kontakt",
     "bookNow": "Jetzt buchen",
     "menu": "Menü",
-    "close": "Schließen"
+    "close": "Schließen",
+    "toggleTheme": "Dunkelmodus"
   },
   "home": {
     "hero": {
       "headline": "Ihr Zuhause am Schwarzen Meer",
       "subheadline": "3 private Apartments im Herzen von Varna — vollständig ausgestattet, liebevoll gepflegt.",
       "cta": "Apartments ansehen",
-      "directDiscount": "Direkt buchen und 10% gegenüber Booking.com & Airbnb sparen"
+      "directDiscount": "Direkt buchen und 10% gegenüber Booking.com & Airbnb sparen",
+      "contactOwner": "Eigentümer kontaktieren",
+      "superhost": "Airbnb-Superhost",
+      "freeCancellation": "Kostenlose Stornierung · 7 Tage",
+      "instantBooking": "Sofortbuchung"
     },
     "usp": {
       "title": "Warum direkt buchen?",
@@ -103,7 +108,15 @@
       "maxGuests": "Maximal {count} Gäste"
     },
     "cancellationContent": "Kostenlose Stornierung bis 7 Tage vor dem Check-in. Stornierungen innerhalb von 7 Tagen sind nicht erstattungsfähig. Bei plattformübergreifenden Konflikten erhalten Sie sofort eine vollständige Rückerstattung.",
-    "disclaimer": "Buchungen werden innerhalb von 1 Stunde bestätigt. In seltenen Fällen von plattformübergreifenden Konflikten werden Sie sofort vollständig erstattet."
+    "disclaimer": "Buchungen werden innerhalb von 1 Stunde bestätigt. In seltenen Fällen von plattformübergreifenden Konflikten werden Sie sofort vollständig erstattet.",
+    "checkIn": "Check-in",
+    "checkOut": "Check-out",
+    "guestsMax": "Gäste (max. {count})",
+    "notAvailable": "Diese Daten sind nicht verfügbar.",
+    "bookAndPay": "Buchen & bezahlen",
+    "perNight": "/Nacht",
+    "directDiscountApplied": "10% Direktbuchungsrabatt",
+    "securedNote": "Gesichert durch Stripe · 3D Secure"
   },
   "booking": {
     "title": "Buchung abschließen",
@@ -246,5 +259,19 @@
     "settings": {
       "title": "Einstellungen"
     }
+  },
+  "amenities": {
+    "wifi": "WLAN",
+    "air_conditioning": "Klimaanlage",
+    "tv": "TV",
+    "kitchen": "Küche",
+    "washing_machine": "Waschmaschine",
+    "sea_view": "Meerblick",
+    "balcony": "Balkon",
+    "coffee_maker": "Kaffeemaschine",
+    "hair_dryer": "Föhn",
+    "iron": "Bügeleisen",
+    "towels": "Handtücher",
+    "elevator": "Aufzug"
   }
 }

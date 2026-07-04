@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, X, Waves } from "lucide-react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function Navbar() {
   const t = useTranslations("nav");
@@ -24,7 +25,7 @@ export function Navbar() {
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
-    <header className="sticky top-0 z-50 bg-white/98 backdrop-blur-md border-b border-border/60 shadow-sm">
+    <header className="sticky top-0 z-50 bg-background/85 supports-[backdrop-filter]:bg-background/70 backdrop-blur-md border-b border-border/60 shadow-sm">
       <nav className="container mx-auto px-4 h-16 flex items-center justify-between max-w-7xl">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 font-bold text-primary shrink-0 group">
@@ -55,6 +56,7 @@ export function Navbar() {
         </div>
 
         <div className="flex items-center gap-2">
+          <ThemeToggle />
           <LanguageSwitcher />
           <Link href="/apartments" className="hidden md:block">
             <Button

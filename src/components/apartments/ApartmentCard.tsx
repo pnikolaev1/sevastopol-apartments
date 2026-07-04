@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
+import { ApartmentPlaceholder } from "./ApartmentPlaceholder";
 import { Users, BedDouble, Maximize2, Bath, CalendarX } from "lucide-react";
 import type {
   Apartment,
@@ -25,11 +26,14 @@ interface Props {
 }
 
 export async function ApartmentCard({ apartment: apt, locale, isAvailable = true }: Props) {
-  const [tApt, tHome] = await Promise.all([
+  const [tApt, tHome, tList, tAmenities] = await Promise.all([
     getTranslations({ locale, namespace: "apartment" }),
     getTranslations({ locale, namespace: "home.apartments" }),
+    getTranslations({ locale, namespace: "apartments" }),
+    getTranslations({ locale, namespace: "amenities" }),
   ]);
-  const tList = await getTranslations({ locale, namespace: "apartments" });
+  const amenityLabel = (key: string) =>
+    tAmenities.has(key as never) ? tAmenities(key as never) : key.replace(/_/g, " ");
 
   const translation = apt.translations[0];
   const photo = apt.photos[0];
@@ -49,9 +53,7 @@ export async function ApartmentCard({ apartment: apt, locale, isAvailable = true
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-accent/30">
-                <span className="text-5xl">🌊</span>
-              </div>
+              <ApartmentPlaceholder />
             )}
             <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
             {isAvailable ? (
@@ -103,8 +105,8 @@ export async function ApartmentCard({ apartment: apt, locale, isAvailable = true
             {apt.amenities.length > 0 && (
               <div className="mt-4 flex flex-wrap gap-1.5">
                 {apt.amenities.slice(0, 4).map(({ amenity }) => (
-                  <Badge key={amenity.id} variant="secondary" className="text-xs">
-                    {amenity.key.replace(/_/g, " ")}
+                  <Badge key={amenity.id} variant="secondary" className="text-xs capitalize">
+                    {amenityLabel(amenity.key)}
                   </Badge>
                 ))}
                 {apt.amenities.length > 4 && (

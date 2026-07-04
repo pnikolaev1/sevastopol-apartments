@@ -88,7 +88,7 @@ export default function ContactPage() {
                   href={href}
                   target={external ? "_blank" : undefined}
                   rel={external ? "noopener noreferrer" : undefined}
-                  className="flex items-center gap-4 p-4 rounded-xl border border-border bg-white hover:bg-muted/30 transition-colors group"
+                  className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card hover:bg-muted/30 transition-colors group"
                 >
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
                     <Icon className="w-6 h-6 text-primary" aria-hidden />

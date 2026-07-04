@@ -7,14 +7,19 @@
     "contact": "Contact",
     "bookNow": "Rezervă",
     "menu": "Meniu",
-    "close": "Închide"
+    "close": "Închide",
+    "toggleTheme": "Mod întunecat"
   },
   "home": {
     "hero": {
       "headline": "Casa ta la Marea Neagră",
       "subheadline": "3 apartamente private în inima Varnei — complet utilate, îngrijite cu drag.",
       "cta": "Vezi apartamentele",
-      "directDiscount": "Rezervați direct și economisiți 10% față de Booking.com și Airbnb"
+      "directDiscount": "Rezervați direct și economisiți 10% față de Booking.com și Airbnb",
+      "contactOwner": "Contactați proprietarul",
+      "superhost": "Gazdă Superhost Airbnb",
+      "freeCancellation": "Anulare gratuită · 7 zile",
+      "instantBooking": "Rezervare instantanee"
     },
     "usp": {
       "title": "De ce să rezervați direct?",
@@ -103,7 +108,15 @@
       "maxGuests": "Maximum {count} oaspeți"
     },
     "cancellationContent": "Anulare gratuită cu până la 7 zile înainte de check-in. Anulările în mai puțin de 7 zile nu sunt rambursabile. În caz de conflict între platforme, veți fi rambursat integral imediat.",
-    "disclaimer": "Rezervările sunt confirmate în decurs de 1 oră. În cazuri rare de conflict între platforme, veți fi rambursat integral imediat."
+    "disclaimer": "Rezervările sunt confirmate în decurs de 1 oră. În cazuri rare de conflict între platforme, veți fi rambursat integral imediat.",
+    "checkIn": "Check-in",
+    "checkOut": "Check-out",
+    "guestsMax": "Oaspeți (max. {count})",
+    "notAvailable": "Aceste date nu sunt disponibile.",
+    "bookAndPay": "Rezervați și plătiți",
+    "perNight": "/noapte",
+    "directDiscountApplied": "Reducere de 10% pentru rezervare directă",
+    "securedNote": "Securizat de Stripe · 3D Secure"
   },
   "booking": {
     "title": "Finalizați rezervarea",
@@ -246,5 +259,19 @@
     "settings": {
       "title": "Setări"
     }
+  },
+  "amenities": {
+    "wifi": "Wi-Fi",
+    "air_conditioning": "Aer condiționat",
+    "tv": "TV",
+    "kitchen": "Bucătărie",
+    "washing_machine": "Mașină de spălat",
+    "sea_view": "Vedere la mare",
+    "balcony": "Balcon",
+    "coffee_maker": "Aparat de cafea",
+    "hair_dryer": "Uscător de păr",
+    "iron": "Fier de călcat",
+    "towels": "Prosoape",
+    "elevator": "Lift"
   }
 }

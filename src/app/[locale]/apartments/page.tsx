@@ -4,7 +4,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ApartmentCard } from "@/components/apartments/ApartmentCard";
 import { AvailabilityFilter } from "@/components/apartments/AvailabilityFilter";
-import { prisma } from "@/lib/db/prisma";
+import { getListApartments } from "@/lib/db/apartments";
 import { checkAvailability } from "@/lib/availability";
 import { Users } from "lucide-react";
 
@@ -34,15 +34,7 @@ export default async function ApartmentsPage({
   const checkOut = sp.checkOut ? new Date(sp.checkOut) : null;
   const guestCount = sp.guests ? parseInt(sp.guests, 10) : 0;
 
-  const apartments = await prisma.apartment.findMany({
-    where: { active: true },
-    include: {
-      translations: { where: { locale } },
-      photos: { where: { isPrimary: true }, take: 1 },
-      amenities: { include: { amenity: true }, take: 6 },
-    },
-    orderBy: { basePriceEur: "asc" },
-  });
+  const apartments = await getListApartments(locale);
 
   // Check availability when dates are provided
   const apartmentsWithAvailability = await Promise.all(

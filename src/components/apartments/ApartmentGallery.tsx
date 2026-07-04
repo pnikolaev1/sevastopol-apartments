@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Grid2X2 } from "lucide-react";
+import { ApartmentPlaceholder } from "./ApartmentPlaceholder";
 import type { ApartmentPhoto } from "@prisma/client";
 
 interface Props {
@@ -17,11 +18,7 @@ export function ApartmentGallery({ photos, name }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   if (photos.length === 0) {
-    return (
-      <div className="h-72 bg-gradient-to-br from-primary/20 to-accent/30 flex items-center justify-center">
-        <span className="text-6xl">🏠</span>
-      </div>
-    );
+    return <ApartmentPlaceholder className="h-[42vh] min-h-64 max-h-[460px]" label={name} />;
   }
 
   const primary = photos[0];
