@@ -84,14 +84,17 @@ export function PriceCalculator({ apartment: apt, blockedDates }: Props) {
   return (
     <Card className="shadow-lg border-border">
       <CardHeader className="pb-4">
-        <CardTitle className="flex items-center justify-between">
+        <CardTitle className="flex items-baseline justify-between">
           <span className="text-2xl font-bold text-foreground">
             €{Number(apt.basePriceEur).toFixed(0)}
           </span>
-          <span className="text-base font-normal text-muted-foreground">{t("perNight" as never)}/night</span>
+          <span className="text-base font-normal text-muted-foreground">{t("perNight")}</span>
         </CardTitle>
-        <Badge variant="secondary" className="w-fit text-emerald-700 bg-emerald-50 border-emerald-200">
-          10% direct discount applied
+        <Badge
+          variant="secondary"
+          className="w-fit text-emerald-700 bg-emerald-50 border-emerald-200 dark:text-emerald-300 dark:bg-emerald-950/40 dark:border-emerald-900"
+        >
+          {t("directDiscountApplied")}
         </Badge>
       </CardHeader>
 
@@ -100,7 +103,7 @@ export function PriceCalculator({ apartment: apt, blockedDates }: Props) {
         <div className="grid grid-cols-2 gap-2">
           <div>
             <Label htmlFor="calc-checkin" className="text-xs font-semibold mb-1 block">
-              {t("priceBreakdown.nightly" as never)}
+              {t("checkIn")}
             </Label>
             <Input
               id="calc-checkin"
@@ -113,7 +116,7 @@ export function PriceCalculator({ apartment: apt, blockedDates }: Props) {
           </div>
           <div>
             <Label htmlFor="calc-checkout" className="text-xs font-semibold mb-1 block">
-              Check-out
+              {t("checkOut")}
             </Label>
             <Input
               id="calc-checkout"
@@ -128,7 +131,7 @@ export function PriceCalculator({ apartment: apt, blockedDates }: Props) {
 
         <div>
           <Label htmlFor="calc-guests" className="text-xs font-semibold mb-1 block">
-            Guests (max {apt.maxGuests})
+            {t("guestsMax", { count: apt.maxGuests })}
           </Label>
           <Input
             id="calc-guests"
@@ -145,7 +148,7 @@ export function PriceCalculator({ apartment: apt, blockedDates }: Props) {
         {isAvailable === false && (
           <div className="flex items-center gap-2 text-destructive text-sm bg-destructive/10 rounded-md p-3">
             <AlertCircle className="w-4 h-4 shrink-0" aria-hidden />
-            These dates are not available.
+            {t("notAvailable")}
           </div>
         )}
 
@@ -153,30 +156,30 @@ export function PriceCalculator({ apartment: apt, blockedDates }: Props) {
         {breakdown && isAvailable !== false && (
           <div className="bg-muted/50 rounded-lg p-4 space-y-2 text-sm">
             <div className="flex justify-between text-muted-foreground">
-              <span>€{breakdown.nightlyRateEur.toFixed(2)} × {breakdown.nights} nights</span>
+              <span>{t("priceBreakdown.nights", { rate: `€${breakdown.nightlyRateEur.toFixed(2)}`, nights: breakdown.nights })}</span>
               <span>€{breakdown.subtotalEur.toFixed(2)}</span>
             </div>
             <div className="flex justify-between text-muted-foreground">
-              <span>Cleaning fee</span>
+              <span>{t("priceBreakdown.cleaning")}</span>
               <span>€{breakdown.cleaningFeeEur.toFixed(2)}</span>
             </div>
             <div className="flex justify-between text-muted-foreground">
-              <span>Tourist tax</span>
+              <span>{t("priceBreakdown.touristTax")}</span>
               <span>€{breakdown.touristTaxEur.toFixed(2)}</span>
             </div>
             {breakdown.directDiscountEur > 0 && (
-              <div className="flex justify-between text-emerald-600">
-                <span>Direct discount (10%)</span>
+              <div className="flex justify-between text-emerald-600 dark:text-emerald-400">
+                <span>{t("priceBreakdown.directDiscount")}</span>
                 <span>−€{breakdown.directDiscountEur.toFixed(2)}</span>
               </div>
             )}
             <Separator />
             <div className="flex justify-between font-semibold text-foreground">
-              <span>Total</span>
+              <span>{t("priceBreakdown.total")}</span>
               <div className="text-right">
                 <div>€{breakdown.totalEur.toFixed(2)}</div>
                 <div className="text-xs text-muted-foreground font-normal">
-                  ≈ {breakdown.totalBgn.toFixed(2)} BGN
+                  {t("priceBreakdown.inBgn", { amount: breakdown.totalBgn.toFixed(2) })}
                 </div>
               </div>
             </div>
@@ -190,7 +193,7 @@ export function PriceCalculator({ apartment: apt, blockedDates }: Props) {
             disabled={!checkIn || !checkOut || !isAvailable}
             onClick={() => handleBook("instant")}
           >
-            Book Now & Pay
+            {t("bookAndPay")}
           </Button>
           <Button
             variant="outline"
@@ -198,13 +201,13 @@ export function PriceCalculator({ apartment: apt, blockedDates }: Props) {
             disabled={!checkIn || !checkOut}
             onClick={() => handleBook("request")}
           >
-            Request Booking
+            {t("requestBooking")}
           </Button>
         </div>
 
         <div className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
           <Shield className="w-3.5 h-3.5" aria-hidden />
-          Secured by Stripe · 3D Secure enabled
+          {t("securedNote")}
         </div>
 
         <p className="text-xs text-muted-foreground text-center leading-relaxed">

@@ -64,6 +64,9 @@ interface Props {
 
 export function ApartmentDetails({ apartment: apt, translation }: Props) {
   const t = useTranslations("apartment");
+  const tAmenities = useTranslations("amenities");
+  const amenityLabel = (key: string) =>
+    tAmenities.has(key as never) ? tAmenities(key as never) : key.replace(/_/g, " ");
 
   const stats = [
     { icon: Users, label: t("sleeps", { count: apt.maxGuests }) },
@@ -115,7 +118,7 @@ export function ApartmentDetails({ apartment: apt, translation }: Props) {
               return (
                 <div key={amenity.id} className="flex items-center gap-2 text-sm">
                   <Icon className="w-5 h-5 text-primary shrink-0" aria-hidden />
-                  <span className="text-foreground capitalize">{amenity.key.replace(/_/g, " ")}</span>
+                  <span className="text-foreground capitalize">{amenityLabel(amenity.key)}</span>
                 </div>
               );
             })}

@@ -7,14 +7,19 @@
     "contact": "Contact",
     "bookNow": "Book Now",
     "menu": "Menu",
-    "close": "Close"
+    "close": "Close",
+    "toggleTheme": "Toggle dark mode"
   },
   "home": {
     "hero": {
       "headline": "Your Home by the Black Sea",
       "subheadline": "3 private apartments in the heart of Varna — fully equipped, lovingly maintained.",
       "cta": "View Apartments",
-      "directDiscount": "Book direct and save 10% vs Booking.com & Airbnb"
+      "directDiscount": "Book direct and save 10% vs Booking.com & Airbnb",
+      "contactOwner": "Contact Owner",
+      "superhost": "Airbnb Superhost",
+      "freeCancellation": "Free cancellation · 7 days",
+      "instantBooking": "Instant booking"
     },
     "usp": {
       "title": "Why Book Direct?",
@@ -103,7 +108,15 @@
       "maxGuests": "Maximum {count} guests"
     },
     "cancellationContent": "Free cancellation up to 7 days before check-in. Cancellations within 7 days are non-refundable. In case of a cross-platform conflict, you will be fully refunded immediately.",
-    "disclaimer": "Bookings are confirmed within 1 hour. In rare cases of cross-platform conflicts, you'll be fully refunded immediately."
+    "disclaimer": "Bookings are confirmed within 1 hour. In rare cases of cross-platform conflicts, you'll be fully refunded immediately.",
+    "checkIn": "Check-in",
+    "checkOut": "Check-out",
+    "guestsMax": "Guests (max {count})",
+    "notAvailable": "These dates are not available.",
+    "bookAndPay": "Book Now & Pay",
+    "perNight": "/night",
+    "directDiscountApplied": "10% direct discount applied",
+    "securedNote": "Secured by Stripe · 3D Secure enabled"
   },
   "booking": {
     "title": "Complete Your Booking",
@@ -246,5 +259,19 @@
     "settings": {
       "title": "Settings"
     }
+  },
+  "amenities": {
+    "wifi": "Wi-Fi",
+    "air_conditioning": "Air conditioning",
+    "tv": "TV",
+    "kitchen": "Kitchen",
+    "washing_machine": "Washing machine",
+    "sea_view": "Sea view",
+    "balcony": "Balcony",
+    "coffee_maker": "Coffee maker",
+    "hair_dryer": "Hair dryer",
+    "iron": "Iron",
+    "towels": "Towels",
+    "elevator": "Elevator"
   }
 }

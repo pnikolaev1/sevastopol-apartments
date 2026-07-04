@@ -53,7 +53,6 @@ export function HeroSection() {
         <h1
           id="hero-heading"
           className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-[1.05] mb-7 text-balance tracking-tight"
-          style={{ fontFamily: "var(--font-display, serif)" }}
         >
           {t("headline")}
         </h1>
@@ -77,7 +76,7 @@ export function HeroSection() {
               className="bg-transparent border-2 border-white/50 text-white hover:bg-white/15 font-semibold px-10 py-6 text-base rounded-xl backdrop-blur-sm transition-all hover:border-white/80"
             >
               <MessageCircle className="w-4 h-4 mr-2" aria-hidden />
-              Contact Owner
+              {t("contactOwner")}
             </Button>
           </Link>
         </div>
@@ -86,12 +85,12 @@ export function HeroSection() {
         <div className="mt-14 flex flex-wrap items-center justify-center gap-6 text-white/60 text-sm">
           <span className="flex items-center gap-2">
             <span className="text-amber-300 text-base">★★★★★</span>
-            Airbnb Superhost
+            {t("superhost")}
           </span>
           <span className="w-px h-4 bg-white/20" aria-hidden />
-          <span>Free cancellation · 7 days</span>
+          <span>{t("freeCancellation")}</span>
           <span className="w-px h-4 bg-white/20" aria-hidden />
-          <span>Instant booking</span>
+          <span>{t("instantBooking")}</span>
         </div>
       </div>
 

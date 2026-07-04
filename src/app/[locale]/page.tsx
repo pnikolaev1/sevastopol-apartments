@@ -8,7 +8,7 @@ import { ApartmentsPreview } from "@/components/home/ApartmentsPreview";
 import { LocationSection } from "@/components/home/LocationSection";
 import { ReviewsSection } from "@/components/home/ReviewsSection";
 import { ContactCTA } from "@/components/home/ContactCTA";
-import { prisma } from "@/lib/db/prisma";
+import { getListApartments } from "@/lib/db/apartments";
 
 export const dynamic = "force-dynamic";
 
@@ -33,15 +33,7 @@ export default async function HomePage({
 }) {
   const { locale } = await params;
 
-  const apartments = await prisma.apartment.findMany({
-    where: { active: true },
-    include: {
-      translations: { where: { locale } },
-      photos: { where: { isPrimary: true }, take: 1 },
-      amenities: { include: { amenity: true }, take: 6 },
-    },
-    take: 3,
-  });
+  const apartments = (await getListApartments(locale)).slice(0, 3);
 
   return (
     <>

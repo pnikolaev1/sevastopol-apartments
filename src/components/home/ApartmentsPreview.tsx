@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
+import { ApartmentPlaceholder } from "@/components/apartments/ApartmentPlaceholder";
 import { Users, BedDouble, Maximize2, ArrowRight } from "lucide-react";
 import type { Apartment, ApartmentTranslation, ApartmentPhoto, ApartmentAmenity, Amenity } from "@prisma/client";
 
@@ -63,10 +64,7 @@ export function ApartmentsPreview({ apartments }: Props) {
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
                     ) : (
-                      <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-primary/10 via-primary/20 to-accent/20">
-                        <span className="text-5xl mb-2">🌊</span>
-                        <span className="text-primary/50 text-sm font-medium">Photo coming soon</span>
-                      </div>
+                      <ApartmentPlaceholder />
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                     <Badge className="absolute top-4 left-4 bg-white/95 text-foreground font-semibold shadow-sm text-sm px-3 py-1">
