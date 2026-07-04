@@ -41,7 +41,7 @@ export function AvailabilityFilter({ defaultCheckIn, defaultCheckOut, defaultGue
   }
 
   return (
-    <div className="bg-white rounded-xl border border-border p-4 shadow-sm">
+    <div className="bg-card rounded-xl border border-border p-4 shadow-sm">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
         <div>
           <Label htmlFor="filter-checkin" className="text-xs font-semibold text-muted-foreground mb-1.5 block">

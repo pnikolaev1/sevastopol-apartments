@@ -67,7 +67,7 @@ export function ApartmentsPreview({ apartments }: Props) {
                       <ApartmentPlaceholder />
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                    <Badge className="absolute top-4 left-4 bg-white/95 text-foreground font-semibold shadow-sm text-sm px-3 py-1">
+                    <Badge className="absolute top-4 left-4 bg-white/95 text-gray-900 font-semibold shadow-sm text-sm px-3 py-1">
                       {t("from")} €{price.toFixed(0)}
                       <span className="text-muted-foreground font-normal ml-1 text-xs">{t("perNight")}</span>
                     </Badge>

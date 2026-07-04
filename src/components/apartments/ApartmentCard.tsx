@@ -58,13 +58,13 @@ export async function ApartmentCard({ apartment: apt, locale, isAvailable = true
             <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
             {isAvailable ? (
               <div className="absolute bottom-3 left-3">
-                <Badge className="bg-white/95 text-foreground font-semibold shadow-sm">
+                <Badge className="bg-white/95 text-gray-900 font-semibold shadow-sm">
                   {tHome("from")} €{price.toFixed(0)}{tHome("perNight")}
                 </Badge>
               </div>
             ) : (
               <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                <div className="bg-white/90 rounded-lg px-4 py-2 flex items-center gap-2 text-sm font-medium text-foreground">
+                <div className="bg-white/90 rounded-lg px-4 py-2 flex items-center gap-2 text-sm font-medium text-gray-900">
                   <CalendarX className="w-4 h-4 text-destructive" aria-hidden />
                   {tList("unavailable")}
                 </div>

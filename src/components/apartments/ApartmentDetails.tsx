@@ -159,8 +159,8 @@ export function ApartmentDetails({ apartment: apt, translation }: Props) {
       </div>
 
       {/* Disclaimer */}
-      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-        <p className="text-sm text-amber-800 leading-relaxed">
+      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 dark:bg-amber-950/30 dark:border-amber-900">
+        <p className="text-sm text-amber-800 leading-relaxed dark:text-amber-200">
           <Ban className="w-4 h-4 inline mr-1.5 align-text-bottom" aria-hidden />
           {t("disclaimer")}
         </p>
