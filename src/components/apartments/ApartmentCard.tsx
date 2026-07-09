@@ -42,7 +42,7 @@ export async function ApartmentCard({ apartment: apt, locale, isAvailable = true
   return (
     <div className={isAvailable ? "" : "opacity-60"}>
       <Link href={`/apartments/${apt.slug}`}>
-        <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer h-full flex flex-col">
+        <Card className="overflow-hidden rounded-[20px] border-navy/8 dark:border-border shadow-[0_1px_3px_rgba(13,31,53,0.06)] hover:shadow-[0_14px_30px_rgba(13,31,53,0.16)] hover:-translate-y-[3px] transition-all duration-200 ease-out group cursor-pointer h-full flex flex-col">
           <div className="relative h-56 bg-muted overflow-hidden">
             {photo ? (
               <Image
@@ -58,8 +58,8 @@ export async function ApartmentCard({ apartment: apt, locale, isAvailable = true
             <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
             {isAvailable ? (
               <div className="absolute bottom-3 left-3">
-                <Badge className="bg-white/95 text-gray-900 font-semibold shadow-sm">
-                  {tHome("from")} €{price.toFixed(0)}{tHome("perNight")}
+                <Badge className="rounded-full bg-navy px-[13px] py-2 text-[13px] font-bold text-white shadow-[0_2px_8px_rgba(13,31,53,0.25)] dark:border dark:border-white/15">
+                  {tHome("from")} €{price.toFixed(0)} {tHome("perNight")}
                 </Badge>
               </div>
             ) : (
@@ -73,10 +73,7 @@ export async function ApartmentCard({ apartment: apt, locale, isAvailable = true
           </div>
 
           <CardContent className="p-5 flex-1 flex flex-col">
-            <h2
-              className="font-bold text-foreground text-xl mb-2"
-              style={{ fontFamily: "var(--font-display, serif)" }}
-            >
+            <h2 className="font-bold text-foreground text-lg mb-2">
               {translation?.name ?? apt.slug}
             </h2>
             <p className="text-muted-foreground text-sm mb-4 line-clamp-2 flex-1">
@@ -105,12 +102,15 @@ export async function ApartmentCard({ apartment: apt, locale, isAvailable = true
             {apt.amenities.length > 0 && (
               <div className="mt-4 flex flex-wrap gap-1.5">
                 {apt.amenities.slice(0, 4).map(({ amenity }) => (
-                  <Badge key={amenity.id} variant="secondary" className="text-xs capitalize">
+                  <Badge
+                    key={amenity.id}
+                    className="rounded-full bg-gold/14 text-[11.5px] font-medium capitalize text-gold-deep dark:bg-gold/20 dark:text-gold-pale"
+                  >
                     {amenityLabel(amenity.key)}
                   </Badge>
                 ))}
                 {apt.amenities.length > 4 && (
-                  <Badge variant="secondary" className="text-xs text-muted-foreground">
+                  <Badge className="rounded-full bg-gold/15 text-[11.5px] font-medium text-gold-link dark:bg-gold/20 dark:text-gold-pale">
                     {tHome("moreAmenities", { count: apt.amenities.length - 4 })}
                   </Badge>
                 )}

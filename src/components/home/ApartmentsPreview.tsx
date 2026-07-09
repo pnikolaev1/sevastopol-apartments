@@ -1,10 +1,8 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { ApartmentPlaceholder } from "@/components/apartments/ApartmentPlaceholder";
-import { Users, BedDouble, Maximize2, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import type { Apartment, ApartmentTranslation, ApartmentPhoto, ApartmentAmenity, Amenity } from "@prisma/client";
 
 type ApartmentWithRelations = Apartment & {
@@ -20,80 +18,91 @@ interface Props {
 
 export function ApartmentsPreview({ apartments }: Props) {
   const t = useTranslations("home.apartments");
+  const tAmenities = useTranslations("amenities");
+  const amenityLabel = (key: string) =>
+    tAmenities.has(key as never) ? tAmenities(key as never) : key.replace(/_/g, " ");
 
   return (
-    <section id="apartments" className="py-24 bg-secondary/30" aria-labelledby="apartments-heading">
-      <div className="container mx-auto px-4 max-w-7xl">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-14">
-          <div>
-            <p className="text-accent font-semibold text-sm uppercase tracking-widest mb-3">
-              {t("stayWith")}
-            </p>
-            <h2
-              id="apartments-heading"
-              className="text-3xl md:text-4xl font-bold text-foreground"
-              style={{ fontFamily: "var(--font-display, serif)" }}
-            >
-              {t("title")}
-            </h2>
-          </div>
-          <Link href="/apartments">
-            <Button variant="outline" className="gap-2 border-primary/40 text-primary hover:bg-primary hover:text-white transition-colors">
-              {t("viewAll")}
-              <ArrowRight className="w-4 h-4" />
-            </Button>
+    <section id="apartments" className="bg-background px-6 pb-2 pt-16" aria-labelledby="apartments-heading">
+      <div className="mx-auto max-w-[1160px]">
+        <div className="mb-7 flex flex-wrap items-baseline justify-between gap-3">
+          <h2
+            id="apartments-heading"
+            className="text-[clamp(24px,3vw,30px)] font-bold leading-tight tracking-[-0.01em] text-foreground"
+          >
+            {t("title")}
+          </h2>
+          <Link
+            href="/apartments"
+            className="flex items-center gap-1.5 text-sm font-semibold text-gold-link transition-colors hover:text-gold-deep dark:text-gold dark:hover:text-gold-pale"
+          >
+            {t("viewAll")}
+            <ArrowRight className="h-4 w-4" aria-hidden />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-6 min-[880px]:grid-cols-3">
           {apartments.map((apt) => {
             const translation = apt.translations[0];
             const photo = apt.photos[0];
             const price = Number(apt.basePriceEur);
+            const shownAmenities = apt.amenities.slice(0, 3);
+            const moreCount = apt.amenities.length - shownAmenities.length;
+            const metaLine = [
+              t("guests", { count: apt.maxGuests }),
+              t("bedrooms", { count: apt.bedrooms }),
+              t("sqm", { count: apt.sqm }),
+            ].join(" · ");
 
             return (
-              <Link key={apt.id} href={`/apartments/${apt.slug}`}>
-                <article className="group bg-card rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-border/50 h-full flex flex-col">
-                  <div className="relative h-60 bg-muted overflow-hidden">
+              <Link key={apt.id} href={`/apartments/${apt.slug}`} className="group">
+                <article className="flex h-full flex-col overflow-hidden rounded-[20px] border border-navy/8 bg-card shadow-[0_1px_3px_rgba(13,31,53,0.06)] transition-all duration-200 ease-out group-hover:-translate-y-[3px] group-hover:shadow-[0_14px_30px_rgba(13,31,53,0.16)] dark:border-border">
+                  <div className="relative h-[210px] overflow-hidden bg-muted">
                     {photo ? (
                       <Image
                         src={photo.url}
                         alt={translation?.name ?? "Apartment"}
                         fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-700"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        sizes="(max-width: 880px) 100vw, 33vw"
                       />
                     ) : (
                       <ApartmentPlaceholder />
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                    <Badge className="absolute top-4 left-4 bg-white/95 text-gray-900 font-semibold shadow-sm text-sm px-3 py-1">
-                      {t("from")} €{price.toFixed(0)}
-                      <span className="text-muted-foreground font-normal ml-1 text-xs">{t("perNight")}</span>
-                    </Badge>
+                    <span className="absolute bottom-3 left-3 rounded-full bg-navy px-[13px] py-2 text-[13px] font-bold leading-none text-white shadow-[0_2px_8px_rgba(13,31,53,0.25)] dark:border dark:border-white/15">
+                      {t("from")} €{price.toFixed(0)} {t("perNight")}
+                    </span>
                   </div>
 
-                  <div className="p-6 flex flex-col flex-1">
-                    <h3 className="font-bold text-foreground text-xl mb-2 group-hover:text-primary transition-colors" style={{ fontFamily: "var(--font-display, serif)" }}>
+                  <div className="flex flex-1 flex-col px-5 pb-5 pt-[18px]">
+                    <h3 className="mb-1 text-[17px] font-bold leading-snug text-foreground">
                       {translation?.name ?? apt.slug}
                     </h3>
-                    <p className="text-muted-foreground text-sm mb-5 line-clamp-2 leading-relaxed flex-1">
-                      {translation?.shortDesc}
+                    <p className="mb-3.5 text-[13.5px] leading-normal text-muted-foreground">
+                      {metaLine}
                     </p>
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground pt-4 border-t border-border/50">
-                      <span className="flex items-center gap-1.5">
-                        <Users className="w-4 h-4 text-primary/60" aria-hidden />
-                        {t("guests", { count: apt.maxGuests })}
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <BedDouble className="w-4 h-4 text-primary/60" aria-hidden />
-                        {t("bedrooms", { count: apt.bedrooms })}
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <Maximize2 className="w-4 h-4 text-primary/60" aria-hidden />
-                        {t("sqm", { count: apt.sqm })}
-                      </span>
-                    </div>
+
+                    {shownAmenities.length > 0 && (
+                      <div className="mb-4 flex flex-wrap gap-1.5">
+                        {shownAmenities.map(({ amenity }) => (
+                          <span
+                            key={amenity.id}
+                            className="rounded-full bg-gold/14 px-[11px] py-1.5 text-[11.5px] font-medium capitalize leading-none text-gold-deep dark:bg-gold/20 dark:text-gold-pale"
+                          >
+                            {amenityLabel(amenity.key)}
+                          </span>
+                        ))}
+                        {moreCount > 0 && (
+                          <span className="rounded-full bg-gold/15 px-[11px] py-1.5 text-[11.5px] font-medium leading-none text-gold-link dark:bg-gold/20 dark:text-gold-pale">
+                            {t("moreAmenities", { count: moreCount })}
+                          </span>
+                        )}
+                      </div>
+                    )}
+
+                    <span className="mt-auto block rounded-full bg-navy py-3 text-center text-sm font-semibold leading-none text-white transition-colors group-hover:bg-navy-hover dark:bg-gold dark:text-navy dark:group-hover:bg-gold-pale">
+                      {t("viewApartment")}
+                    </span>
                   </div>
                 </article>
               </Link>
@@ -101,8 +110,8 @@ export function ApartmentsPreview({ apartments }: Props) {
           })}
 
           {apartments.length === 0 && (
-            <div className="lg:col-span-3 text-center py-20 text-muted-foreground">
-              <span className="text-5xl mb-4 block">🏠</span>
+            <div className="py-20 text-center text-muted-foreground min-[880px]:col-span-3">
+              <span className="mb-4 block text-5xl">🏠</span>
               <p>Apartments loading soon...</p>
             </div>
           )}

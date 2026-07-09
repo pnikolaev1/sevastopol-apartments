@@ -19,7 +19,9 @@
       "contactOwner": "Свържете се със собственика",
       "superhost": "Airbnb Суперхост",
       "freeCancellation": "Безплатна отмяна · 7 дни",
-      "instantBooking": "Незабавна резервация"
+      "instantBooking": "Незабавна резервация",
+      "checkAvailability": "Проверете наличността",
+      "guestsCount": "{count, plural, one {# гост} other {# госта}}"
     },
     "usp": {
       "title": "Защо да резервирате директно?",
@@ -28,7 +30,8 @@
       "direct": "Директен контакт",
       "directDesc": "Пишете директно на собственика в WhatsApp за бърз отговор.",
       "flexible": "Гъвкавост",
-      "flexibleDesc": "Поискайте персонализирано настаняване и по-ранно/късно напускане."
+      "flexibleDesc": "Поискайте персонализирано настаняване и по-ранно/късно напускане.",
+      "eyebrow": "Директна резервация"
     },
     "apartments": {
       "title": "Нашите апартаменти",
@@ -36,10 +39,11 @@
       "viewAll": "Всички апартаменти",
       "from": "От",
       "perNight": "/ нощ",
-      "guests": "{count} гости",
-      "bedrooms": "{count} спални",
+      "guests": "{count, plural, one {# гост} other {# госта}}",
+      "bedrooms": "{count, plural, one {# спалня} other {# спални}}",
       "sqm": "{count} м²",
-      "moreAmenities": "+{count} още"
+      "moreAmenities": "+{count} още",
+      "viewApartment": "Виж апартамента"
     },
     "location": {
       "title": "Централна локация във Варна",
@@ -56,6 +60,13 @@
       "title": "Готови ли сте да резервирате?",
       "desc": "Свържете се с нас директно за най-добрите цени и персонализирано обслужване.",
       "cta": "Свържете се с нас"
+    },
+    "about": {
+      "eyebrow": "За нас",
+      "statSince": "Посрещаме гости от",
+      "statApartments": "Частни апартамента",
+      "statBeach": "До плажа",
+      "statBeachValue": "5 мин"
     }
   },
   "apartments": {
@@ -84,10 +95,10 @@
     "requestBooking": "Заявка за резервация",
     "priceCalculator": "Калкулатор на цената",
     "nights": "{count} нощи",
-    "guests": "{count} гости",
+    "guests": "{count, plural, one {# гост} other {# госта}}",
     "sleeps": "До {count} гости",
-    "bedrooms": "{count} спални",
-    "bathrooms": "{count} бани",
+    "bedrooms": "{count, plural, one {# спалня} other {# спални}}",
+    "bathrooms": "{count, plural, one {# баня} other {# бани}}",
     "sqm": "{count} м²",
     "floor": "Етаж {number}",
     "priceBreakdown": {

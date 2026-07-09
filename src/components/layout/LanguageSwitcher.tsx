@@ -33,10 +33,13 @@ export function LanguageSwitcher() {
     <DropdownMenu>
       <DropdownMenuTrigger
         render={
-          <Button variant="ghost" size="sm" className="gap-1.5 text-muted-foreground">
-            <Globe className="w-4 h-4" aria-hidden />
-            <span className="hidden sm:inline">{current?.flag} {current?.code.toUpperCase()}</span>
-            <span className="sm:hidden">{current?.flag}</span>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="gap-1.5 rounded-full border border-white/28 px-3.5 text-[13px] font-semibold text-white hover:bg-white/10 hover:text-white focus-visible:ring-gold/50"
+          >
+            <Globe className="h-4 w-4" aria-hidden />
+            <span>{current?.code.toUpperCase()} · €</span>
           </Button>
         }
       />

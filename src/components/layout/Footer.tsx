@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { Waves, Phone, Mail } from "lucide-react";
+import Image from "next/image";
+import { Phone, Mail } from "lucide-react";
 
 export function Footer() {
   const t = useTranslations("footer");
@@ -8,16 +9,20 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-auto" style={{ background: "#0d1f35" }}>
+    <footer className="mt-auto border-t border-gold/18 bg-navy">
       <div className="container mx-auto px-4 py-14 max-w-7xl">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-2.5 mb-5">
-              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <Waves className="w-4 h-4 text-white" aria-hidden />
-              </div>
-              <span className="font-bold text-white text-lg">Sevastopol Apartments</span>
+              <Image
+                src="/images/logo-sa-white.png"
+                alt=""
+                width={32}
+                height={36}
+                className="h-8 w-auto"
+              />
+              <span className="font-bold text-white text-base">Sevastopol Apartments</span>
             </div>
             <p className="text-white/50 text-sm leading-relaxed max-w-sm mb-6">
               3 private apartments in Varna, Bulgaria — steps from the Black Sea beach and the Sea Garden park. Book direct and save 10%.
@@ -27,7 +32,7 @@ export function Footer() {
                 href="https://wa.me/35989436230"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+                className="w-9 h-9 rounded-[10px] bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
                 aria-label="WhatsApp"
               >
                 <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
@@ -38,7 +43,7 @@ export function Footer() {
                 href="https://www.facebook.com/search/top?q=sevastopol%20apartments%20varna"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+                className="w-9 h-9 rounded-[10px] bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
                 aria-label="Facebook"
               >
                 <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
@@ -47,7 +52,7 @@ export function Footer() {
               </a>
               <a
                 href="mailto:5areood@gmail.com"
-                className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+                className="w-9 h-9 rounded-[10px] bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
                 aria-label="Email"
               >
                 <Mail className="w-4 h-4 text-white" aria-hidden />

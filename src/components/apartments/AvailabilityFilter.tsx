@@ -84,7 +84,7 @@ export function AvailabilityFilter({ defaultCheckIn, defaultCheckOut, defaultGue
         <div className="flex gap-2">
           <Button
             onClick={handleSearch}
-            className="flex-1 bg-primary hover:bg-primary/90"
+            className="flex-1 rounded-full bg-gold font-bold text-navy hover:bg-gold-pale"
           >
             <Search className="w-4 h-4 mr-2" aria-hidden />
             {t("search")}

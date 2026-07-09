@@ -19,7 +19,9 @@
       "contactOwner": "Contact Owner",
       "superhost": "Airbnb Superhost",
       "freeCancellation": "Free cancellation · 7 days",
-      "instantBooking": "Instant booking"
+      "instantBooking": "Instant booking",
+      "checkAvailability": "Check availability",
+      "guestsCount": "{count, plural, one {# guest} other {# guests}}"
     },
     "usp": {
       "title": "Why Book Direct?",
@@ -28,7 +30,8 @@
       "direct": "Direct Contact",
       "directDesc": "Message the owner directly on WhatsApp for instant answers.",
       "flexible": "Flexible",
-      "flexibleDesc": "Request custom check-in times and early/late checkout."
+      "flexibleDesc": "Request custom check-in times and early/late checkout.",
+      "eyebrow": "Direct Booking"
     },
     "apartments": {
       "title": "Our Apartments",
@@ -36,10 +39,11 @@
       "viewAll": "View All Apartments",
       "from": "From",
       "perNight": "/ night",
-      "guests": "{count} guests",
-      "bedrooms": "{count} bedrooms",
+      "guests": "{count, plural, one {# guest} other {# guests}}",
+      "bedrooms": "{count, plural, one {# bedroom} other {# bedrooms}}",
       "sqm": "{count} m²",
-      "moreAmenities": "+{count} more"
+      "moreAmenities": "+{count} more",
+      "viewApartment": "View Apartment"
     },
     "location": {
       "title": "Prime Varna Location",
@@ -56,6 +60,13 @@
       "title": "Ready to Book?",
       "desc": "Contact us directly for the best rates and personal service.",
       "cta": "Get in Touch"
+    },
+    "about": {
+      "eyebrow": "About Us",
+      "statSince": "Welcoming guests since",
+      "statApartments": "Private apartments",
+      "statBeach": "To the beach",
+      "statBeachValue": "5 min"
     }
   },
   "apartments": {
@@ -84,10 +95,10 @@
     "requestBooking": "Request Booking",
     "priceCalculator": "Price Calculator",
     "nights": "{count} nights",
-    "guests": "{count} guests",
+    "guests": "{count, plural, one {# guest} other {# guests}}",
     "sleeps": "Sleeps {count}",
-    "bedrooms": "{count} bedrooms",
-    "bathrooms": "{count} bathrooms",
+    "bedrooms": "{count, plural, one {# bedroom} other {# bedrooms}}",
+    "bathrooms": "{count, plural, one {# bathroom} other {# bathrooms}}",
     "sqm": "{count} m²",
     "floor": "Floor {number}",
     "priceBreakdown": {
