@@ -17,7 +17,7 @@
       "cta": "Apartments ansehen",
       "directDiscount": "Direkt buchen und 10% gegenüber Booking.com & Airbnb sparen",
       "contactOwner": "Eigentümer kontaktieren",
-      "superhost": "Airbnb-Superhost",
+      "superhost": "9,8 „Außergewöhnlich“ auf Booking.com",
       "freeCancellation": "Kostenlose Stornierung · 7 Tage",
       "instantBooking": "Sofortbuchung",
       "checkAvailability": "Verfügbarkeit prüfen",
@@ -54,7 +54,17 @@
       "airport": "25 Min. vom Flughafen"
     },
     "reviews": {
-      "title": "Was Gäste sagen"
+      "title": "Was Gäste sagen",
+      "eyebrow": "Gästebewertungen",
+      "summary": "Bewertet mit {rating} von 5 aus {count} Airbnb-Bewertungen",
+      "reviewsCount": "{count, plural, one {# Bewertung} other {# Bewertungen}}",
+      "readOn": "Auf Airbnb lesen",
+      "bookingLine": "Sie finden uns auch auf <link>Booking.com</link>.",
+      "bookingBadge": "Außergewöhnlich",
+      "bookingSummary": "{count} Bewertungen auf Booking.com",
+      "airbnbSummary": "5,0 ★ auf Airbnb · {count} Bewertungen",
+      "readAll": "Alle Bewertungen auf Booking.com lesen",
+      "scoreLabel": "{score} / 10 · Booking.com"
     },
     "contact": {
       "title": "Bereit zu buchen?",
@@ -66,7 +76,7 @@
       "statSince": "Gäste willkommen seit",
       "statApartments": "Private Apartments",
       "statBeach": "Zum Strand",
-      "statBeachValue": "5 Min."
+      "statBeachValue": "700 m"
     }
   },
   "apartments": {
@@ -128,7 +138,8 @@
     "bookAndPay": "Buchen & bezahlen",
     "perNight": "/Nacht",
     "directDiscountApplied": "10% Direktbuchungsrabatt",
-    "securedNote": "Gesichert durch Stripe · 3D Secure"
+    "securedNote": "Gesichert durch Stripe · 3D Secure",
+    "clearDates": "Daten löschen"
   },
   "booking": {
     "title": "Buchung abschließen",
@@ -226,10 +237,56 @@
     }
   },
   "areaGuide": {
-    "title": "Stadtführer Varna",
+    "title": "Umgebungsführer Varna",
     "desc": "Alles, was Sie wissen müssen, um Ihren Aufenthalt in Varna zu genießen.",
     "readMore": "Mehr lesen",
-    "minRead": "{count} Min. Lesezeit"
+    "minRead": "{count} Min. Lesezeit",
+    "eyebrow": "Varna entdecken",
+    "intro": "Alles Sehenswerte ist von den Apartments aus gut erreichbar. Das empfehlen wir unseren Gästen.",
+    "gettingAround": "Unterwegs in Varna",
+    "gettingAroundDesc": "Die Apartments liegen im Zentrum von Varna — die meisten Ziele unten sind zu Fuß erreichbar. Taxis sind günstig (per TaxiMe- oder Yellow-Taxi-App), Busse fahren häufig, und der Flughafen Varna ist etwa 20 Minuten entfernt (7 km).",
+    "spots": [
+      {
+        "title": "Strand von Varna",
+        "desc": "Der lange Sandstrand der Stadt mit Strandbars und Badesaison von Mai bis Oktober.",
+        "dist": "700 m"
+      },
+      {
+        "title": "Meeresgarten",
+        "desc": "Varnas riesiger Küstenpark — perfekt für Morgenläufe, Sonnenuntergänge und die Sommer-Freilichtbühnen.",
+        "dist": "900 m"
+      },
+      {
+        "title": "Zentrum & Boulevard",
+        "desc": "Fußgängerboulevards mit Geschäften, Cafés und Restaurants rund um den Nezavisimost-Platz.",
+        "dist": "600 m"
+      },
+      {
+        "title": "Römische Thermen",
+        "desc": "Der größte antike römische Badekomplex der Balkanhalbinsel, mitten in der Altstadt.",
+        "dist": "1.1 km"
+      },
+      {
+        "title": "Archäologisches Museum",
+        "desc": "Heimat des ältesten bearbeiteten Goldes der Welt — der Schatz der Nekropole von Varna.",
+        "dist": "600 m"
+      },
+      {
+        "title": "Hafen & Marina",
+        "desc": "Uferpromenade mit Fischrestaurants und Bootsausflügen entlang der Küste.",
+        "dist": "1.4 km"
+      },
+      {
+        "title": "Aladzha-Kloster",
+        "desc": "Ein mittelalterliches Höhlenkloster in einer Kalksteinwand, umgeben von Wald.",
+        "dist": "14 km"
+      },
+      {
+        "title": "Goldstrand",
+        "desc": "Bulgariens berühmter Badeort mit Wassersport und Nachtleben.",
+        "dist": "17 km"
+      }
+    ]
   },
   "footer": {
     "rights": "© {year} Sevastopol Apartments. Alle Rechte vorbehalten.",

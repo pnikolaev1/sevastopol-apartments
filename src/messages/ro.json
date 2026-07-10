@@ -17,7 +17,7 @@
       "cta": "Vezi apartamentele",
       "directDiscount": "Rezervați direct și economisiți 10% față de Booking.com și Airbnb",
       "contactOwner": "Contactați proprietarul",
-      "superhost": "Gazdă Superhost Airbnb",
+      "superhost": "Nota 9,8 „Excepțional” pe Booking.com",
       "freeCancellation": "Anulare gratuită · 7 zile",
       "instantBooking": "Rezervare instantanee",
       "checkAvailability": "Verifică disponibilitatea",
@@ -54,7 +54,17 @@
       "airport": "25 min de la aeroport"
     },
     "reviews": {
-      "title": "Ce spun oaspeții"
+      "title": "Ce spun oaspeții",
+      "eyebrow": "Recenziile oaspeților",
+      "summary": "Nota {rating} din 5 din {count} recenzii pe Airbnb",
+      "reviewsCount": "{count, plural, one {# recenzie} few {# recenzii} other {# de recenzii}}",
+      "readOn": "Citiți pe Airbnb",
+      "bookingLine": "Ne găsiți și pe <link>Booking.com</link>.",
+      "bookingBadge": "Excepțional",
+      "bookingSummary": "{count} recenzii pe Booking.com",
+      "airbnbSummary": "5,0 ★ pe Airbnb · {count} recenzii",
+      "readAll": "Citiți toate recenziile pe Booking.com",
+      "scoreLabel": "{score} / 10 · Booking.com"
     },
     "contact": {
       "title": "Gata să rezervați?",
@@ -66,7 +76,7 @@
       "statSince": "Găzduim oaspeți din",
       "statApartments": "Apartamente private",
       "statBeach": "Până la plajă",
-      "statBeachValue": "5 min"
+      "statBeachValue": "700 m"
     }
   },
   "apartments": {
@@ -128,7 +138,8 @@
     "bookAndPay": "Rezervați și plătiți",
     "perNight": "/noapte",
     "directDiscountApplied": "Reducere de 10% pentru rezervare directă",
-    "securedNote": "Securizat de Stripe · 3D Secure"
+    "securedNote": "Securizat de Stripe · 3D Secure",
+    "clearDates": "Șterge datele"
   },
   "booking": {
     "title": "Finalizați rezervarea",
@@ -226,10 +237,56 @@
     }
   },
   "areaGuide": {
-    "title": "Ghid pentru zona Varna",
+    "title": "Ghidul zonei Varna",
     "desc": "Tot ce trebuie să știți pentru a profita la maximum de șederea dvs. în Varna.",
     "readMore": "Citește mai mult",
-    "minRead": "{count} min de citit"
+    "minRead": "{count} min de citit",
+    "eyebrow": "Explorați Varna",
+    "intro": "Tot ce merită văzut este la îndemână față de apartamente. Iată ce le recomandăm oaspeților noștri.",
+    "gettingAround": "Cum vă deplasați",
+    "gettingAroundDesc": "Apartamentele sunt în centrul Varnei — majoritatea obiectivelor de mai jos sunt accesibile pe jos. Taxiurile sunt ieftine (comandați prin TaxiMe sau Yellow Taxi), autobuzele circulă des, iar aeroportul Varna este la circa 20 de minute (7 km).",
+    "spots": [
+      {
+        "title": "Plaja Varna",
+        "desc": "Plaja lungă de nisip a orașului, cu baruri de plajă și sezon de înot din mai până în octombrie.",
+        "dist": "700 m"
+      },
+      {
+        "title": "Grădina Mării",
+        "desc": "Parcul imens de pe litoral al Varnei — perfect pentru alergare, apusuri și scenele de vară în aer liber.",
+        "dist": "900 m"
+      },
+      {
+        "title": "Centrul și bulevardul",
+        "desc": "Bulevarde pietonale cu magazine, cafenele și restaurante în jurul Pieței Nezavisimost.",
+        "dist": "600 m"
+      },
+      {
+        "title": "Termele Romane",
+        "desc": "Cel mai mare complex de băi romane antice din Peninsula Balcanică, chiar în orașul vechi.",
+        "dist": "1.1 km"
+      },
+      {
+        "title": "Muzeul de Arheologie",
+        "desc": "Găzduiește cel mai vechi aur prelucrat din lume — tezaurul necropolei din Varna.",
+        "dist": "600 m"
+      },
+      {
+        "title": "Portul și Marina",
+        "desc": "Promenada de pe malul mării cu restaurante pescărești și plimbări cu barca de-a lungul coastei.",
+        "dist": "1.4 km"
+      },
+      {
+        "title": "Mănăstirea Aladzha",
+        "desc": "O mănăstire rupestră medievală săpată într-o stâncă de calcar, înconjurată de pădure.",
+        "dist": "14 km"
+      },
+      {
+        "title": "Nisipurile de Aur",
+        "desc": "Celebra stațiune bulgărească cu sporturi nautice și viață de noapte.",
+        "dist": "17 km"
+      }
+    ]
   },
   "footer": {
     "rights": "© {year} Sevastopol Apartments. Toate drepturile rezervate.",

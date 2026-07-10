@@ -68,6 +68,7 @@ export function Footer() {
             <ul className="space-y-3 text-sm">
               {[
                 { href: "/apartments", label: tNav("apartments") },
+                { href: "/area-guide", label: tNav("areaGuide") },
                 { href: "/about", label: tNav("about") },
                 { href: "/contact", label: tNav("contact") },
               ].map(({ href, label }) => (

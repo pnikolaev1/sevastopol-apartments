@@ -5,12 +5,15 @@ import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Shield, AlertCircle } from "lucide-react";
 import { calculatePrice } from "@/lib/pricing";
+import { addDays, format } from "date-fns";
+import type { DateRange } from "react-day-picker";
 import type { Apartment, PricingRule } from "@prisma/client";
 
 interface BlockedDate {
@@ -29,16 +32,29 @@ export function PriceCalculator({ apartment: apt, blockedDates }: Props) {
   const t = useTranslations("apartment");
   const router = useRouter();
 
-  const [checkIn, setCheckIn] = useState("");
-  const [checkOut, setCheckOut] = useState("");
+  const [range, setRange] = useState<DateRange | undefined>();
   const [guests, setGuests] = useState(1);
 
-  const today = new Date().toISOString().split("T")[0] ?? "";
+  const checkIn = range?.from ? format(range.from, "yyyy-MM-dd") : "";
+  const checkOut = range?.to ? format(range.to, "yyyy-MM-dd") : "";
+
+  // Booked/blocked periods, mapped to inclusive day ranges for the calendar.
+  // `end` is the checkout day (exclusive) — it stays selectable as a new check-in.
+  const disabledDays = useMemo(
+    () => [
+      { before: new Date() },
+      ...blockedDates.map((b) => ({
+        from: new Date(b.start),
+        to: addDays(new Date(b.end), -1),
+      })),
+    ],
+    [blockedDates]
+  );
 
   function isDateBlocked(dateStr: string): boolean {
     const date = new Date(dateStr);
     return blockedDates.some(
-      (b) => date >= b.start && date < b.end
+      (b) => date >= new Date(b.start) && date < new Date(b.end)
     );
   }
 
@@ -99,34 +115,47 @@ export function PriceCalculator({ apartment: apt, blockedDates }: Props) {
       </CardHeader>
 
       <CardContent className="space-y-4">
-        {/* Date inputs */}
-        <div className="grid grid-cols-2 gap-2">
-          <div>
-            <Label htmlFor="calc-checkin" className="text-xs font-semibold mb-1 block">
-              {t("checkIn")}
-            </Label>
-            <Input
-              id="calc-checkin"
-              type="date"
-              value={checkIn}
-              min={today}
-              onChange={(e) => setCheckIn(e.target.value)}
-              className="text-sm"
+        {/* Date range picker — booked dates are greyed out */}
+        <div>
+          <div className="mb-2 grid grid-cols-2 gap-2">
+            <div className="rounded-lg border border-border px-3 py-2">
+              <span className="block text-[10px] font-bold uppercase tracking-wide text-muted-foreground">
+                {t("checkIn")}
+              </span>
+              <span className="text-sm text-foreground">
+                {range?.from ? format(range.from, "d MMM yyyy") : "—"}
+              </span>
+            </div>
+            <div className="rounded-lg border border-border px-3 py-2">
+              <span className="block text-[10px] font-bold uppercase tracking-wide text-muted-foreground">
+                {t("checkOut")}
+              </span>
+              <span className="text-sm text-foreground">
+                {range?.to ? format(range.to, "d MMM yyyy") : "—"}
+              </span>
+            </div>
+          </div>
+          <div className="flex justify-center rounded-lg border border-border">
+            <Calendar
+              mode="range"
+              selected={range}
+              onSelect={setRange}
+              disabled={disabledDays}
+              excludeDisabled
+              min={Math.max(1, apt.minStayNights)}
+              numberOfMonths={1}
+              showOutsideDays={false}
             />
           </div>
-          <div>
-            <Label htmlFor="calc-checkout" className="text-xs font-semibold mb-1 block">
-              {t("checkOut")}
-            </Label>
-            <Input
-              id="calc-checkout"
-              type="date"
-              value={checkOut}
-              min={checkIn || today}
-              onChange={(e) => setCheckOut(e.target.value)}
-              className="text-sm"
-            />
-          </div>
+          {range?.from && (
+            <button
+              type="button"
+              onClick={() => setRange(undefined)}
+              className="mt-1.5 text-xs font-medium text-muted-foreground underline-offset-2 hover:underline"
+            >
+              {t("clearDates")}
+            </button>
+          )}
         </div>
 
         <div>
@@ -189,7 +218,7 @@ export function PriceCalculator({ apartment: apt, blockedDates }: Props) {
         {/* Book buttons */}
         <div className="space-y-2">
           <Button
-            className="w-full bg-primary hover:bg-primary/90 font-semibold"
+            className="w-full rounded-full bg-gold font-bold text-navy hover:bg-gold-pale"
             disabled={!checkIn || !checkOut || !isAvailable}
             onClick={() => handleBook("instant")}
           >

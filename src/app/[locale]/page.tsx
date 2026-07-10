@@ -6,6 +6,7 @@ import { HeroSection } from "@/components/home/HeroSection";
 import { USPSection } from "@/components/home/USPSection";
 import { ApartmentsPreview } from "@/components/home/ApartmentsPreview";
 import { AboutSection } from "@/components/home/AboutSection";
+import { ReviewsSection } from "@/components/home/ReviewsSection";
 import { ContactCTA } from "@/components/home/ContactCTA";
 import { getListApartments } from "@/lib/db/apartments";
 
@@ -41,6 +42,7 @@ export default async function HomePage({
         <HeroSection />
         <ApartmentsPreview apartments={apartments} locale={locale} />
         <USPSection />
+        <ReviewsSection />
         <AboutSection />
         <ContactCTA />
       </main>

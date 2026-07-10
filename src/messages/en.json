@@ -17,7 +17,7 @@
       "cta": "View Apartments",
       "directDiscount": "Book direct and save 10% vs Booking.com & Airbnb",
       "contactOwner": "Contact Owner",
-      "superhost": "Airbnb Superhost",
+      "superhost": "Rated 9.8 “Exceptional” on Booking.com",
       "freeCancellation": "Free cancellation · 7 days",
       "instantBooking": "Instant booking",
       "checkAvailability": "Check availability",
@@ -54,7 +54,17 @@
       "airport": "25 min from airport"
     },
     "reviews": {
-      "title": "What Guests Say"
+      "title": "What Guests Say",
+      "eyebrow": "Guest Reviews",
+      "summary": "Rated {rating} out of 5 across {count} Airbnb reviews",
+      "reviewsCount": "{count, plural, one {# review} other {# reviews}}",
+      "readOn": "Read on Airbnb",
+      "bookingLine": "You can also find us on <link>Booking.com</link>.",
+      "bookingBadge": "Exceptional",
+      "bookingSummary": "{count} reviews on Booking.com",
+      "airbnbSummary": "5.0 ★ on Airbnb · {count} reviews",
+      "readAll": "Read all reviews on Booking.com",
+      "scoreLabel": "{score} / 10 · Booking.com"
     },
     "contact": {
       "title": "Ready to Book?",
@@ -66,7 +76,7 @@
       "statSince": "Welcoming guests since",
       "statApartments": "Private apartments",
       "statBeach": "To the beach",
-      "statBeachValue": "5 min"
+      "statBeachValue": "700 m"
     }
   },
   "apartments": {
@@ -128,7 +138,8 @@
     "bookAndPay": "Book Now & Pay",
     "perNight": "/night",
     "directDiscountApplied": "10% direct discount applied",
-    "securedNote": "Secured by Stripe · 3D Secure enabled"
+    "securedNote": "Secured by Stripe · 3D Secure enabled",
+    "clearDates": "Clear dates"
   },
   "booking": {
     "title": "Complete Your Booking",
@@ -229,7 +240,53 @@
     "title": "Varna Area Guide",
     "desc": "Everything you need to know to make the most of your stay in Varna.",
     "readMore": "Read more",
-    "minRead": "{count} min read"
+    "minRead": "{count} min read",
+    "eyebrow": "Explore Varna",
+    "intro": "Everything worth seeing is within easy reach of the apartments. Here is what we recommend to our guests.",
+    "gettingAround": "Getting around",
+    "gettingAroundDesc": "The apartments sit in central Varna — most sights below are walkable. Taxis are inexpensive (order via TaxiMe or Yellow Taxi apps), buses run frequently, and Varna Airport is about 20 minutes away (7 km).",
+    "spots": [
+      {
+        "title": "Varna Beach",
+        "desc": "The city's long sandy beach with beach bars and swimming from May to October.",
+        "dist": "700 m"
+      },
+      {
+        "title": "Sea Garden",
+        "desc": "Varna's vast seaside park — perfect for morning runs, sunsets, and the summer open-air stages.",
+        "dist": "900 m"
+      },
+      {
+        "title": "City Centre & Boulevard",
+        "desc": "Pedestrian boulevards with shops, cafés and restaurants around Nezavisimost Square.",
+        "dist": "600 m"
+      },
+      {
+        "title": "Roman Baths",
+        "desc": "The largest ancient Roman bath complex on the Balkan peninsula, right in the old town.",
+        "dist": "1.1 km"
+      },
+      {
+        "title": "Archaeological Museum",
+        "desc": "Home of the oldest processed gold in the world — the Varna Necropolis treasure.",
+        "dist": "600 m"
+      },
+      {
+        "title": "Port & Marina",
+        "desc": "Seafront promenade with fish restaurants and boat trips along the coast.",
+        "dist": "1.4 km"
+      },
+      {
+        "title": "Aladzha Monastery",
+        "desc": "A medieval cave monastery carved into a limestone cliff, surrounded by forest.",
+        "dist": "14 km"
+      },
+      {
+        "title": "Golden Sands",
+        "desc": "Bulgaria's famous resort beach with water sports and nightlife.",
+        "dist": "17 km"
+      }
+    ]
   },
   "footer": {
     "rights": "© {year} Sevastopol Apartments. All rights reserved.",
