@@ -25,7 +25,7 @@ export function Footer() {
               <span className="font-bold text-white text-base">Sevastopol Apartments</span>
             </div>
             <p className="text-white/50 text-sm leading-relaxed max-w-sm mb-6">
-              3 private apartments in Varna, Bulgaria — steps from the Black Sea beach and the Sea Garden park. Book direct and save 10%.
+              {t("blurb")}
             </p>
             <div className="flex items-center gap-3">
               <a
@@ -63,7 +63,7 @@ export function Footer() {
           {/* Quick links */}
           <div>
             <h3 className="text-white font-semibold mb-5 text-sm uppercase tracking-wider">
-              Pages
+              {t("pages")}
             </h3>
             <ul className="space-y-3 text-sm">
               {[
@@ -83,7 +83,7 @@ export function Footer() {
           {/* Contact */}
           <div>
             <h3 className="text-white font-semibold mb-5 text-sm uppercase tracking-wider">
-              Contact
+              {t("contactHeading")}
             </h3>
             <ul className="space-y-3 text-sm">
               <li>

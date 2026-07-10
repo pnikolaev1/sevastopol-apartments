@@ -3,6 +3,7 @@ import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { Toaster } from "@/components/ui/sonner";
+import { CookieBanner } from "@/components/layout/CookieBanner";
 import type { Metadata } from "next";
 
 type Locale = "bg" | "en" | "ro" | "de";
@@ -53,6 +54,7 @@ export default async function LocaleLayout({
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
       {children}
+      <CookieBanner />
       <Toaster richColors position="top-right" />
     </NextIntlClientProvider>
   );

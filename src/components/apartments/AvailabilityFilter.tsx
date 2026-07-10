@@ -53,6 +53,7 @@ export function AvailabilityFilter({ defaultCheckIn, defaultCheckOut, defaultGue
             value={checkIn}
             min={today}
             onChange={(e) => setCheckIn(e.target.value)}
+            className="h-10 appearance-none [&::-webkit-date-and-time-value]:text-left"
           />
         </div>
         <div>
@@ -65,6 +66,7 @@ export function AvailabilityFilter({ defaultCheckIn, defaultCheckOut, defaultGue
             value={checkOut}
             min={checkIn || today}
             onChange={(e) => setCheckOut(e.target.value)}
+            className="h-10 appearance-none [&::-webkit-date-and-time-value]:text-left"
           />
         </div>
         <div>
@@ -79,6 +81,7 @@ export function AvailabilityFilter({ defaultCheckIn, defaultCheckOut, defaultGue
             value={guests}
             placeholder="1–8"
             onChange={(e) => setGuests(e.target.value)}
+            className="h-10"
           />
         </div>
         <div className="flex gap-2">

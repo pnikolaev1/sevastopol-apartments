@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -90,12 +91,12 @@ export default function ContactPage() {
                   rel={external ? "noopener noreferrer" : undefined}
                   className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card hover:bg-muted/30 transition-colors group"
                 >
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                    <Icon className="w-6 h-6 text-primary" aria-hidden />
+                  <div className="w-12 h-12 rounded-full bg-gold/15 flex items-center justify-center shrink-0">
+                    <Icon className="w-6 h-6 text-gold-deep dark:text-gold" aria-hidden />
                   </div>
                   <div>
                     <p className="text-xs text-muted-foreground uppercase tracking-wider mb-0.5">{label}</p>
-                    <p className="font-semibold text-foreground group-hover:text-primary transition-colors">{text}</p>
+                    <p className="font-semibold text-foreground group-hover:text-gold-deep dark:group-hover:text-gold transition-colors">{text}</p>
                   </div>
                 </a>
               ))}
@@ -104,7 +105,7 @@ export default function ContactPage() {
             {/* Contact form */}
             <Card>
               <CardHeader>
-                <CardTitle>Send a Message</CardTitle>
+                <CardTitle>{t("form.title")}</CardTitle>
               </CardHeader>
               <CardContent>
                 {submitted ? (
@@ -127,13 +128,25 @@ export default function ContactPage() {
                     </div>
                     <Button
                       type="submit"
-                      className="w-full bg-primary hover:bg-primary/90"
+                      className="w-full rounded-full bg-gold font-bold text-navy hover:bg-gold-pale"
                       disabled={form.formState.isSubmitting}
                     >
                       {form.formState.isSubmitting ? (
-                        <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Sending…</>
+                        <><Loader2 className="w-4 h-4 mr-2 animate-spin" />{t("form.sending")}</>
                       ) : t("form.send")}
                     </Button>
+                    <p className="text-xs leading-relaxed text-muted-foreground">
+                      {t.rich("form.privacyNotice", {
+                        link: (chunks) => (
+                          <Link
+                            href="/legal/privacy"
+                            className="font-medium text-gold-deep underline-offset-2 hover:underline dark:text-gold"
+                          >
+                            {chunks}
+                          </Link>
+                        ),
+                      })}
+                    </p>
                   </form>
                 )}
               </CardContent>
