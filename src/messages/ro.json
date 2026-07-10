@@ -82,7 +82,8 @@
     "available": "Disponibil",
     "unavailable": "Indisponibil pentru aceste date",
     "groupSuggestion": "Grupul dvs. de {count} oaspeți este mai mare decât orice apartament individual. Puteți rezerva mai multe apartamente de mai jos — toate sunt disponibile pentru datele dvs.",
-    "groupSuggestionNoDates": "Grupul dvs. de {count} oaspeți este mai mare decât orice apartament individual. Luați în considerare rezervarea a 2 sau mai multe apartamente."
+    "groupSuggestionNoDates": "Grupul dvs. de {count} oaspeți este mai mare decât orice apartament individual. Luați în considerare rezervarea a 2 sau mai multe apartamente.",
+    "resultsCount": "{available} disponibile / {total} în total"
   },
   "apartment": {
     "overview": "Prezentare",
@@ -145,7 +146,10 @@
       "specialRequests": "Solicitări speciale (opțional)",
       "agreeTerms": "Sunt de acord cu Termenii și Politica de confidențialitate",
       "submit": "Confirmă și plătește",
-      "submitRequest": "Trimite solicitarea"
+      "submitRequest": "Trimite solicitarea",
+      "continuePayment": "Continuă la plată",
+      "agreeTermsRich": "Sunt de acord cu <terms>Termenii și condițiile</terms> și cu <privacy>Politica de confidențialitate</privacy>.",
+      "agreeTermsError": "Trebuie să acceptați condițiile înainte de a rezerva."
     },
     "payment": {
       "securedBy": "Securizat de Stripe",
@@ -171,7 +175,13 @@
       "datesUnavailable": "Aceste date nu mai sunt disponibile. Vă rugăm să selectați alte date.",
       "paymentFailed": "Plata a eșuat. Vă rugăm să încercați din nou sau să folosiți un alt card.",
       "generic": "Ceva nu a mers bine. Vă rugăm să încercați din nou."
-    }
+    },
+    "type": {
+      "instant": "Rezervare instantanee",
+      "request": "Cerere de rezervare"
+    },
+    "processing": "Se procesează…",
+    "priceSummary": "Rezumatul prețului"
   },
   "contact": {
     "title": "Contact",
@@ -187,12 +197,33 @@
       "message": "Mesaj",
       "send": "Trimite mesajul",
       "success": "Mesaj trimis! Vă vom răspunde în scurt timp.",
-      "error": "Eroare la trimitere. Vă rugăm să ne scrieți direct pe email."
+      "error": "Eroare la trimitere. Vă rugăm să ne scrieți direct pe email.",
+      "title": "Trimite un mesaj",
+      "sending": "Se trimite…",
+      "privacyNotice": "Prin trimiterea acestui mesaj sunteți de acord cu <link>Politica noastră de confidențialitate</link>."
     }
   },
   "about": {
     "title": "Despre Sevastopol Apartments",
-    "desc": "Trei apartamente îngrijite în Varna, Bulgaria — la câteva minute de plajă și Grădina Mării. Primim oaspeți din 2018 și suntem mândri de curățenie, confort și dotări complete."
+    "desc": "Trei apartamente îngrijite în Varna, Bulgaria — la câteva minute de plajă și Grădina Mării. Primim oaspeți din 2018 și suntem mândri de curățenie, confort și dotări complete.",
+    "values": {
+      "cleanliness": {
+        "title": "Curățenie",
+        "desc": "Fiecare apartament este curățat profesional înainte de fiecare sejur."
+      },
+      "comfort": {
+        "title": "Confort",
+        "desc": "Lenjerie de calitate, bucătării complet utilate, Wi-Fi fiabil."
+      },
+      "personal": {
+        "title": "Abordare personală",
+        "desc": "Proprietarul răspunde personal la mesaje — de obicei în decurs de 1 oră."
+      },
+      "location": {
+        "title": "Locație excelentă",
+        "desc": "La câțiva pași de plajă, Grădina Mării și centrul orașului."
+      }
+    }
   },
   "areaGuide": {
     "title": "Ghid pentru zona Varna",
@@ -205,18 +236,108 @@
     "terms": "Termeni",
     "privacy": "Confidențialitate",
     "cookies": "Cookie-uri",
-    "madeWith": "Creat cu grijă în Varna, Bulgaria"
+    "madeWith": "Creat cu grijă în Varna, Bulgaria",
+    "blurb": "3 apartamente private în Varna, Bulgaria — la câțiva pași de plaja Mării Negre și de Grădina Mării. Rezervați direct și economisiți 10%.",
+    "pages": "Pagini",
+    "contactHeading": "Contact"
   },
   "legal": {
     "terms": {
-      "title": "Termeni și condiții"
+      "title": "Termeni și condiții",
+      "sections": [
+        {
+          "h": "Despre acești termeni",
+          "p": "Acești termeni guvernează rezervările apartamentelor Sevastopol Apartments din Varna, Bulgaria, efectuate prin acest site. Prin finalizarea unei rezervări acceptați acești termeni."
+        },
+        {
+          "h": "Rezervări și plată",
+          "p": "Toate prețurile sunt afișate în EUR și includ reducerea pentru rezervare directă acolo unde este indicată. Prețul total, inclusiv taxa de curățenie și taxa turistică, este afișat înainte de plată. Rezervările instantanee se confirmă imediat după plata reușită prin Stripe; cererile de rezervare sunt confirmate de proprietar în 24 de ore, după care primiți un link de plată."
+        },
+        {
+          "h": "Politica de anulare",
+          "p": "Anularea este gratuită cu până la 7 zile înainte de check-in. Anulările făcute cu mai puțin de 7 zile înainte de check-in nu sunt rambursabile. Dacă un conflict de calendar între platforme face sejurul imposibil, veți fi rambursat integral imediat."
+        },
+        {
+          "h": "Check-in, check-out și regulile casei",
+          "p": "Check-in de la 15:00, check-out până la 11:00. Fumatul în interior, animalele de companie și petrecerile sunt interzise. Numărul de oaspeți nu trebuie să depășească maximul indicat pentru apartament. Ore personalizate de check-in se pot stabili cu proprietarul."
+        },
+        {
+          "h": "Responsabilitatea oaspeților",
+          "p": "Oaspeții sunt responsabili de apartament pe durata sejurului și pot fi taxați pentru daune care depășesc uzura normală."
+        },
+        {
+          "h": "Răspundere",
+          "p": "Răspundem conform legislației bulgare privind protecția consumatorilor. Nu răspundem pentru evenimente în afara controlului nostru rezonabil (forță majoră) sau pentru bunurile personale lăsate în apartament."
+        },
+        {
+          "h": "Legea aplicabilă și litigii",
+          "p": "Se aplică legea bulgară. Consumatorii pot folosi și platforma Comisiei Europene de soluționare online a litigiilor la ec.europa.eu/consumers/odr. Nimic din acești termeni nu limitează drepturile dumneavoastră legale de consumator."
+        },
+        {
+          "h": "Contact",
+          "p": "Sevastopol Apartments, Varna, Bulgaria · 5areood@gmail.com · +359 89 436 2230."
+        }
+      ]
     },
     "privacy": {
-      "title": "Politica de confidențialitate"
+      "title": "Politica de confidențialitate",
+      "sections": [
+        {
+          "h": "Cine suntem (operator de date)",
+          "p": "Sevastopol Apartments, Varna, Bulgaria, operează acest site și este operatorul datelor dumneavoastră personale. Pentru orice chestiune legată de confidențialitate, contactați-ne la 5areood@gmail.com."
+        },
+        {
+          "h": "Ce date colectăm",
+          "p": "La rezervare colectăm numele, adresa de e-mail, numărul de telefon, țara, datele sejurului, numărul de oaspeți și eventualele cereri speciale. Prin formularul de contact colectăm numele, adresa de e-mail și mesajul. Plățile cu cardul sunt procesate de Stripe — nu vedem și nu stocăm niciodată datele complete ale cardului. Păstrăm și jurnale tehnice de bază (adresă IP, tip de browser) pentru securitate."
+        },
+        {
+          "h": "De ce prelucrăm datele",
+          "p": "Prelucrăm datele de rezervare pentru executarea contractului de cazare (art. 6 alin. (1) lit. b RGPD), pentru respectarea obligațiilor fiscale, contabile și de înregistrare a oaspeților din Bulgaria (art. 6 alin. (1) lit. c) și în interesul nostru legitim de a preveni frauda și de a menține site-ul sigur (art. 6 alin. (1) lit. f). Mesajele de marketing se trimit doar cu consimțământul dumneavoastră (art. 6 alin. (1) lit. a)."
+        },
+        {
+          "h": "Cu cine partajăm datele",
+          "p": "Folosim furnizori de încredere: Vercel (găzduire), Supabase (bază de date), Stripe (plăți), Resend (e-mailuri tranzacționale) și Upstash (limitare de securitate). Aceștia prelucrează datele în numele nostru pe baza unor acorduri de prelucrare. Când legea o cere, datele oaspeților pot fi raportate autorităților bulgare (de ex. înregistrarea oaspeților și taxa turistică)."
+        },
+        {
+          "h": "Transferuri internaționale",
+          "p": "Unii furnizori pot prelucra date în afara SEE (de exemplu în SUA). Aceste transferuri sunt protejate prin Cadrul UE–SUA privind confidențialitatea datelor sau prin clauze contractuale standard."
+        },
+        {
+          "h": "Cât timp păstrăm datele",
+          "p": "Datele de rezervare și facturare se păstrează atât timp cât o cere legislația fiscală și de cazare din Bulgaria (în general până la 10 ani). Mesajele din formularul de contact se șterg în cel mult 12 luni. Jurnalele de securitate se păstrează doar pentru scurt timp."
+        },
+        {
+          "h": "Drepturile dumneavoastră",
+          "p": "Aveți dreptul de acces, rectificare, ștergere și portabilitate a datelor, de restricționare sau opoziție la prelucrare și de retragere a consimțământului în orice moment. Scrieți la 5areood@gmail.com pentru a vă exercita drepturile. Puteți depune o plângere la autoritatea bulgară pentru protecția datelor (cpdp.bg) sau la autoritatea locală de supraveghere."
+        },
+        {
+          "h": "Cookie-uri",
+          "p": "Consultați Politica de cookie-uri pentru detalii despre cookie-urile și stocarea locală folosite de acest site."
+        }
+      ]
     },
     "cookies": {
-      "title": "Politica de cookie-uri"
-    }
+      "title": "Politica de cookie-uri",
+      "sections": [
+        {
+          "h": "Ce sunt cookie-urile",
+          "p": "Cookie-urile sunt fișiere text mici stocate pe dispozitivul dumneavoastră. Acest site le reduce la minimum."
+        },
+        {
+          "h": "Cookie-urile și stocarea pe care le folosim",
+          "p": "Doar strict necesare: preferința de limbă (cookie-ul NEXT_LOCALE), alegerea temei luminoase/întunecate și alegerea privind cookie-urile (stocare locală în browser). La plată, Stripe setează cookie-uri necesare procesării sigure a plăților și prevenirii fraudei."
+        },
+        {
+          "h": "Analiză și marketing",
+          "p": "În prezent nu folosim cookie-uri de analiză sau marketing. Dacă acest lucru se schimbă, vă vom cere mai întâi consimțământul prin bannerul de cookie-uri."
+        },
+        {
+          "h": "Gestionarea cookie-urilor",
+          "p": "Puteți șterge sau bloca cookie-urile din setările browserului în orice moment. Blocarea cookie-urilor strict necesare poate afecta selectarea limbii și plata."
+        }
+      ]
+    },
+    "updated": "Ultima actualizare: 10 iulie 2026"
   },
   "cookies": {
     "banner": {
@@ -227,7 +348,9 @@
       "necessary": "Necesare",
       "analytics": "Analiză",
       "marketing": "Marketing",
-      "save": "Salvează preferințele"
+      "save": "Salvează preferințele",
+      "necessaryOnly": "Doar cele necesare",
+      "policy": "Politica de cookie-uri"
     }
   },
   "errors": {

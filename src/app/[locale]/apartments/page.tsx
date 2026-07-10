@@ -92,9 +92,7 @@ export default async function ApartmentsPage({
           {/* Results count when filtering */}
           {(checkIn || checkOut || guestCount > 0) && (
             <p className="text-sm text-muted-foreground">
-              {availableCount} {availableCount === 1
-                ? t("available").toLowerCase()
-                : t("available").toLowerCase() + " / " + apartments.length + " total"}
+              {t("resultsCount", { available: availableCount, total: apartments.length })}
             </p>
           )}
 

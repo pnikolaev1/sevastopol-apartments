@@ -82,7 +82,8 @@
     "available": "Available",
     "unavailable": "Not available for these dates",
     "groupSuggestion": "Your group of {count} guests is larger than any single apartment. You can book multiple apartments below — all are available for your dates.",
-    "groupSuggestionNoDates": "Your group of {count} guests is larger than any single apartment. Consider booking 2 or more apartments for your group."
+    "groupSuggestionNoDates": "Your group of {count} guests is larger than any single apartment. Consider booking 2 or more apartments for your group.",
+    "resultsCount": "{available} available / {total} total"
   },
   "apartment": {
     "overview": "Overview",
@@ -145,7 +146,10 @@
       "specialRequests": "Special requests (optional)",
       "agreeTerms": "I agree to the Terms and Privacy Policy",
       "submit": "Confirm & Pay",
-      "submitRequest": "Submit Booking Request"
+      "submitRequest": "Submit Booking Request",
+      "continuePayment": "Continue to Payment",
+      "agreeTermsRich": "I agree to the <terms>Terms & Conditions</terms> and the <privacy>Privacy Policy</privacy>.",
+      "agreeTermsError": "You must agree to the terms before booking."
     },
     "payment": {
       "securedBy": "Secured by Stripe",
@@ -171,7 +175,13 @@
       "datesUnavailable": "These dates are no longer available. Please select different dates.",
       "paymentFailed": "Payment failed. Please try again or use a different card.",
       "generic": "Something went wrong. Please try again."
-    }
+    },
+    "type": {
+      "instant": "Instant Book",
+      "request": "Request to Book"
+    },
+    "processing": "Processing…",
+    "priceSummary": "Price Summary"
   },
   "contact": {
     "title": "Contact Us",
@@ -187,12 +197,33 @@
       "message": "Message",
       "send": "Send Message",
       "success": "Message sent! We'll reply shortly.",
-      "error": "Failed to send. Please email us directly."
+      "error": "Failed to send. Please email us directly.",
+      "title": "Send a Message",
+      "sending": "Sending…",
+      "privacyNotice": "By sending this message you agree to our <link>Privacy Policy</link>."
     }
   },
   "about": {
     "title": "About Sevastopol Apartments",
-    "desc": "Three carefully maintained apartments in Varna, Bulgaria — just minutes from the beach and the Sea Garden park. We've been welcoming guests since 2018 and take pride in clean, comfortable, well-equipped stays."
+    "desc": "Three carefully maintained apartments in Varna, Bulgaria — just minutes from the beach and the Sea Garden park. We've been welcoming guests since 2018 and take pride in clean, comfortable, well-equipped stays.",
+    "values": {
+      "cleanliness": {
+        "title": "Cleanliness",
+        "desc": "Every apartment professionally cleaned before each stay."
+      },
+      "comfort": {
+        "title": "Comfort",
+        "desc": "Quality bedding, fully equipped kitchens, reliable Wi-Fi."
+      },
+      "personal": {
+        "title": "Personal Touch",
+        "desc": "The owner answers messages personally — usually within 1 hour."
+      },
+      "location": {
+        "title": "Great Location",
+        "desc": "Steps from the beach, Sea Garden, and city centre."
+      }
+    }
   },
   "areaGuide": {
     "title": "Varna Area Guide",
@@ -205,18 +236,108 @@
     "terms": "Terms",
     "privacy": "Privacy",
     "cookies": "Cookies",
-    "madeWith": "Made with care in Varna, Bulgaria"
+    "madeWith": "Made with care in Varna, Bulgaria",
+    "blurb": "3 private apartments in Varna, Bulgaria — steps from the Black Sea beach and the Sea Garden park. Book direct and save 10%.",
+    "pages": "Pages",
+    "contactHeading": "Contact"
   },
   "legal": {
     "terms": {
-      "title": "Terms & Conditions"
+      "title": "Terms & Conditions",
+      "sections": [
+        {
+          "h": "About these terms",
+          "p": "These terms govern bookings of the Sevastopol Apartments in Varna, Bulgaria, made through this website. By completing a booking you accept these terms."
+        },
+        {
+          "h": "Bookings and payment",
+          "p": "All prices are shown in EUR and include the direct-booking discount where indicated. The total price, including cleaning fee and tourist tax, is shown before you pay. Instant bookings are confirmed immediately after successful payment via Stripe; booking requests are confirmed by the owner within 24 hours, after which you receive a payment link."
+        },
+        {
+          "h": "Cancellation policy",
+          "p": "Cancellation is free up to 7 days before check-in. Cancellations within 7 days of check-in are non-refundable. If a cross-platform calendar conflict makes your stay impossible, you will be fully refunded immediately."
+        },
+        {
+          "h": "Check-in, check-out and house rules",
+          "p": "Check-in from 15:00, check-out by 11:00. No smoking indoors, no pets, no parties or events. The number of guests must not exceed the maximum stated for the apartment. Custom check-in times can be arranged with the owner."
+        },
+        {
+          "h": "Guest responsibility",
+          "p": "Guests are responsible for the apartment during their stay and may be charged for damage beyond normal wear and tear."
+        },
+        {
+          "h": "Liability",
+          "p": "We are liable under Bulgarian consumer law. We are not liable for events outside our reasonable control (force majeure) or for personal belongings left in the apartment."
+        },
+        {
+          "h": "Law and disputes",
+          "p": "Bulgarian law applies. Consumers may also use the European Commission's Online Dispute Resolution platform at ec.europa.eu/consumers/odr. Nothing in these terms limits your statutory consumer rights."
+        },
+        {
+          "h": "Contact",
+          "p": "Sevastopol Apartments, Varna, Bulgaria · 5areood@gmail.com · +359 89 436 2230."
+        }
+      ]
     },
     "privacy": {
-      "title": "Privacy Policy"
+      "title": "Privacy Policy",
+      "sections": [
+        {
+          "h": "Who we are (data controller)",
+          "p": "Sevastopol Apartments, Varna, Bulgaria, operates this website and is the controller of your personal data. For any privacy matter, contact us at 5areood@gmail.com."
+        },
+        {
+          "h": "What data we collect",
+          "p": "When you book, we collect your name, email address, phone number, country, stay dates, number of guests and any special requests. When you use the contact form, we collect your name, email address and message. Card payments are processed by Stripe — we never see or store your full card details. We also keep basic technical logs (IP address, browser type) for security."
+        },
+        {
+          "h": "Why we process your data",
+          "p": "We process booking data to perform the accommodation contract with you (Art. 6(1)(b) GDPR), to comply with Bulgarian tax, accounting and guest-registration obligations (Art. 6(1)(c)), and for our legitimate interest in preventing fraud and keeping the website secure (Art. 6(1)(f)). Marketing messages are sent only with your consent (Art. 6(1)(a))."
+        },
+        {
+          "h": "Who we share data with",
+          "p": "We use trusted service providers to run the site: Vercel (hosting), Supabase (database), Stripe (payments), Resend (transactional email) and Upstash (security rate-limiting). They process data on our behalf under data-processing agreements. Where required by law, guest data may be reported to Bulgarian authorities (e.g. guest registration and tourist tax)."
+        },
+        {
+          "h": "International transfers",
+          "p": "Some providers may process data outside the EEA (for example in the USA). Such transfers are protected by the EU–US Data Privacy Framework or Standard Contractual Clauses."
+        },
+        {
+          "h": "How long we keep data",
+          "p": "Booking and invoicing data is kept for as long as Bulgarian tax and accommodation law requires (generally up to 10 years). Contact-form messages are deleted within 12 months. Security logs are kept only for a short period."
+        },
+        {
+          "h": "Your rights",
+          "p": "You have the right to access, correct, delete and receive a copy of your data, to restrict or object to its processing, and to withdraw consent at any time. Email 5areood@gmail.com to exercise these rights. You may also lodge a complaint with the Bulgarian Commission for Personal Data Protection (cpdp.bg) or your local supervisory authority."
+        },
+        {
+          "h": "Cookies",
+          "p": "See our Cookie Policy for details of the cookies and local storage this site uses."
+        }
+      ]
     },
     "cookies": {
-      "title": "Cookie Policy"
-    }
+      "title": "Cookie Policy",
+      "sections": [
+        {
+          "h": "What cookies are",
+          "p": "Cookies are small text files stored on your device. This site keeps them to a minimum."
+        },
+        {
+          "h": "Cookies and storage we use",
+          "p": "Strictly necessary only: your language preference (NEXT_LOCALE cookie), your light/dark theme choice and your cookie-consent choice (browser local storage). During checkout, Stripe sets cookies needed for secure, fraud-free payment processing."
+        },
+        {
+          "h": "Analytics and marketing",
+          "p": "We currently use no analytics or marketing cookies. If this changes, we will ask for your consent first via the cookie banner."
+        },
+        {
+          "h": "Managing cookies",
+          "p": "You can delete or block cookies in your browser settings at any time. Blocking strictly necessary cookies may affect language selection and checkout."
+        }
+      ]
+    },
+    "updated": "Last updated: 10 July 2026"
   },
   "cookies": {
     "banner": {
@@ -227,7 +348,9 @@
       "necessary": "Necessary",
       "analytics": "Analytics",
       "marketing": "Marketing",
-      "save": "Save Preferences"
+      "save": "Save Preferences",
+      "necessaryOnly": "Necessary only",
+      "policy": "Cookie Policy"
     }
   },
   "errors": {

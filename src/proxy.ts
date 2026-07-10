@@ -18,7 +18,9 @@ export default auth(function proxy(req: NextRequest) {
     !pathname.startsWith("/admin") &&
     !pathname.startsWith("/api") &&
     !pathname.startsWith("/_next") &&
-    !pathname.startsWith("/favicon")
+    !pathname.startsWith("/favicon") &&
+    pathname !== "/sitemap.xml" &&
+    pathname !== "/robots.txt"
   ) {
     return intlProxy(req);
   }
@@ -28,6 +30,6 @@ export default auth(function proxy(req: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    "/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };

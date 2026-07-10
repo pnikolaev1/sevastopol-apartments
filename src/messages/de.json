@@ -82,7 +82,8 @@
     "available": "Verfügbar",
     "unavailable": "Für diese Daten nicht verfügbar",
     "groupSuggestion": "Ihre Gruppe von {count} Gästen ist größer als jedes einzelne Apartment. Sie können unten mehrere Apartments buchen — alle sind für Ihre Daten verfügbar.",
-    "groupSuggestionNoDates": "Ihre Gruppe von {count} Gästen ist größer als jedes einzelne Apartment. Erwägen Sie, 2 oder mehr Apartments für Ihre Gruppe zu buchen."
+    "groupSuggestionNoDates": "Ihre Gruppe von {count} Gästen ist größer als jedes einzelne Apartment. Erwägen Sie, 2 oder mehr Apartments für Ihre Gruppe zu buchen.",
+    "resultsCount": "{available} verfügbar / {total} gesamt"
   },
   "apartment": {
     "overview": "Überblick",
@@ -145,7 +146,10 @@
       "specialRequests": "Sonderwünsche (optional)",
       "agreeTerms": "Ich stimme den AGB und der Datenschutzerklärung zu",
       "submit": "Bestätigen & Bezahlen",
-      "submitRequest": "Buchungsanfrage senden"
+      "submitRequest": "Buchungsanfrage senden",
+      "continuePayment": "Weiter zur Zahlung",
+      "agreeTermsRich": "Ich stimme den <terms>AGB</terms> und der <privacy>Datenschutzerklärung</privacy> zu.",
+      "agreeTermsError": "Sie müssen den Bedingungen zustimmen, bevor Sie buchen."
     },
     "payment": {
       "securedBy": "Gesichert durch Stripe",
@@ -171,7 +175,13 @@
       "datesUnavailable": "Diese Daten sind nicht mehr verfügbar. Bitte wählen Sie andere Daten.",
       "paymentFailed": "Zahlung fehlgeschlagen. Bitte versuchen Sie es erneut oder verwenden Sie eine andere Karte.",
       "generic": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
-    }
+    },
+    "type": {
+      "instant": "Sofortbuchung",
+      "request": "Buchungsanfrage"
+    },
+    "processing": "Wird verarbeitet…",
+    "priceSummary": "Preisübersicht"
   },
   "contact": {
     "title": "Kontakt",
@@ -187,12 +197,33 @@
       "message": "Nachricht",
       "send": "Nachricht senden",
       "success": "Nachricht gesendet! Wir melden uns bald.",
-      "error": "Fehler beim Senden. Bitte schreiben Sie uns direkt per E-Mail."
+      "error": "Fehler beim Senden. Bitte schreiben Sie uns direkt per E-Mail.",
+      "title": "Nachricht senden",
+      "sending": "Wird gesendet…",
+      "privacyNotice": "Mit dem Absenden dieser Nachricht stimmen Sie unserer <link>Datenschutzerklärung</link> zu."
     }
   },
   "about": {
     "title": "Über Sevastopol Apartments",
-    "desc": "Drei sorgfältig gepflegte Apartments in Varna, Bulgarien — nur wenige Minuten vom Strand und dem Meeresgarten entfernt. Wir begrüßen Gäste seit 2018 und legen großen Wert auf Sauberkeit, Komfort und gute Ausstattung."
+    "desc": "Drei sorgfältig gepflegte Apartments in Varna, Bulgarien — nur wenige Minuten vom Strand und dem Meeresgarten entfernt. Wir begrüßen Gäste seit 2018 und legen großen Wert auf Sauberkeit, Komfort und gute Ausstattung.",
+    "values": {
+      "cleanliness": {
+        "title": "Sauberkeit",
+        "desc": "Jedes Apartment wird vor jedem Aufenthalt professionell gereinigt."
+      },
+      "comfort": {
+        "title": "Komfort",
+        "desc": "Hochwertige Bettwäsche, voll ausgestattete Küchen, zuverlässiges WLAN."
+      },
+      "personal": {
+        "title": "Persönlicher Service",
+        "desc": "Der Eigentümer beantwortet Nachrichten persönlich — meist innerhalb 1 Stunde."
+      },
+      "location": {
+        "title": "Top-Lage",
+        "desc": "Nur wenige Schritte vom Strand, Meeresgarten und Stadtzentrum entfernt."
+      }
+    }
   },
   "areaGuide": {
     "title": "Stadtführer Varna",
@@ -205,18 +236,108 @@
     "terms": "AGB",
     "privacy": "Datenschutz",
     "cookies": "Cookies",
-    "madeWith": "Mit Sorgfalt in Varna, Bulgarien erstellt"
+    "madeWith": "Mit Sorgfalt in Varna, Bulgarien erstellt",
+    "blurb": "3 private Apartments in Varna, Bulgarien — nur wenige Schritte vom Schwarzmeerstrand und dem Meeresgarten entfernt. Direkt buchen und 10 % sparen.",
+    "pages": "Seiten",
+    "contactHeading": "Kontakt"
   },
   "legal": {
     "terms": {
-      "title": "Allgemeine Geschäftsbedingungen"
+      "title": "Allgemeine Geschäftsbedingungen",
+      "sections": [
+        {
+          "h": "Über diese Bedingungen",
+          "p": "Diese Bedingungen gelten für Buchungen der Sevastopol Apartments in Varna, Bulgarien, über diese Website. Mit Abschluss einer Buchung akzeptieren Sie diese Bedingungen."
+        },
+        {
+          "h": "Buchung und Zahlung",
+          "p": "Alle Preise sind in EUR angegeben und enthalten, wo ausgewiesen, den Direktbuchungsrabatt. Der Gesamtpreis inklusive Reinigungsgebühr und Kurtaxe wird vor der Zahlung angezeigt. Sofortbuchungen werden unmittelbar nach erfolgreicher Zahlung über Stripe bestätigt; Buchungsanfragen bestätigt der Eigentümer innerhalb von 24 Stunden, danach erhalten Sie einen Zahlungslink."
+        },
+        {
+          "h": "Stornierungsbedingungen",
+          "p": "Die Stornierung ist bis 7 Tage vor dem Check-in kostenlos. Stornierungen innerhalb von 7 Tagen vor dem Check-in werden nicht erstattet. Sollte ein plattformübergreifender Kalenderkonflikt Ihren Aufenthalt unmöglich machen, erhalten Sie sofort eine vollständige Rückerstattung."
+        },
+        {
+          "h": "Check-in, Check-out und Hausregeln",
+          "p": "Check-in ab 15:00 Uhr, Check-out bis 11:00 Uhr. Rauchen in den Räumen, Haustiere sowie Partys sind nicht gestattet. Die Gästezahl darf das für das Apartment angegebene Maximum nicht überschreiten. Individuelle Check-in-Zeiten können mit dem Eigentümer vereinbart werden."
+        },
+        {
+          "h": "Verantwortung der Gäste",
+          "p": "Gäste sind während ihres Aufenthalts für das Apartment verantwortlich und können für Schäden über die normale Abnutzung hinaus belangt werden."
+        },
+        {
+          "h": "Haftung",
+          "p": "Wir haften nach bulgarischem Verbraucherrecht. Für Ereignisse außerhalb unserer zumutbaren Kontrolle (höhere Gewalt) oder für im Apartment zurückgelassene persönliche Gegenstände haften wir nicht."
+        },
+        {
+          "h": "Recht und Streitigkeiten",
+          "p": "Es gilt bulgarisches Recht. Verbraucher können auch die Online-Streitbeilegungsplattform der Europäischen Kommission unter ec.europa.eu/consumers/odr nutzen. Ihre gesetzlichen Verbraucherrechte bleiben unberührt."
+        },
+        {
+          "h": "Kontakt",
+          "p": "Sevastopol Apartments, Varna, Bulgarien · 5areood@gmail.com · +359 89 436 2230."
+        }
+      ]
     },
     "privacy": {
-      "title": "Datenschutzerklärung"
+      "title": "Datenschutzerklärung",
+      "sections": [
+        {
+          "h": "Wer wir sind (Verantwortlicher)",
+          "p": "Sevastopol Apartments, Varna, Bulgarien, betreibt diese Website und ist Verantwortlicher für Ihre personenbezogenen Daten. Bei allen Datenschutzfragen erreichen Sie uns unter 5areood@gmail.com."
+        },
+        {
+          "h": "Welche Daten wir erheben",
+          "p": "Bei einer Buchung erheben wir Ihren Namen, Ihre E-Mail-Adresse, Telefonnummer, Ihr Land, die Aufenthaltsdaten, die Gästezahl und etwaige Sonderwünsche. Über das Kontaktformular erheben wir Name, E-Mail-Adresse und Nachricht. Kartenzahlungen werden von Stripe verarbeitet — wir sehen oder speichern Ihre vollständigen Kartendaten nie. Zur Sicherheit führen wir zudem einfache technische Protokolle (IP-Adresse, Browsertyp)."
+        },
+        {
+          "h": "Warum wir Ihre Daten verarbeiten",
+          "p": "Wir verarbeiten Buchungsdaten zur Erfüllung des Beherbergungsvertrags (Art. 6 Abs. 1 lit. b DSGVO), zur Erfüllung bulgarischer Steuer-, Buchhaltungs- und Meldepflichten (Art. 6 Abs. 1 lit. c) sowie aufgrund unseres berechtigten Interesses an Betrugsprävention und Website-Sicherheit (Art. 6 Abs. 1 lit. f). Marketing-Nachrichten versenden wir nur mit Ihrer Einwilligung (Art. 6 Abs. 1 lit. a)."
+        },
+        {
+          "h": "An wen wir Daten weitergeben",
+          "p": "Wir nutzen vertrauenswürdige Dienstleister: Vercel (Hosting), Supabase (Datenbank), Stripe (Zahlungen), Resend (Transaktions-E-Mails) und Upstash (Sicherheits-Ratenbegrenzung). Sie verarbeiten Daten in unserem Auftrag auf Grundlage von Auftragsverarbeitungsverträgen. Soweit gesetzlich vorgeschrieben, können Gästedaten an bulgarische Behörden gemeldet werden (z. B. Gästemeldung und Kurtaxe)."
+        },
+        {
+          "h": "Internationale Übermittlungen",
+          "p": "Einige Anbieter verarbeiten Daten ggf. außerhalb des EWR (z. B. in den USA). Solche Übermittlungen sind durch das EU-US Data Privacy Framework oder Standardvertragsklauseln geschützt."
+        },
+        {
+          "h": "Speicherdauer",
+          "p": "Buchungs- und Rechnungsdaten werden so lange aufbewahrt, wie es das bulgarische Steuer- und Beherbergungsrecht verlangt (in der Regel bis zu 10 Jahre). Kontaktformular-Nachrichten werden innerhalb von 12 Monaten gelöscht. Sicherheitsprotokolle werden nur kurzzeitig aufbewahrt."
+        },
+        {
+          "h": "Ihre Rechte",
+          "p": "Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Datenübertragbarkeit, auf Einschränkung der Verarbeitung und Widerspruch sowie das Recht, Ihre Einwilligung jederzeit zu widerrufen. Schreiben Sie an 5areood@gmail.com, um Ihre Rechte auszuüben. Sie können sich zudem bei der bulgarischen Datenschutzbehörde (cpdp.bg) oder Ihrer örtlichen Aufsichtsbehörde beschweren."
+        },
+        {
+          "h": "Cookies",
+          "p": "Einzelheiten zu den von dieser Website verwendeten Cookies und zum lokalen Speicher finden Sie in unserer Cookie-Richtlinie."
+        }
+      ]
     },
     "cookies": {
-      "title": "Cookie-Richtlinie"
-    }
+      "title": "Cookie-Richtlinie",
+      "sections": [
+        {
+          "h": "Was Cookies sind",
+          "p": "Cookies sind kleine Textdateien, die auf Ihrem Gerät gespeichert werden. Diese Website beschränkt sie auf ein Minimum."
+        },
+        {
+          "h": "Verwendete Cookies und Speicher",
+          "p": "Nur unbedingt erforderliche: Ihre Spracheinstellung (NEXT_LOCALE-Cookie), Ihre Wahl des hellen/dunklen Designs und Ihre Cookie-Entscheidung (lokaler Browserspeicher). Beim Bezahlen setzt Stripe Cookies, die für eine sichere, betrugsfreie Zahlungsabwicklung erforderlich sind."
+        },
+        {
+          "h": "Analyse und Marketing",
+          "p": "Derzeit verwenden wir keine Analyse- oder Marketing-Cookies. Sollte sich das ändern, holen wir zuerst über das Cookie-Banner Ihre Einwilligung ein."
+        },
+        {
+          "h": "Cookies verwalten",
+          "p": "Sie können Cookies jederzeit in den Browsereinstellungen löschen oder blockieren. Das Blockieren unbedingt erforderlicher Cookies kann die Sprachauswahl und den Bezahlvorgang beeinträchtigen."
+        }
+      ]
+    },
+    "updated": "Zuletzt aktualisiert: 10. Juli 2026"
   },
   "cookies": {
     "banner": {
@@ -227,7 +348,9 @@
       "necessary": "Notwendig",
       "analytics": "Analytisch",
       "marketing": "Marketing",
-      "save": "Einstellungen speichern"
+      "save": "Einstellungen speichern",
+      "necessaryOnly": "Nur notwendige",
+      "policy": "Cookie-Richtlinie"
     }
   },
   "errors": {

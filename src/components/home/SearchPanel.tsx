@@ -56,7 +56,7 @@ export function SearchPanel() {
             type="date"
             value={checkIn}
             onChange={(e) => setCheckIn(e.target.value)}
-            className="w-full bg-transparent text-[13px] text-[#22303B] outline-none"
+            className="min-h-5 w-full min-w-0 appearance-none bg-transparent text-[13px] text-[#22303B] outline-none [&::-webkit-date-and-time-value]:text-left"
           />
         </div>
         <div className="min-w-0 flex-1 rounded-[14px] bg-white px-4 py-2.5">
@@ -69,7 +69,7 @@ export function SearchPanel() {
             value={checkOut}
             min={checkIn || undefined}
             onChange={(e) => setCheckOut(e.target.value)}
-            className="w-full bg-transparent text-[13px] text-[#22303B] outline-none"
+            className="min-h-5 w-full min-w-0 appearance-none bg-transparent text-[13px] text-[#22303B] outline-none [&::-webkit-date-and-time-value]:text-left"
           />
         </div>
         <div ref={guestsRef} className="relative min-w-0 sm:flex-[0.8]">

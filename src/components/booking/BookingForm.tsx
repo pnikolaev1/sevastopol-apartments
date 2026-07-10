@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useTranslations } from "next-intl";
-import { useRouter } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { Button } from "@/components/ui/button";
@@ -24,17 +24,18 @@ const IS_STRIPE_TEST = process.env.NEXT_PUBLIC_STRIPE_MODE !== "live";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? "");
 
-const guestSchema = z.object({
-  firstName: z.string().min(1).max(100),
-  lastName: z.string().min(1).max(100),
-  email: z.string().email(),
-  phone: z.string().min(7).max(20),
-  country: z.string().min(2).max(100),
-  specialRequests: z.string().max(500).optional(),
-  agreeTerms: z.boolean().refine((v) => v === true, { message: "You must agree to the terms" }),
-});
+const buildGuestSchema = (agreeTermsMessage: string) =>
+  z.object({
+    firstName: z.string().min(1).max(100),
+    lastName: z.string().min(1).max(100),
+    email: z.string().email(),
+    phone: z.string().min(7).max(20),
+    country: z.string().min(2).max(100),
+    specialRequests: z.string().max(500).optional(),
+    agreeTerms: z.boolean().refine((v) => v === true, { message: agreeTermsMessage }),
+  });
 
-type GuestFormData = z.infer<typeof guestSchema>;
+type GuestFormData = z.infer<ReturnType<typeof buildGuestSchema>>;
 
 interface BookingProps {
   apartment: { id: string; slug: string; name: string };
@@ -55,6 +56,7 @@ function PaymentStep({
   bookingId: string;
   locale: string;
 }) {
+  const t = useTranslations("booking");
   const stripe = useStripe();
   const elements = useElements();
   const router = useRouter();
@@ -74,7 +76,7 @@ function PaymentStep({
     });
 
     if (error) {
-      toast.error(error.message ?? "Payment failed");
+      toast.error(error.message ?? t("errors.paymentFailed"));
       setLoading(false);
     }
   }
@@ -82,11 +84,15 @@ function PaymentStep({
   return (
     <form onSubmit={handlePay} className="space-y-4">
       <PaymentElement />
-      <Button type="submit" disabled={!stripe || loading} className="w-full bg-primary hover:bg-primary/90">
+      <Button
+        type="submit"
+        disabled={!stripe || loading}
+        className="w-full rounded-full bg-gold font-bold text-navy hover:bg-gold-pale"
+      >
         {loading ? (
-          <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Processing…</>
+          <><Loader2 className="w-4 h-4 mr-2 animate-spin" />{t("processing")}</>
         ) : (
-          "Confirm & Pay"
+          t("form.submit")
         )}
       </Button>
     </form>
@@ -103,6 +109,7 @@ export function BookingForm({
   locale,
 }: BookingProps) {
   const t = useTranslations("booking");
+  const tApt = useTranslations("apartment");
   const router = useRouter();
   const [step, setStep] = useState<"details" | "payment">("details");
   const [clientSecret, setClientSecret] = useState<string | null>(null);
@@ -110,7 +117,7 @@ export function BookingForm({
   const [submitting, setSubmitting] = useState(false);
 
   const form = useForm<GuestFormData>({
-    resolver: zodResolver(guestSchema),
+    resolver: zodResolver(buildGuestSchema(t("form.agreeTermsError"))),
   });
 
   async function onDetailsSubmit(data: GuestFormData) {
@@ -142,7 +149,7 @@ export function BookingForm({
 
       if (!res.ok) {
         const err = (await res.json()) as { error?: string };
-        throw new Error(err.error ?? "Failed to create booking");
+        throw new Error(err.error ?? t("errors.generic"));
       }
 
       const result = (await res.json()) as {
@@ -182,7 +189,7 @@ export function BookingForm({
         <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
         <p className="text-muted-foreground mt-1">
           {apartment.name} · {format(new Date(checkIn), "MMM d")} –{" "}
-          {format(new Date(checkOut), "MMM d, yyyy")} · {guests} guest{guests !== 1 ? "s" : ""}
+          {format(new Date(checkOut), "MMM d, yyyy")} · {tApt("guests", { count: guests })}
         </p>
       </div>
 
@@ -191,7 +198,7 @@ export function BookingForm({
         variant={bookingType === "instant" ? "default" : "secondary"}
         className="text-sm px-3 py-1"
       >
-        {bookingType === "instant" ? "Instant Book" : "Request to Book"}
+        {t(`type.${bookingType}`)}
       </Badge>
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
@@ -246,7 +253,26 @@ export function BookingForm({
                       {...form.register("agreeTerms")}
                     />
                     <Label htmlFor="agreeTerms" className="text-sm leading-snug cursor-pointer">
-                      {t("form.agreeTerms")}
+                      {t.rich("form.agreeTermsRich", {
+                        terms: (chunks) => (
+                          <Link
+                            href="/legal/terms"
+                            target="_blank"
+                            className="font-medium text-gold-deep underline-offset-2 hover:underline dark:text-gold"
+                          >
+                            {chunks}
+                          </Link>
+                        ),
+                        privacy: (chunks) => (
+                          <Link
+                            href="/legal/privacy"
+                            target="_blank"
+                            className="font-medium text-gold-deep underline-offset-2 hover:underline dark:text-gold"
+                          >
+                            {chunks}
+                          </Link>
+                        ),
+                      })}
                     </Label>
                   </div>
                   {form.formState.errors.agreeTerms && (
@@ -255,12 +281,12 @@ export function BookingForm({
                   <Button
                     type="submit"
                     disabled={submitting}
-                    className="w-full bg-primary hover:bg-primary/90"
+                    className="w-full rounded-full bg-gold font-bold text-navy hover:bg-gold-pale"
                   >
                     {submitting ? (
-                      <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Processing…</>
+                      <><Loader2 className="w-4 h-4 mr-2 animate-spin" />{t("processing")}</>
                     ) : bookingType === "instant" ? (
-                      "Continue to Payment"
+                      t("form.continuePayment")
                     ) : (
                       t("form.submitRequest")
                     )}
@@ -297,34 +323,39 @@ export function BookingForm({
         <div className="lg:col-span-2">
           <Card className="sticky top-24">
             <CardHeader>
-              <CardTitle className="text-base">Price Summary</CardTitle>
+              <CardTitle className="text-base">{t("priceSummary")}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3 text-sm">
               <div className="flex justify-between text-muted-foreground">
-                <span>€{pricing.nightlyRateEur.toFixed(2)} × {pricing.nights} nights</span>
+                <span>
+                  {tApt("priceBreakdown.nights", {
+                    rate: `€${pricing.nightlyRateEur.toFixed(2)}`,
+                    nights: pricing.nights,
+                  })}
+                </span>
                 <span>€{pricing.subtotalEur.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-muted-foreground">
-                <span>Cleaning fee</span>
+                <span>{tApt("priceBreakdown.cleaning")}</span>
                 <span>€{pricing.cleaningFeeEur.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-muted-foreground">
-                <span>Tourist tax</span>
+                <span>{tApt("priceBreakdown.touristTax")}</span>
                 <span>€{pricing.touristTaxEur.toFixed(2)}</span>
               </div>
               {pricing.directDiscountEur > 0 && (
                 <div className="flex justify-between text-emerald-600">
-                  <span>Direct discount (10%)</span>
+                  <span>{tApt("priceBreakdown.directDiscount")}</span>
                   <span>−€{pricing.directDiscountEur.toFixed(2)}</span>
                 </div>
               )}
               <Separator />
               <div className="flex justify-between font-semibold text-foreground text-base">
-                <span>Total</span>
+                <span>{tApt("priceBreakdown.total")}</span>
                 <div className="text-right">
                   <div>€{pricing.totalEur.toFixed(2)}</div>
                   <div className="text-xs text-muted-foreground font-normal">
-                    ≈ {pricing.totalBgn.toFixed(2)} BGN
+                    {tApt("priceBreakdown.inBgn", { amount: pricing.totalBgn.toFixed(2) })}
                   </div>
                 </div>
               </div>
