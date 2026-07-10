@@ -7,7 +7,7 @@ import { Link } from "@/i18n/navigation";
 const STORAGE_KEY = "cookie-consent";
 const CHANGE_EVENT = "cookie-consent-change";
 
-function subscribe(callback: () => void) {
+export function subscribeToConsent(callback: () => void) {
   window.addEventListener(CHANGE_EVENT, callback);
   window.addEventListener("storage", callback);
   return () => {
@@ -16,7 +16,7 @@ function subscribe(callback: () => void) {
   };
 }
 
-function getConsent(): string | null {
+export function getConsent(): string | null {
   try {
     return localStorage.getItem(STORAGE_KEY);
   } catch {
@@ -34,7 +34,7 @@ export function CookieBanner() {
   const t = useTranslations("cookies.banner");
   // Server snapshot pretends consent exists so nothing flashes during SSR;
   // the client snapshot reads the real value after hydration.
-  const consent = useSyncExternalStore(subscribe, getConsent, () => "ssr");
+  const consent = useSyncExternalStore(subscribeToConsent, getConsent, () => "ssr");
 
   function choose(value: "all" | "necessary") {
     try {

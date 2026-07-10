@@ -43,3 +43,11 @@ yarn-error.log*
 next-env.d.ts
 
 /src/generated/prisma
+
+# raw photography — originals stay local; optimized WebPs live in
+# public/images/apartments + public/images/varna (committed)
+/public/images/apartment 1/
+/public/images/apartment 2/
+/public/images/apartment 3/
+/public/images/general/
+*.mp4

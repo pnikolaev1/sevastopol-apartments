@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import { ApartmentPlaceholder } from "@/components/apartments/ApartmentPlaceholder";
+import Image from "next/image";
 
 export function AboutSection() {
   const t = useTranslations("about");
@@ -14,9 +14,14 @@ export function AboutSection() {
   return (
     <section id="about" className="bg-background px-6 py-[76px]" aria-labelledby="about-heading">
       <div className="mx-auto flex max-w-[1080px] flex-wrap items-center gap-12">
-        {/* Varna / Sea Garden photo (placeholder until real photography is wired in) */}
-        <div className="h-80 flex-[1_1_320px] overflow-hidden rounded-[22px]">
-          <ApartmentPlaceholder />
+        <div className="relative h-80 flex-[1_1_320px] overflow-hidden rounded-[22px]">
+          <Image
+            src="/images/varna/building.webp"
+            alt="Sevastopol Apartments building in Varna"
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
         </div>
 
         <div className="flex-[1_1_360px]">

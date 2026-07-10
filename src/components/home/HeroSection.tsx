@@ -38,20 +38,15 @@ export function HeroSection() {
           </div>
         </div>
 
-        {/* Photo (placeholder until real photography is wired in) */}
-        <div
-          className="relative flex min-h-[240px] items-center justify-center lg:min-h-[420px]"
-          style={{
-            background: "repeating-linear-gradient(45deg,#1B3350 0 14px,#22405F 14px 28px)",
-          }}
-          aria-hidden
-        >
+        {/* Photo */}
+        <div className="relative min-h-[240px] lg:min-h-[420px]">
           <Image
-            src="/images/logo-sa-white.png"
-            alt=""
-            width={120}
-            height={136}
-            className="h-28 w-auto opacity-20 lg:h-32"
+            src="/images/apartments/apartment-3-sea-view/dsc2178.webp"
+            alt="Sea View Apartment bedroom with warm wood interior"
+            fill
+            priority
+            className="object-cover"
+            sizes="(max-width: 1024px) 100vw, 50vw"
           />
         </div>
       </div>

@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { Toaster } from "@/components/ui/sonner";
 import { CookieBanner } from "@/components/layout/CookieBanner";
+import { ConsentGatedAnalytics } from "@/components/layout/ConsentGatedAnalytics";
 import type { Metadata } from "next";
 
 type Locale = "bg" | "en" | "ro" | "de";
@@ -55,6 +56,7 @@ export default async function LocaleLayout({
     <NextIntlClientProvider locale={locale} messages={messages}>
       {children}
       <CookieBanner />
+      <ConsentGatedAnalytics />
       <Toaster richColors position="top-right" />
     </NextIntlClientProvider>
   );
