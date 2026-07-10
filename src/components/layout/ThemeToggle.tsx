@@ -15,7 +15,7 @@ export function ThemeToggle() {
       size="icon"
       aria-label={t("toggleTheme")}
       onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-      className="text-muted-foreground hover:text-foreground"
+      className="rounded-full text-white/70 hover:bg-white/10 hover:text-white focus-visible:ring-gold/50"
     >
       {/* Which icon shows is driven purely by the `.dark` class on <html>, so this
           is hydration-safe without a mount gate: Sun in dark, Moon in light. */}

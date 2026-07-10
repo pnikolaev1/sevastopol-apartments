@@ -5,8 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/home/HeroSection";
 import { USPSection } from "@/components/home/USPSection";
 import { ApartmentsPreview } from "@/components/home/ApartmentsPreview";
-import { LocationSection } from "@/components/home/LocationSection";
-import { ReviewsSection } from "@/components/home/ReviewsSection";
+import { AboutSection } from "@/components/home/AboutSection";
 import { ContactCTA } from "@/components/home/ContactCTA";
 import { getListApartments } from "@/lib/db/apartments";
 
@@ -40,10 +39,9 @@ export default async function HomePage({
       <Navbar />
       <main id="main-content">
         <HeroSection />
-        <USPSection />
         <ApartmentsPreview apartments={apartments} locale={locale} />
-        <LocationSection />
-        <ReviewsSection />
+        <USPSection />
+        <AboutSection />
         <ContactCTA />
       </main>
       <Footer />

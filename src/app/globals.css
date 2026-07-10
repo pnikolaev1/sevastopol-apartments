@@ -4,6 +4,18 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  /* Navy & Gold redesign tokens (design handoff, direction 1c).
+     Brand chrome stays constant across light/dark themes. */
+  --color-navy: #0d1f35;
+  --color-navy-hover: #16294a;
+  --color-gold: #c7a468;
+  --color-gold-deep: #8a6a34; /* AA-safe small text on light bg (chips) */
+  --color-gold-link: #a5824a; /* links / eyebrows on light bg */
+  --color-gold-pale: #f3d9a4; /* stars, badge text on navy */
+  --color-brand-teal: #3e7c8c;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

@@ -19,7 +19,9 @@
       "contactOwner": "Eigentümer kontaktieren",
       "superhost": "Airbnb-Superhost",
       "freeCancellation": "Kostenlose Stornierung · 7 Tage",
-      "instantBooking": "Sofortbuchung"
+      "instantBooking": "Sofortbuchung",
+      "checkAvailability": "Verfügbarkeit prüfen",
+      "guestsCount": "{count, plural, one {# Gast} other {# Gäste}}"
     },
     "usp": {
       "title": "Warum direkt buchen?",
@@ -28,7 +30,8 @@
       "direct": "Direkter Kontakt",
       "directDesc": "Schreiben Sie dem Eigentümer direkt auf WhatsApp für sofortige Antworten.",
       "flexible": "Flexibilität",
-      "flexibleDesc": "Individuelle Check-in-Zeiten und frühe/späte Abreise auf Anfrage."
+      "flexibleDesc": "Individuelle Check-in-Zeiten und frühe/späte Abreise auf Anfrage.",
+      "eyebrow": "Direktbuchung"
     },
     "apartments": {
       "title": "Unsere Apartments",
@@ -36,10 +39,11 @@
       "viewAll": "Alle Apartments",
       "from": "Ab",
       "perNight": "/ Nacht",
-      "guests": "{count} Gäste",
-      "bedrooms": "{count} Schlafzimmer",
+      "guests": "{count, plural, one {# Gast} other {# Gäste}}",
+      "bedrooms": "{count, plural, one {# Schlafzimmer} other {# Schlafzimmer}}",
       "sqm": "{count} m²",
-      "moreAmenities": "+{count} weitere"
+      "moreAmenities": "+{count} weitere",
+      "viewApartment": "Apartment ansehen"
     },
     "location": {
       "title": "Beste Lage in Varna",
@@ -56,6 +60,13 @@
       "title": "Bereit zu buchen?",
       "desc": "Kontaktieren Sie uns direkt für die besten Preise und persönlichen Service.",
       "cta": "Kontakt aufnehmen"
+    },
+    "about": {
+      "eyebrow": "Über uns",
+      "statSince": "Gäste willkommen seit",
+      "statApartments": "Private Apartments",
+      "statBeach": "Zum Strand",
+      "statBeachValue": "5 Min."
     }
   },
   "apartments": {
@@ -84,10 +95,10 @@
     "requestBooking": "Buchungsanfrage",
     "priceCalculator": "Preiskalkulator",
     "nights": "{count} Nächte",
-    "guests": "{count} Gäste",
+    "guests": "{count, plural, one {# Gast} other {# Gäste}}",
     "sleeps": "Bis zu {count} Gäste",
-    "bedrooms": "{count} Schlafzimmer",
-    "bathrooms": "{count} Badezimmer",
+    "bedrooms": "{count, plural, one {# Schlafzimmer} other {# Schlafzimmer}}",
+    "bathrooms": "{count, plural, one {# Badezimmer} other {# Badezimmer}}",
     "sqm": "{count} m²",
     "floor": "Etage {number}",
     "priceBreakdown": {

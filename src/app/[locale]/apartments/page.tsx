@@ -61,15 +61,9 @@ export default async function ApartmentsPage({
       <Navbar />
       <main id="main-content" className="min-h-screen bg-background">
         {/* Header + filter */}
-        <div
-          className="border-b border-border py-12"
-          style={{ background: "linear-gradient(160deg, #0d2b4e 0%, #1a4a7a 100%)" }}
-        >
+        <div className="border-b border-white/10 bg-navy py-12">
           <div className="container mx-auto px-4 max-w-7xl">
-            <h1
-              className="text-3xl md:text-4xl font-bold text-white mb-8"
-              style={{ fontFamily: "var(--font-display, serif)" }}
-            >
+            <h1 className="text-3xl md:text-4xl font-bold tracking-[-0.015em] text-white mb-8">
               {t("title")}
             </h1>
             <AvailabilityFilter

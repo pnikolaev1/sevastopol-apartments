@@ -19,7 +19,9 @@
       "contactOwner": "Contactați proprietarul",
       "superhost": "Gazdă Superhost Airbnb",
       "freeCancellation": "Anulare gratuită · 7 zile",
-      "instantBooking": "Rezervare instantanee"
+      "instantBooking": "Rezervare instantanee",
+      "checkAvailability": "Verifică disponibilitatea",
+      "guestsCount": "{count, plural, one {# oaspete} few {# oaspeți} other {# de oaspeți}}"
     },
     "usp": {
       "title": "De ce să rezervați direct?",
@@ -28,7 +30,8 @@
       "direct": "Contact direct",
       "directDesc": "Scrieți direct proprietarului pe WhatsApp pentru răspuns rapid.",
       "flexible": "Flexibilitate",
-      "flexibleDesc": "Solicitați check-in personalizat și check-out timpuriu/târziu."
+      "flexibleDesc": "Solicitați check-in personalizat și check-out timpuriu/târziu.",
+      "eyebrow": "Rezervare directă"
     },
     "apartments": {
       "title": "Apartamentele noastre",
@@ -36,10 +39,11 @@
       "viewAll": "Toate apartamentele",
       "from": "De la",
       "perNight": "/ noapte",
-      "guests": "{count} oaspeți",
-      "bedrooms": "{count} dormitoare",
+      "guests": "{count, plural, one {# oaspete} few {# oaspeți} other {# de oaspeți}}",
+      "bedrooms": "{count, plural, one {# dormitor} few {# dormitoare} other {# de dormitoare}}",
       "sqm": "{count} m²",
-      "moreAmenities": "+{count} mai multe"
+      "moreAmenities": "+{count} mai multe",
+      "viewApartment": "Vezi apartamentul"
     },
     "location": {
       "title": "Locație centrală în Varna",
@@ -56,6 +60,13 @@
       "title": "Gata să rezervați?",
       "desc": "Contactați-ne direct pentru cele mai bune tarife și servicii personalizate.",
       "cta": "Luați legătura"
+    },
+    "about": {
+      "eyebrow": "Despre noi",
+      "statSince": "Găzduim oaspeți din",
+      "statApartments": "Apartamente private",
+      "statBeach": "Până la plajă",
+      "statBeachValue": "5 min"
     }
   },
   "apartments": {
@@ -84,10 +95,10 @@
     "requestBooking": "Solicitare rezervare",
     "priceCalculator": "Calculator preț",
     "nights": "{count} nopți",
-    "guests": "{count} oaspeți",
+    "guests": "{count, plural, one {# oaspete} few {# oaspeți} other {# de oaspeți}}",
     "sleeps": "Până la {count} oaspeți",
-    "bedrooms": "{count} dormitoare",
-    "bathrooms": "{count} băi",
+    "bedrooms": "{count, plural, one {# dormitor} few {# dormitoare} other {# de dormitoare}}",
+    "bathrooms": "{count, plural, one {# baie} few {# băi} other {# de băi}}",
     "sqm": "{count} m²",
     "floor": "Etajul {number}",
     "priceBreakdown": {
