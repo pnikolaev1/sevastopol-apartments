@@ -63,6 +63,7 @@ export async function POST(request: Request) {
     include: {
       translations: { where: { locale: "en" } },
       pricingRules: { where: { active: true } },
+      dateOverrides: { where: { priceEur: { not: null } } },
     },
   });
 
@@ -83,6 +84,7 @@ export async function POST(request: Request) {
     checkOut,
     guestCount: guests,
     pricingRules: apt.pricingRules,
+    dateOverrides: apt.dateOverrides,
     applyDirectDiscount: true,
   });
 

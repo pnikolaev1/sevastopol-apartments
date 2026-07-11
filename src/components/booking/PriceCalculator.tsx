@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Shield, AlertCircle } from "lucide-react";
-import { calculatePrice } from "@/lib/pricing";
+import { calculatePrice, type RateOverride } from "@/lib/pricing";
 import { addDays, format } from "date-fns";
 import type { DateRange } from "react-day-picker";
 import type { Apartment, PricingRule } from "@prisma/client";
@@ -23,7 +23,7 @@ interface BlockedDate {
 }
 
 interface Props {
-  apartment: Apartment & { pricingRules: PricingRule[] };
+  apartment: Apartment & { pricingRules: PricingRule[]; dateOverrides?: RateOverride[] };
   blockedDates: BlockedDate[];
   locale: string;
 }
@@ -72,6 +72,7 @@ export function PriceCalculator({ apartment: apt, blockedDates }: Props) {
       checkOut: co,
       guestCount: guests,
       pricingRules: apt.pricingRules,
+      dateOverrides: apt.dateOverrides ?? [],
       applyDirectDiscount: true,
     });
   }, [checkIn, checkOut, guests, apt]);

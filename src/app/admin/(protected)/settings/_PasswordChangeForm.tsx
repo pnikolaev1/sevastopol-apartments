@@ -15,11 +15,11 @@ export default function PasswordChangeForm() {
     setSuccess("");
 
     if (form.next !== form.confirm) {
-      setError("New passwords do not match");
+      setError("Новите пароли не съвпадат");
       return;
     }
     if (form.next.length < 8) {
-      setError("New password must be at least 8 characters");
+      setError("Новата парола трябва да е поне 8 знака");
       return;
     }
 
@@ -30,11 +30,11 @@ export default function PasswordChangeForm() {
         body: JSON.stringify({ currentPassword: form.current, newPassword: form.next }),
       });
       if (res.ok) {
-        setSuccess("Password changed successfully");
+        setSuccess("Паролата е сменена успешно");
         setForm({ current: "", next: "", confirm: "" });
       } else {
         const j = await res.json().catch(() => ({}));
-        setError(j.error ?? "Failed to change password");
+        setError(j.error ?? "Грешка при смяна на паролата");
       }
     });
   }

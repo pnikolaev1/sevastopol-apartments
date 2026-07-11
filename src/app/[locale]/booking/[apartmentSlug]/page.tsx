@@ -38,6 +38,7 @@ export default async function BookingPage({ params, searchParams }: Props) {
     include: {
       translations: { where: { locale } },
       pricingRules: { where: { active: true } },
+      dateOverrides: { where: { priceEur: { not: null } } },
     },
   });
 
@@ -59,6 +60,7 @@ export default async function BookingPage({ params, searchParams }: Props) {
     checkOut,
     guestCount: guests,
     pricingRules: apt.pricingRules,
+    dateOverrides: apt.dateOverrides,
     applyDirectDiscount: true,
   });
 

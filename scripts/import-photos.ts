@@ -157,17 +157,23 @@ async function main() {
       });
     }
 
-    const apartment = await prisma.apartment.findUnique({ where: { slug } });
+    const apartment = await prisma.apartment.findUnique({
+      where: { slug },
+      include: { _count: { select: { photos: true } } },
+    });
     if (!apartment) {
       console.warn(`  apartment ${slug} not found in DB — files optimized, rows skipped`);
       continue;
     }
-    await prisma.$transaction([
-      prisma.apartmentPhoto.deleteMany({ where: { apartmentId: apartment.id } }),
-      prisma.apartmentPhoto.createMany({
-        data: rows.map((r) => ({ ...r, apartmentId: apartment.id })),
-      }),
-    ]);
+    // The admin photo manager is the source of truth once photos exist —
+    // never clobber captions/order the owner edited there.
+    if (apartment._count.photos > 0) {
+      console.log(`  photos already in DB — skipped (manage via admin panel)`);
+      continue;
+    }
+    await prisma.apartmentPhoto.createMany({
+      data: rows.map((r) => ({ ...r, apartmentId: apartment.id })),
+    });
     console.log(`  ✓ ${rows.length} photos synced to DB`);
   }
 }

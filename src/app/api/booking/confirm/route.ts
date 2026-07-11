@@ -75,6 +75,7 @@ export async function POST(request: Request) {
       maxGuests: true,
       minStayNights: true,
       pricingRules: { where: { active: true } },
+      dateOverrides: { where: { priceEur: { not: null } } },
     },
   });
 
@@ -98,6 +99,7 @@ export async function POST(request: Request) {
     checkOut,
     guestCount: guests,
     pricingRules: apt.pricingRules,
+    dateOverrides: apt.dateOverrides,
     applyDirectDiscount: true,
   });
 

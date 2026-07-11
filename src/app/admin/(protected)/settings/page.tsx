@@ -5,7 +5,7 @@ import PasswordChangeForm from "./_PasswordChangeForm";
 import EmailOtpSetup from "./_EmailOtpSetup";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Settings" };
+export const metadata = { title: "Настройки" };
 
 export default async function SettingsPage() {
   const session = await auth();
@@ -20,10 +20,10 @@ export default async function SettingsPage() {
 
   return (
     <div className="space-y-6 max-w-xl">
-      <h1 className="text-2xl font-semibold text-gray-900">Settings</h1>
+      <h1 className="text-2xl font-semibold text-gray-900">Настройки</h1>
 
       <div className="bg-white rounded-xl border border-gray-200 p-5">
-        <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Account</h2>
+        <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Акаунт</h2>
         <p className="text-sm text-gray-700">{admin.email}</p>
       </div>
 

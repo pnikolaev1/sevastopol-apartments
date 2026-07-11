@@ -1,5 +1,12 @@
 import type { PricingRule } from "@prisma/client";
 
+/** Per-date price override coming from the admin rate calendar. Dates cross
+ *  the RSC/JSON boundary as strings, so accept both. */
+export interface RateOverride {
+  date: Date | string;
+  priceEur: number | string | { valueOf(): string } | null;
+}
+
 export const TOURIST_TAX_BGN_PER_PERSON_NIGHT = 1;
 export const BGN_TO_EUR = 1 / 1.95583;
 export const DIRECT_DISCOUNT_PCT = 10;
@@ -14,6 +21,9 @@ interface PriceInput {
   guestCount: number;
   pricingRules: PricingRule[];
   applyDirectDiscount: boolean;
+  /** Admin per-date price overrides; a matching date replaces the computed
+   *  base×seasonal×weekend rate for that night. */
+  dateOverrides?: RateOverride[];
 }
 
 export interface PriceBreakdown {
@@ -60,6 +70,21 @@ function getLosDiscount(nights: number, rules: PricingRule[]): number {
   return maxDiscount;
 }
 
+function getLastMinuteDiscount(checkIn: Date, rules: PricingRule[]): number {
+  const daysUntilCheckIn = Math.ceil(
+    (checkIn.getTime() - Date.now()) / (24 * 60 * 60 * 1000)
+  );
+  let maxDiscount = 0;
+  for (const rule of rules) {
+    if (rule.type !== "LAST_MINUTE" || !rule.active) continue;
+    if (!rule.daysBeforeCheckIn || !rule.discountPct) continue;
+    if (daysUntilCheckIn <= rule.daysBeforeCheckIn && daysUntilCheckIn >= 0 && rule.discountPct > maxDiscount) {
+      maxDiscount = rule.discountPct;
+    }
+  }
+  return maxDiscount;
+}
+
 export function calculatePrice(input: PriceInput): PriceBreakdown {
   const {
     basePriceEur,
@@ -70,19 +95,35 @@ export function calculatePrice(input: PriceInput): PriceBreakdown {
     guestCount,
     pricingRules,
     applyDirectDiscount,
+    dateOverrides = [],
   } = input;
 
   const nights = calculateNights(checkIn, checkOut);
   const base = Number(basePriceEur);
 
-  // Calculate per-night rate with seasonal + weekend adjustments
+  // Index overrides by UTC day for O(1) per-night lookup.
+  const overrideByDay = new Map<string, number>();
+  for (const o of dateOverrides) {
+    if (o.priceEur === null || o.priceEur === undefined) continue;
+    const d = new Date(o.date);
+    overrideByDay.set(d.toISOString().slice(0, 10), Number(o.priceEur));
+  }
+
+  // Calculate per-night rate with seasonal + weekend adjustments;
+  // an admin override wins over everything for that night.
   let totalNightlySum = 0;
   const current = new Date(checkIn);
   for (let i = 0; i < nights; i++) {
-    let nightRate = base;
-    nightRate *= getSeasonalMultiplier(current, pricingRules);
-    if (isWeekend(current)) {
-      nightRate *= 1 + weekendUpliftPct / 100;
+    const override = overrideByDay.get(current.toISOString().slice(0, 10));
+    let nightRate: number;
+    if (override !== undefined) {
+      nightRate = override;
+    } else {
+      nightRate = base;
+      nightRate *= getSeasonalMultiplier(current, pricingRules);
+      if (isWeekend(current)) {
+        nightRate *= 1 + weekendUpliftPct / 100;
+      }
     }
     totalNightlySum += nightRate;
     current.setDate(current.getDate() + 1);
@@ -91,10 +132,14 @@ export function calculatePrice(input: PriceInput): PriceBreakdown {
   const avgNightlyRate = nights > 0 ? totalNightlySum / nights : base;
   let subtotal = totalNightlySum;
 
-  // Length-of-stay discount applied to nightly subtotal
-  const losPct = getLosDiscount(nights, pricingRules);
-  if (losPct > 0) {
-    subtotal = subtotal * (1 - losPct / 100);
+  // Promotions: length-of-stay and last-minute discounts don't stack —
+  // the single best discount applies to the nightly subtotal.
+  const promoPct = Math.max(
+    getLosDiscount(nights, pricingRules),
+    getLastMinuteDiscount(checkIn, pricingRules)
+  );
+  if (promoPct > 0) {
+    subtotal = subtotal * (1 - promoPct / 100);
   }
 
   const cleaning = Number(cleaningFeeEur);

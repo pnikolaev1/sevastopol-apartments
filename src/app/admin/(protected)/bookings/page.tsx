@@ -1,10 +1,10 @@
 import { prisma } from "@/lib/db/prisma";
 import { BookingStatus, BookingSource } from "@prisma/client";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Plus } from "lucide-react";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Bookings" };
+export const metadata = { title: "Резервации" };
 
 interface PageProps {
   searchParams: Promise<{ status?: string; q?: string }>;
@@ -62,7 +62,7 @@ export default async function BookingsPage({ searchParams }: PageProps) {
     orderBy: { createdAt: "desc" },
     include: {
       guest: true,
-      apartment: { include: { translations: { where: { locale: "en" } } } },
+      apartment: { include: { translations: { where: { locale: "bg" } } } },
     },
     take: 100,
   });
@@ -70,7 +70,14 @@ export default async function BookingsPage({ searchParams }: PageProps) {
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-gray-900">Резервации</h1>
+        <h1 className="text-2xl font-bold text-navy">Резервации</h1>
+        <Link
+          href="/admin/bookings/new"
+          className="flex items-center gap-1.5 rounded-full bg-gold px-4 py-2.5 text-sm font-bold text-navy hover:bg-gold-pale"
+        >
+          <Plus className="h-4 w-4" />
+          Нова резервация
+        </Link>
       </div>
 
       {/* Filters */}
@@ -88,7 +95,7 @@ export default async function BookingsPage({ searchParams }: PageProps) {
         >
           <option value="">Всички статуси</option>
           {Object.values(BookingStatus).map((s) => (
-            <option key={s} value={s}>{s}</option>
+            <option key={s} value={s}>{statusLabels[s]}</option>
           ))}
         </select>
         <button

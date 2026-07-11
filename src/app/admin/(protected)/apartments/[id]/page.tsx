@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: PageProps) {
     where: { id },
     include: { translations: { where: { locale: "en" } } },
   });
-  return { title: apt?.translations[0]?.name ?? "Edit Apartment" };
+  return { title: apt?.translations[0]?.name ?? "Редакция на апартамент" };
 }
 
 export default async function ApartmentEditorPage({ params }: PageProps) {
@@ -28,6 +28,7 @@ export default async function ApartmentEditorPage({ params }: PageProps) {
       translations: true,
       amenities: { include: { amenity: true } },
       pricingRules: { orderBy: { type: "asc" } },
+      photos: { orderBy: { position: "asc" } },
     },
   });
 
@@ -46,7 +47,18 @@ export default async function ApartmentEditorPage({ params }: PageProps) {
         </h1>
       </div>
 
-      <ApartmentEditor apartment={apartment} allAmenities={allAmenities} />
+      <ApartmentEditor
+        apartment={apartment}
+        allAmenities={allAmenities}
+        photos={apartment.photos.map((p) => ({
+          id: p.id,
+          url: p.url,
+          alt: p.alt,
+          altTranslations: (p.altTranslations ?? null) as Record<string, string> | null,
+          position: p.position,
+          isPrimary: p.isPrimary,
+        }))}
+      />
     </div>
   );
 }

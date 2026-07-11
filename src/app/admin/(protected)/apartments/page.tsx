@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Pencil, Eye } from "lucide-react";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Apartments" };
+export const metadata = { title: "Апартаменти" };
 
 export default async function ApartmentsPage() {
   const apartments = await prisma.apartment.findMany({
@@ -16,7 +16,7 @@ export default async function ApartmentsPage() {
 
   return (
     <div className="space-y-5">
-      <h1 className="text-2xl font-semibold text-gray-900">Apartments</h1>
+      <h1 className="text-2xl font-semibold text-gray-900">Апартаменти</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         {apartments.map((apt) => {
