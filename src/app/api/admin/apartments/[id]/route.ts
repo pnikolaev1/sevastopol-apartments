@@ -18,7 +18,9 @@ const bodySchema = z.object({
     cleaningFeeEur: z.number().min(0),
     minStayNights: z.number().int().min(1).max(365),
   }),
-  translations: z.record(
+  // partialRecord: an apartment may not have every locale filled in — zod v4's
+  // record with enum keys is exhaustive and would 422 on any missing locale.
+  translations: z.partialRecord(
     z.enum(["bg", "en", "ro", "de"]),
     z.object({
       name: z.string().min(1).max(200),

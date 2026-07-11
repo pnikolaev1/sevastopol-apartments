@@ -116,10 +116,22 @@ export default function ApartmentEditor({ apartment, allAmenities, photos }: Pro
     setError("");
     setSuccess("");
     startTransition(async () => {
+      // Locales the owner hasn't filled in yet are omitted rather than sent
+      // as empty strings (which would fail validation).
+      const filledTranslations = Object.fromEntries(
+        Object.entries(translations).filter(
+          ([, t]) => t.name.trim() && t.shortDesc.trim() && t.description.trim()
+        )
+      );
       const res = await fetch(`/api/admin/apartments/${apartment.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ general, translations, amenities: Array.from(selectedAmenities), ical }),
+        body: JSON.stringify({
+          general,
+          translations: filledTranslations,
+          amenities: Array.from(selectedAmenities),
+          ical,
+        }),
       });
       if (res.ok) {
         setSuccess("Записано успешно");
