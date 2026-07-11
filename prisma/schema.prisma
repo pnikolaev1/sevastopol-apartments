@@ -242,8 +242,17 @@ model AdminUser {
   id           String   @id @default(cuid())
   email        String   @unique
   passwordHash String
+  // DEPRECATED (app-based TOTP was replaced by email-code 2FA). Columns kept
+  // so the schema change stays additive; drop in a dedicated migration later.
   totpSecret   String?
   totpEnabled  Boolean  @default(false)
+  // Email-code 2FA: after a correct password, a 6-digit code is emailed and
+  // must be submitted to finish signing in. Only a bcrypt hash of the code is
+  // stored; expiry, attempt limits and resend cooldown live in lib/auth/email-otp.
+  emailOtpEnabled  Boolean   @default(false)
+  loginOtpHash     String?
+  loginOtpSentAt   DateTime?
+  loginOtpAttempts Int       @default(0)
   createdAt    DateTime @default(now())
 
   sessions  AdminSession[]

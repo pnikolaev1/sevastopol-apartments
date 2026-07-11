@@ -1,6 +1,6 @@
 // Edge-compatible auth — JWT verification only, no Node.js imports.
 // Used exclusively in src/middleware.ts to keep the Edge bundle under 1 MB.
-// The full auth config (with Prisma / bcrypt / speakeasy) lives in ./config.ts
+// The full auth config (with Prisma / bcrypt / email-OTP) lives in ./config.ts
 // and is used only by API routes that run on the Node.js runtime.
 import NextAuth from "next-auth";
 

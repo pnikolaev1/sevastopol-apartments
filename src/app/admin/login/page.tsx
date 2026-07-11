@@ -9,11 +9,11 @@ export default function AdminLoginPage() {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState("");
-  const [showTotp, setShowTotp] = useState(false);
+  const [showCode, setShowCode] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    totp: "",
+    code: "",
   });
 
   async function handleSubmit(e: React.FormEvent) {
@@ -24,16 +24,18 @@ export default function AdminLoginPage() {
       const result = await signIn("credentials", {
         email: formData.email,
         password: formData.password,
-        totp: formData.totp || undefined,
+        code: formData.code || undefined,
         redirect: false,
       });
 
       if (result?.error) {
-        if (result.error === "CredentialsSignin" && !showTotp) {
-          setShowTotp(true);
-          setError("Ако сте активирали 2FA, въведете кода от приложението по-долу.");
+        if (result.error === "CredentialsSignin" && !showCode) {
+          setShowCode(true);
+          setError(
+            "Ако данните са верни и сте активирали 2FA, изпратихме 6-цифрен код на имейла ви. Въведете го по-долу."
+          );
         } else {
-          setError("Невалиден имейл, парола или 2FA код.");
+          setError("Невалиден имейл, парола или код за потвърждение.");
         }
         return;
       }
@@ -85,22 +87,25 @@ export default function AdminLoginPage() {
             />
           </div>
 
-          {showTotp && (
+          {showCode && (
             <div>
-              <label htmlFor="totp" className="block text-sm font-medium text-gray-700 mb-1">
-                Код за двуфакторна автентикация
+              <label htmlFor="code" className="block text-sm font-medium text-gray-700 mb-1">
+                Код от имейла
               </label>
               <input
-                id="totp"
+                id="code"
                 type="text"
                 inputMode="numeric"
                 autoComplete="one-time-code"
                 maxLength={6}
                 placeholder="000000"
-                value={formData.totp}
-                onChange={(e) => setFormData((p) => ({ ...p, totp: e.target.value }))}
+                value={formData.code}
+                onChange={(e) => setFormData((p) => ({ ...p, code: e.target.value }))}
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 tracking-widest text-center"
               />
+              <p className="mt-1 text-xs text-gray-500">
+                Кодът е валиден 10 минути. Проверете и папка „Спам“.
+              </p>
             </div>
           )}
 

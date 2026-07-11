@@ -237,6 +237,40 @@ export async function sendOwnerBookingRequest(params: OwnerBookingRequestParams)
   }
 }
 
+// ─── Admin: Login Verification Code (email 2FA) ───────────────────────────────
+
+export async function sendAdminLoginCode(params: { email: string; code: string }) {
+  const { email, code } = params;
+
+  const html = `
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="font-family:Inter,Helvetica,Arial,sans-serif;background:#f8f7f4;margin:0;padding:24px;">
+  <div style="max-width:480px;margin:0 auto;background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+    <div style="background:#0d1f35;padding:20px 28px;">
+      <p style="color:#c7a468;font-size:14px;font-weight:600;margin:0;">Sevastopol Apartments — Admin</p>
+    </div>
+    <div style="padding:28px;">
+      <p style="font-size:15px;color:#22303b;margin:0 0 16px;">Your login verification code:</p>
+      <p style="font-size:34px;font-weight:700;letter-spacing:8px;color:#0d1f35;text-align:center;background:#f3efe6;border-radius:10px;padding:16px 0;margin:0 0 16px;">${code}</p>
+      <p style="font-size:13px;color:#6e7684;margin:0 0 6px;">The code expires in 10 minutes.</p>
+      <p style="font-size:13px;color:#6e7684;margin:0;">If you didn't try to sign in, someone knows your password — change it immediately in the admin settings.</p>
+    </div>
+  </div>
+</body>
+</html>`;
+
+  // Deliberately throws on failure: the login flow shows the code field only
+  // after this resolves, and a silently-lost email would strand the admin.
+  await getResend().emails.send({
+    from: getFrom(),
+    to: to(email),
+    subject: subject(`${code} is your admin login code`),
+    html,
+  });
+}
+
 // ─── Contact Form ──────────────────────────────────────────────────────────────
 
 export async function sendContactEmail(params: { name: string; email: string; message: string }) {
