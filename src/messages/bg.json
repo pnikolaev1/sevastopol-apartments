@@ -464,12 +464,13 @@
     "tv": "Телевизор",
     "kitchen": "Кухня",
     "washing_machine": "Пералня",
-    "sea_view": "Изглед към морето",
     "balcony": "Балкон",
     "coffee_maker": "Кафемашина",
     "hair_dryer": "Сешоар",
     "iron": "Ютия",
     "towels": "Хавлии",
-    "elevator": "Асансьор"
+    "elevator": "Асансьор",
+    "parking": "Безплатен паркинг",
+    "self_check_in": "Самостоятелно настаняване"
   }
 }

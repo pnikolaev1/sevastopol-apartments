@@ -464,12 +464,13 @@
     "tv": "TV",
     "kitchen": "Küche",
     "washing_machine": "Waschmaschine",
-    "sea_view": "Meerblick",
     "balcony": "Balkon",
     "coffee_maker": "Kaffeemaschine",
     "hair_dryer": "Föhn",
     "iron": "Bügeleisen",
     "towels": "Handtücher",
-    "elevator": "Aufzug"
+    "elevator": "Aufzug",
+    "parking": "Kostenlose Parkplätze",
+    "self_check_in": "Self-Check-in"
   }
 }

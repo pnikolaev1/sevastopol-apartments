@@ -464,12 +464,13 @@
     "tv": "TV",
     "kitchen": "Kitchen",
     "washing_machine": "Washing machine",
-    "sea_view": "Sea view",
     "balcony": "Balcony",
     "coffee_maker": "Coffee maker",
     "hair_dryer": "Hair dryer",
     "iron": "Iron",
     "towels": "Towels",
-    "elevator": "Elevator"
+    "elevator": "Elevator",
+    "parking": "Free parking",
+    "self_check_in": "Self check-in"
   }
 }

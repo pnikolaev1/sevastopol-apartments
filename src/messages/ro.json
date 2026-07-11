@@ -464,12 +464,13 @@
     "tv": "TV",
     "kitchen": "Bucătărie",
     "washing_machine": "Mașină de spălat",
-    "sea_view": "Vedere la mare",
     "balcony": "Balcon",
     "coffee_maker": "Aparat de cafea",
     "hair_dryer": "Uscător de păr",
     "iron": "Fier de călcat",
     "towels": "Prosoape",
-    "elevator": "Lift"
+    "elevator": "Lift",
+    "parking": "Parcare gratuită",
+    "self_check_in": "Check-in autonom"
   }
 }

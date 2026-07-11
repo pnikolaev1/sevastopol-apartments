@@ -41,8 +41,8 @@ export function HeroSection() {
         {/* Photo */}
         <div className="relative min-h-[240px] lg:min-h-[420px]">
           <Image
-            src="/images/apartments/apartment-3-sea-view/dsc2178.webp"
-            alt="Sea View Apartment bedroom with warm wood interior"
+            src="/images/apartments/apartment-3/dsc2178.webp"
+            alt="Apartment 3 bedroom with warm wood interior"
             fill
             priority
             className="object-cover"
