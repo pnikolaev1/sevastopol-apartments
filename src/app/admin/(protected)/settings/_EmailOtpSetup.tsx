@@ -25,7 +25,7 @@ export default function EmailOtpSetup({ emailOtpEnabled, email }: Props) {
         setCodeSent(true);
       } else {
         const j = await res.json().catch(() => ({}));
-        setError(j.error ?? "Failed to send the verification code");
+        setError(j.error ?? "Грешка при изпращане на кода");
       }
     });
   }
@@ -39,28 +39,28 @@ export default function EmailOtpSetup({ emailOtpEnabled, email }: Props) {
         body: JSON.stringify({ token }),
       });
       if (res.ok) {
-        setSuccess("Email two-factor authentication enabled");
+        setSuccess("Имейл 2FA е активирана");
         setEnabled(true);
         setCodeSent(false);
         setToken("");
       } else {
         const j = await res.json().catch(() => ({}));
-        setError(j.error ?? "Invalid code — please try again");
+        setError(j.error ?? "Невалиден код — опитайте отново");
       }
     });
   }
 
   async function disable() {
-    if (!confirm("Disable email two-factor authentication? This will make your account less secure.")) return;
+    if (!confirm("Да деактивирам ли имейл 2FA? Това прави акаунта по-незащитен.")) return;
     setError("");
     startTransition(async () => {
       const res = await fetch("/api/admin/settings/email-2fa/verify", { method: "DELETE" });
       if (res.ok) {
-        setSuccess("Email two-factor authentication disabled");
+        setSuccess("Имейл 2FA е деактивирана");
         setEnabled(false);
         setCodeSent(false);
       } else {
-        setError("Failed to disable 2FA");
+        setError("Грешка при деактивиране");
       }
     });
   }
@@ -74,18 +74,17 @@ export default function EmailOtpSetup({ emailOtpEnabled, email }: Props) {
           ) : (
             <ShieldOff className="h-4 w-4 text-gray-400" />
           )}
-          <h2 className="font-medium text-gray-900">Two-Factor Authentication (Email)</h2>
+          <h2 className="font-medium text-gray-900">Двуфакторна автентикация (имейл)</h2>
         </div>
         <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${enabled ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"}`}>
-          {enabled ? "Enabled" : "Disabled"}
+          {enabled ? "Активна" : "Неактивна"}
         </span>
       </div>
 
       {!enabled && !codeSent && (
         <div className="space-y-3">
           <p className="text-sm text-gray-600">
-            When enabled, signing in requires a 6-digit code sent to <strong>{email}</strong> in
-            addition to your password.
+            При активирана защита входът изисква 6-цифрен код, изпратен на <strong>{email}</strong>, в допълнение към паролата.
           </p>
           <button
             onClick={sendCode}
@@ -93,7 +92,7 @@ export default function EmailOtpSetup({ emailOtpEnabled, email }: Props) {
             className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-60 transition-colors"
           >
             {isPending && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
-            Set up email 2FA
+            Активирай имейл 2FA
           </button>
         </div>
       )}
@@ -103,12 +102,11 @@ export default function EmailOtpSetup({ emailOtpEnabled, email }: Props) {
           <div className="flex items-start gap-2 rounded-lg bg-blue-50 px-3 py-2">
             <MailCheck className="mt-0.5 h-4 w-4 shrink-0 text-blue-600" />
             <p className="text-sm text-blue-800">
-              We sent a 6-digit code to <strong>{email}</strong>. Enter it below to confirm your
-              inbox receives login codes. It expires in 10 minutes.
+              Изпратихме 6-цифрен код на <strong>{email}</strong>. Въведете го по-долу, за да потвърдите, че пощата получава кодове. Валиден е 10 минути.
             </p>
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Enter 6-digit code</label>
+            <label className="block text-xs font-medium text-gray-600 mb-1">Въведете 6-цифрения код</label>
             <input
               type="text"
               inputMode="numeric"
@@ -127,14 +125,14 @@ export default function EmailOtpSetup({ emailOtpEnabled, email }: Props) {
               className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-60 transition-colors"
             >
               {isPending && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
-              Confirm &amp; enable
+              Потвърди и активирай
             </button>
             <button
               onClick={sendCode}
               disabled={isPending}
               className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-60 transition-colors"
             >
-              Resend code
+              Изпрати нов код
             </button>
             <button
               onClick={() => {
@@ -142,9 +140,7 @@ export default function EmailOtpSetup({ emailOtpEnabled, email }: Props) {
                 setToken("");
               }}
               className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-            >
-              Cancel
-            </button>
+            >Отказ</button>
           </div>
         </div>
       )}
@@ -152,7 +148,7 @@ export default function EmailOtpSetup({ emailOtpEnabled, email }: Props) {
       {enabled && (
         <div className="space-y-3">
           <p className="text-sm text-gray-600">
-            Signing in requires your password plus a code emailed to <strong>{email}</strong>.
+            Входът изисква парола плюс код, изпратен на <strong>{email}</strong>.
           </p>
           <button
             onClick={disable}
@@ -160,7 +156,7 @@ export default function EmailOtpSetup({ emailOtpEnabled, email }: Props) {
             className="inline-flex items-center gap-2 rounded-lg border border-red-300 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 disabled:opacity-60 transition-colors"
           >
             {isPending && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
-            Disable email 2FA
+            Деактивирай имейл 2FA
           </button>
         </div>
       )}

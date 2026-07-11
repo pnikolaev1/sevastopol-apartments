@@ -8,6 +8,7 @@ import { ApartmentDetails } from "@/components/apartments/ApartmentDetails";
 import { PriceCalculator } from "@/components/booking/PriceCalculator";
 import { prisma } from "@/lib/db/prisma";
 import { getBlockedDates } from "@/lib/availability";
+import { resolvePhotoAlt } from "@/lib/photo-alt";
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
@@ -49,6 +50,7 @@ export default async function ApartmentPage({ params }: Props) {
       photos: { orderBy: { position: "asc" } },
       amenities: { include: { amenity: true } },
       pricingRules: { where: { active: true } },
+      dateOverrides: { where: { priceEur: { not: null } } },
     },
   });
 
@@ -85,7 +87,10 @@ export default async function ApartmentPage({ params }: Props) {
       />
       <Navbar />
       <main id="main-content">
-        <ApartmentGallery photos={apt.photos} name={translation?.name ?? slug} />
+        <ApartmentGallery
+          photos={apt.photos.map((p) => ({ ...p, alt: resolvePhotoAlt(p, locale) }))}
+          name={translation?.name ?? slug}
+        />
         <div className="container mx-auto px-4 max-w-7xl py-12">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             <div className="lg:col-span-2">

@@ -9,16 +9,16 @@ datasource db {
 // ─── Apartments ──────────────────────────────────────────────────────────────
 
 model Apartment {
-  id           String  @id @default(cuid())
-  slug         String  @unique
-  active       Boolean @default(true)
-  maxGuests    Int
-  bedrooms     Int
-  bathrooms    Int
-  sqm          Int
-  floor        Int
-  basePriceEur Decimal @db.Decimal(10, 2)
-  weekendUpliftPct Int @default(0)
+  id               String  @id @default(cuid())
+  slug             String  @unique
+  active           Boolean @default(true)
+  maxGuests        Int
+  bedrooms         Int
+  bathrooms        Int
+  sqm              Int
+  floor            Int
+  basePriceEur     Decimal @db.Decimal(10, 2)
+  weekendUpliftPct Int     @default(0)
   cleaningFeeEur   Decimal @db.Decimal(10, 2)
   minStayNights    Int     @default(1)
 
@@ -35,6 +35,7 @@ model Apartment {
   bookings         Booking[]
   externalBookings ExternalBooking[]
   pricingRules     PricingRule[]
+  dateOverrides    DateOverride[]
   syncLogs         SyncLog[]
 
   @@map("apartments")
@@ -55,12 +56,14 @@ model ApartmentTranslation {
 }
 
 model ApartmentPhoto {
-  id          String  @id @default(cuid())
-  apartmentId String
-  url         String
-  alt         String  @default("")
-  position    Int     @default(0)
-  isPrimary   Boolean @default(false)
+  id              String  @id @default(cuid())
+  apartmentId     String
+  url             String
+  alt             String  @default("") // fallback caption (EN)
+  // Per-locale captions { bg, en, ro, de } shown as alt text on the public site
+  altTranslations Json?
+  position        Int     @default(0)
+  isPrimary       Boolean @default(false)
 
   apartment Apartment @relation(fields: [apartmentId], references: [id], onDelete: Cascade)
 
@@ -166,9 +169,9 @@ model ExternalBooking {
   source      BookingSource
   externalId  String
   summary     String?
-  checkIn     DateTime @db.Date
-  checkOut    DateTime @db.Date
-  syncedAt    DateTime @default(now())
+  checkIn     DateTime      @db.Date
+  checkOut    DateTime      @db.Date
+  syncedAt    DateTime      @default(now())
 
   apartment Apartment @relation(fields: [apartmentId], references: [id], onDelete: Cascade)
 
@@ -183,6 +186,20 @@ enum PricingRuleType {
   SEASONAL
   LENGTH_OF_STAY
   LAST_MINUTE
+}
+
+model DateOverride {
+  id          String   @id @default(cuid())
+  apartmentId String
+  date        DateTime @db.Date
+  priceEur    Decimal? @db.Decimal(10, 2)
+  closed      Boolean  @default(false)
+  minNights   Int?
+
+  apartment Apartment @relation(fields: [apartmentId], references: [id], onDelete: Cascade)
+
+  @@unique([apartmentId, date])
+  @@map("date_overrides")
 }
 
 model PricingRule {
@@ -239,13 +256,13 @@ model ArticleTranslation {
 // ─── Admin ────────────────────────────────────────────────────────────────────
 
 model AdminUser {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  passwordHash String
+  id               String    @id @default(cuid())
+  email            String    @unique
+  passwordHash     String
   // DEPRECATED (app-based TOTP was replaced by email-code 2FA). Columns kept
   // so the schema change stays additive; drop in a dedicated migration later.
-  totpSecret   String?
-  totpEnabled  Boolean  @default(false)
+  totpSecret       String?
+  totpEnabled      Boolean   @default(false)
   // Email-code 2FA: after a correct password, a 6-digit code is emailed and
   // must be submitted to finish signing in. Only a bcrypt hash of the code is
   // stored; expiry, attempt limits and resend cooldown live in lib/auth/email-otp.
@@ -253,7 +270,7 @@ model AdminUser {
   loginOtpHash     String?
   loginOtpSentAt   DateTime?
   loginOtpAttempts Int       @default(0)
-  createdAt    DateTime @default(now())
+  createdAt        DateTime  @default(now())
 
   sessions  AdminSession[]
   auditLogs AdminAuditLog[]

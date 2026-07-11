@@ -66,6 +66,20 @@ export async function checkAvailability(
     };
   }
 
+  // Dates manually closed from the admin rate calendar
+  const closedConflict = await db.dateOverride.findFirst({
+    where: {
+      apartmentId,
+      closed: true,
+      date: { gte: checkIn, lt: checkOut },
+    },
+    select: { id: true },
+  });
+
+  if (closedConflict) {
+    return { available: false, conflictSource: "closed" };
+  }
+
   return { available: true };
 }
 
@@ -75,7 +89,7 @@ export async function checkAvailability(
 export async function getBlockedDates(
   apartmentId: string
 ): Promise<Array<{ start: Date; end: Date; source: string }>> {
-  const [directBookings, externalBookings] = await Promise.all([
+  const [directBookings, externalBookings, closedDates] = await Promise.all([
     prisma.booking.findMany({
       where: {
         apartmentId,
@@ -87,7 +101,13 @@ export async function getBlockedDates(
       where: { apartmentId },
       select: { checkIn: true, checkOut: true, source: true },
     }),
+    prisma.dateOverride.findMany({
+      where: { apartmentId, closed: true },
+      select: { date: true },
+    }),
   ]);
+
+  const DAY_MS = 24 * 60 * 60 * 1000;
 
   return [
     ...directBookings.map((b) => ({
@@ -99,6 +119,12 @@ export async function getBlockedDates(
       start: b.checkIn,
       end: b.checkOut,
       source: b.source.toLowerCase(),
+    })),
+    // Each closed calendar day blocks exactly that night.
+    ...closedDates.map((c) => ({
+      start: c.date,
+      end: new Date(c.date.getTime() + DAY_MS),
+      source: "closed",
     })),
   ];
 }
