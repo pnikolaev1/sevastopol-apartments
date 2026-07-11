@@ -1,8 +1,8 @@
 import { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import * as speakeasy from "speakeasy";
 import { prisma } from "@/lib/db/prisma";
+import { sendLoginCode, verifyLoginCode } from "@/lib/auth/email-otp";
 import { adminLoginRatelimit, getIp } from "@/lib/ratelimit";
 import { logger } from "@/lib/logger";
 import { z } from "zod";
@@ -10,7 +10,7 @@ import { z } from "zod";
 const credentialsSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
-  totp: z.string().optional(),
+  code: z.string().optional(),
 });
 
 export const authConfig: NextAuthConfig = {
@@ -48,7 +48,7 @@ export const authConfig: NextAuthConfig = {
         const parsed = credentialsSchema.safeParse(rawCredentials);
         if (!parsed.success) return null;
 
-        const { email, password, totp } = parsed.data;
+        const { email, password, code } = parsed.data;
 
         // Brute-force throttle: 5 attempts / 15 min per client IP. The IP is
         // derived from Vercel's trusted `x-real-ip` (see getIp), so it cannot be
@@ -67,14 +67,19 @@ export const authConfig: NextAuthConfig = {
         const passwordValid = await bcrypt.compare(password, admin.passwordHash);
         if (!passwordValid) return null;
 
-        if (admin.totpEnabled && admin.totpSecret) {
-          if (!totp) return null;
-          const verified = speakeasy.totp.verify({
-            secret: admin.totpSecret,
-            encoding: "base32",
-            token: totp,
-            window: 1,
-          });
+        // Email-code 2FA: with a correct password but no code yet, email a
+        // fresh code and fail this attempt — the login form then shows the
+        // code field and the admin submits again with the code included.
+        if (admin.emailOtpEnabled) {
+          if (!code) {
+            try {
+              await sendLoginCode(admin);
+            } catch (err) {
+              logger.error("Failed to email admin login code", err);
+            }
+            return null;
+          }
+          const verified = await verifyLoginCode(admin, code);
           if (!verified) return null;
         }
 

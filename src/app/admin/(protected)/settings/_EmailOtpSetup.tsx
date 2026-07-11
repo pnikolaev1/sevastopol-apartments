@@ -1,35 +1,31 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Loader2, ShieldCheck, ShieldOff } from "lucide-react";
-import Image from "next/image";
+import { Loader2, MailCheck, ShieldCheck, ShieldOff } from "lucide-react";
 
 interface Props {
-  totpEnabled: boolean;
+  emailOtpEnabled: boolean;
+  email: string;
 }
 
-interface SetupData {
-  qrCodeUrl: string;
-  secret: string;
-}
-
-export default function TotpSetup({ totpEnabled }: Props) {
+export default function EmailOtpSetup({ emailOtpEnabled, email }: Props) {
   const [isPending, startTransition] = useTransition();
-  const [setupData, setSetupData] = useState<SetupData | null>(null);
+  const [codeSent, setCodeSent] = useState(false);
   const [token, setToken] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [enabled, setEnabled] = useState(totpEnabled);
+  const [enabled, setEnabled] = useState(emailOtpEnabled);
 
-  async function startSetup() {
+  async function sendCode() {
     setError("");
+    setSuccess("");
     startTransition(async () => {
-      const res = await fetch("/api/admin/settings/totp/setup", { method: "POST" });
+      const res = await fetch("/api/admin/settings/email-2fa/setup", { method: "POST" });
       if (res.ok) {
-        const data = await res.json();
-        setSetupData(data);
+        setCodeSent(true);
       } else {
-        setError("Failed to generate 2FA setup");
+        const j = await res.json().catch(() => ({}));
+        setError(j.error ?? "Failed to send the verification code");
       }
     });
   }
@@ -37,15 +33,15 @@ export default function TotpSetup({ totpEnabled }: Props) {
   async function verifyAndEnable() {
     setError("");
     startTransition(async () => {
-      const res = await fetch("/api/admin/settings/totp/verify", {
+      const res = await fetch("/api/admin/settings/email-2fa/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token }),
       });
       if (res.ok) {
-        setSuccess("Two-factor authentication enabled");
+        setSuccess("Email two-factor authentication enabled");
         setEnabled(true);
-        setSetupData(null);
+        setCodeSent(false);
         setToken("");
       } else {
         const j = await res.json().catch(() => ({}));
@@ -55,16 +51,14 @@ export default function TotpSetup({ totpEnabled }: Props) {
   }
 
   async function disable() {
-    if (!confirm("Disable two-factor authentication? This will make your account less secure.")) return;
+    if (!confirm("Disable email two-factor authentication? This will make your account less secure.")) return;
     setError("");
     startTransition(async () => {
-      const res = await fetch("/api/admin/settings/totp/verify", {
-        method: "DELETE",
-      });
+      const res = await fetch("/api/admin/settings/email-2fa/verify", { method: "DELETE" });
       if (res.ok) {
-        setSuccess("Two-factor authentication disabled");
+        setSuccess("Email two-factor authentication disabled");
         setEnabled(false);
-        setSetupData(null);
+        setCodeSent(false);
       } else {
         setError("Failed to disable 2FA");
       }
@@ -80,40 +74,37 @@ export default function TotpSetup({ totpEnabled }: Props) {
           ) : (
             <ShieldOff className="h-4 w-4 text-gray-400" />
           )}
-          <h2 className="font-medium text-gray-900">Two-Factor Authentication</h2>
+          <h2 className="font-medium text-gray-900">Two-Factor Authentication (Email)</h2>
         </div>
         <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${enabled ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"}`}>
           {enabled ? "Enabled" : "Disabled"}
         </span>
       </div>
 
-      {!enabled && !setupData && (
+      {!enabled && !codeSent && (
         <div className="space-y-3">
           <p className="text-sm text-gray-600">
-            Add an extra layer of security. You&apos;ll need an authenticator app like Google Authenticator or Authy.
+            When enabled, signing in requires a 6-digit code sent to <strong>{email}</strong> in
+            addition to your password.
           </p>
           <button
-            onClick={startSetup}
+            onClick={sendCode}
             disabled={isPending}
             className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-60 transition-colors"
           >
             {isPending && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
-            Set up 2FA
+            Set up email 2FA
           </button>
         </div>
       )}
 
-      {setupData && (
+      {!enabled && codeSent && (
         <div className="space-y-4">
-          <p className="text-sm text-gray-700">
-            Scan the QR code with your authenticator app, then enter the 6-digit code to confirm.
-          </p>
-          <div className="flex flex-col items-center gap-3 py-2">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={setupData.qrCodeUrl} alt="2FA QR Code" width={200} height={200} className="rounded-lg border border-gray-200" />
-            <p className="text-xs text-gray-500 text-center">
-              Can&apos;t scan? Enter manually:<br />
-              <code className="font-mono text-xs tracking-widest">{setupData.secret}</code>
+          <div className="flex items-start gap-2 rounded-lg bg-blue-50 px-3 py-2">
+            <MailCheck className="mt-0.5 h-4 w-4 shrink-0 text-blue-600" />
+            <p className="text-sm text-blue-800">
+              We sent a 6-digit code to <strong>{email}</strong>. Enter it below to confirm your
+              inbox receives login codes. It expires in 10 minutes.
             </p>
           </div>
           <div>
@@ -121,6 +112,7 @@ export default function TotpSetup({ totpEnabled }: Props) {
             <input
               type="text"
               inputMode="numeric"
+              autoComplete="one-time-code"
               maxLength={6}
               placeholder="000000"
               value={token}
@@ -128,7 +120,7 @@ export default function TotpSetup({ totpEnabled }: Props) {
               className="w-32 rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 tracking-widest text-center"
             />
           </div>
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-3">
             <button
               onClick={verifyAndEnable}
               disabled={isPending || token.length !== 6}
@@ -138,7 +130,17 @@ export default function TotpSetup({ totpEnabled }: Props) {
               Confirm &amp; enable
             </button>
             <button
-              onClick={() => setSetupData(null)}
+              onClick={sendCode}
+              disabled={isPending}
+              className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-60 transition-colors"
+            >
+              Resend code
+            </button>
+            <button
+              onClick={() => {
+                setCodeSent(false);
+                setToken("");
+              }}
               className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
             >
               Cancel
@@ -149,14 +151,16 @@ export default function TotpSetup({ totpEnabled }: Props) {
 
       {enabled && (
         <div className="space-y-3">
-          <p className="text-sm text-gray-600">Your account is protected with two-factor authentication.</p>
+          <p className="text-sm text-gray-600">
+            Signing in requires your password plus a code emailed to <strong>{email}</strong>.
+          </p>
           <button
             onClick={disable}
             disabled={isPending}
             className="inline-flex items-center gap-2 rounded-lg border border-red-300 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 disabled:opacity-60 transition-colors"
           >
             {isPending && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
-            Disable 2FA
+            Disable email 2FA
           </button>
         </div>
       )}

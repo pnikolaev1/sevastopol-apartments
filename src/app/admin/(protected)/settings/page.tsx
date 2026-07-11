@@ -2,7 +2,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db/prisma";
 import { redirect } from "next/navigation";
 import PasswordChangeForm from "./_PasswordChangeForm";
-import TotpSetup from "./_TotpSetup";
+import EmailOtpSetup from "./_EmailOtpSetup";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Settings" };
@@ -13,7 +13,7 @@ export default async function SettingsPage() {
 
   const admin = await prisma.adminUser.findUnique({
     where: { id: session.user.id },
-    select: { email: true, totpEnabled: true },
+    select: { email: true, emailOtpEnabled: true },
   });
 
   if (!admin) redirect("/admin/login");
@@ -29,7 +29,7 @@ export default async function SettingsPage() {
 
       <PasswordChangeForm />
 
-      <TotpSetup totpEnabled={admin.totpEnabled} />
+      <EmailOtpSetup emailOtpEnabled={admin.emailOtpEnabled} email={admin.email} />
     </div>
   );
 }
