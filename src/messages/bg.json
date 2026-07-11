@@ -139,7 +139,14 @@
     "perNight": "/нощувка",
     "directDiscountApplied": "10% отстъпка за директна резервация",
     "securedNote": "Защитено от Stripe · 3D Secure",
-    "clearDates": "Изчисти датите"
+    "clearDates": "Изчисти датите",
+    "gallery": {
+      "showAll": "Виж всички снимки",
+      "morePhotos": "+{count} снимки",
+      "close": "Затвори",
+      "previous": "Предишна снимка",
+      "next": "Следваща снимка"
+    }
   },
   "booking": {
     "title": "Завършете резервацията",

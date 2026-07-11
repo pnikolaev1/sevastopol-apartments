@@ -139,7 +139,14 @@
     "perNight": "/Nacht",
     "directDiscountApplied": "10% Direktbuchungsrabatt",
     "securedNote": "Gesichert durch Stripe · 3D Secure",
-    "clearDates": "Daten löschen"
+    "clearDates": "Daten löschen",
+    "gallery": {
+      "showAll": "Alle Fotos ansehen",
+      "morePhotos": "+{count} Fotos",
+      "close": "Schließen",
+      "previous": "Vorheriges Foto",
+      "next": "Nächstes Foto"
+    }
   },
   "booking": {
     "title": "Buchung abschließen",

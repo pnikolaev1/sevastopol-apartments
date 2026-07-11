@@ -142,6 +142,15 @@
   html {
     @apply font-sans;
   }
+  /* Native form widgets (date-picker icons, spinners, scrollbars) must follow
+     the active theme, or they render dark-on-dark / light-on-light. Fields
+     that are always white (hero search panel) override with [color-scheme:light]. */
+  :root {
+    color-scheme: light;
+  }
+  .dark {
+    color-scheme: dark;
+  }
 }
 
 @layer utilities {

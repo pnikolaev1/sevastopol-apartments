@@ -139,7 +139,14 @@
     "perNight": "/noapte",
     "directDiscountApplied": "Reducere de 10% pentru rezervare directă",
     "securedNote": "Securizat de Stripe · 3D Secure",
-    "clearDates": "Șterge datele"
+    "clearDates": "Șterge datele",
+    "gallery": {
+      "showAll": "Vezi toate pozele",
+      "morePhotos": "+{count} poze",
+      "close": "Închide",
+      "previous": "Poza anterioară",
+      "next": "Poza următoare"
+    }
   },
   "booking": {
     "title": "Finalizați rezervarea",
