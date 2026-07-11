@@ -18,6 +18,26 @@ const nextConfig: NextConfig = {
     ],
     formats: ["image/avif", "image/webp"],
   },
+  async redirects() {
+    // Apartment 3 was renamed from the misleading "sea-view" slug (2026-07).
+    return [
+      {
+        source: "/apartments/apartment-3-sea-view",
+        destination: "/apartments/apartment-3",
+        permanent: true,
+      },
+      {
+        source: "/:locale(bg|en|ro|de)/apartments/apartment-3-sea-view",
+        destination: "/:locale/apartments/apartment-3",
+        permanent: true,
+      },
+      {
+        source: "/:locale(bg|en|ro|de)/booking/apartment-3-sea-view",
+        destination: "/:locale/booking/apartment-3",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

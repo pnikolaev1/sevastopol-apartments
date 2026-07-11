@@ -6,9 +6,10 @@ import {
   Wifi, AirVent, Tv, Utensils, WashingMachine,
   Waves, ParkingSquare, Wind, Coffee,
   Ban, PawPrint, PartyPopper, Cigarette,
-  Wand2, Shirt, ArrowUpDown, Droplets,
+  Wand2,
+  KeyRound, Shirt, ArrowUpDown, Droplets,
   Thermometer, ShieldCheck, Laptop, DoorOpen,
-  Car, UtensilsCrossed, Sunset, Key,
+  Car, UtensilsCrossed, Sunset, Key
 } from "lucide-react";
 import type {
   Apartment,
@@ -29,6 +30,7 @@ const AMENITY_ICONS: Record<string, React.ElementType> = {
   sea_view: Waves,
   garden_view: Sunset,
   parking: Car,
+  self_check_in: KeyRound,
   free_parking: Car,
   parking_garage: Car,
   balcony: Wind,

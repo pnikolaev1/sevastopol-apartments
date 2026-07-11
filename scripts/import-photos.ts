@@ -71,7 +71,7 @@ const APARTMENTS: Array<{ slug: string; sourceDir: string; picks: Pick[] }> = [
     ],
   },
   {
-    slug: "apartment-3-sea-view",
+    slug: "apartment-3",
     sourceDir: "images/apartment 3",
     picks: [
       { file: "_DSC2178.jpg", alt: "Bedroom with double bed and warm wood interior" },

@@ -12,9 +12,9 @@ const BOOKING_SCORE = "9.8";
 const BOOKING_COUNT = 146;
 
 const AIRBNB_LISTINGS = [
-  { name: "Studio Apartment 1", count: 7, url: "https://www.airbnb.com/rooms/43448044" },
-  { name: "One-Bedroom Apartment 2", count: 5, url: "https://www.airbnb.com/rooms/43448119" },
-  { name: "Sea View Apartment 3", count: 11, url: "https://www.airbnb.com/rooms/45986912" },
+  { name: "Apartment 1", count: 7, url: "https://www.airbnb.com/rooms/43448044" },
+  { name: "Apartment 2", count: 5, url: "https://www.airbnb.com/rooms/43448119" },
+  { name: "Apartment 3", count: 11, url: "https://www.airbnb.com/rooms/45986912" },
 ] as const;
 const AIRBNB_COUNT = AIRBNB_LISTINGS.reduce((s, l) => s + l.count, 0);
 
