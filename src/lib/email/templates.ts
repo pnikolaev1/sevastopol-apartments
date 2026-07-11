@@ -11,6 +11,17 @@ function getResend() {
   return new Resend(process.env.RESEND_API_KEY ?? "re_placeholder");
 }
 
+// The Resend SDK does NOT throw on failure — it resolves with { data: null,
+// error }. Every send must go through this wrapper or failures (sandbox
+// recipient restrictions, quota, bad key) pass completely silently.
+async function sendEmail(payload: Parameters<Resend["emails"]["send"]>[0]) {
+  const result = await getResend().emails.send(payload);
+  if (result.error) {
+    throw new Error(`Resend ${result.error.name}: ${result.error.message}`);
+  }
+  return result;
+}
+
 function getFrom() {
   return `${process.env.RESEND_FROM_NAME ?? "Sevastopol Apartments"} <${process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev"}>`;
 }
@@ -129,7 +140,7 @@ export async function sendBookingConfirmation(params: BookingConfirmationParams)
 </html>`;
 
   try {
-    await getResend().emails.send({
+    await sendEmail({
       from: getFrom(),
       to: to(guestEmail),
       subject: subject(`✅ Booking Confirmed — ${aptName} | ${formatDate(checkIn)}`),
@@ -175,7 +186,7 @@ export async function sendOwnerNotification(params: OwnerNotificationParams) {
 </div>`;
 
   try {
-    await getResend().emails.send({
+    await sendEmail({
       from: getFrom(),
       to: to(OWNER_EMAIL),
       subject: subject(`💰 New Booking — ${aptName} | ${formatDate(checkIn)}`),
@@ -226,7 +237,7 @@ export async function sendOwnerBookingRequest(params: OwnerBookingRequestParams)
 </div>`;
 
   try {
-    await getResend().emails.send({
+    await sendEmail({
       from: getFrom(),
       to: to(OWNER_EMAIL),
       subject: subject(`📋 Booking Request — ${aptName} | ${formatDate(checkIn)} (NEEDS APPROVAL)`),
@@ -263,7 +274,7 @@ export async function sendAdminLoginCode(params: { email: string; code: string }
 
   // Deliberately throws on failure: the login flow shows the code field only
   // after this resolves, and a silently-lost email would strand the admin.
-  await getResend().emails.send({
+  await sendEmail({
     from: getFrom(),
     to: to(email),
     subject: subject(`${code} is your admin login code`),
@@ -277,7 +288,7 @@ export async function sendContactEmail(params: { name: string; email: string; me
   const { name, email, message } = params;
 
   try {
-    await getResend().emails.send({
+    await sendEmail({
       from: getFrom(),
       to: to(OWNER_EMAIL),
       replyTo: email,
