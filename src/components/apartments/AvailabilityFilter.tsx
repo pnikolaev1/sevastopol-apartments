@@ -77,9 +77,9 @@ export function AvailabilityFilter({ defaultCheckIn, defaultCheckOut, defaultGue
             id="filter-guests"
             type="number"
             min={1}
-            max={8}
+            max={11}
             value={guests}
-            placeholder="1–8"
+            placeholder="1–11"
             onChange={(e) => setGuests(e.target.value)}
             className="h-10"
           />

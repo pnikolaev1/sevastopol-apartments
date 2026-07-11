@@ -6,7 +6,9 @@ import { useRouter } from "@/i18n/navigation";
 import { Search, Minus, Plus } from "lucide-react";
 
 const MIN_GUESTS = 1;
-const MAX_GUESTS = 8;
+// Total capacity across all three apartments (4+4+3) — larger groups can
+// book multiple apartments, which the listing page suggests automatically.
+const MAX_GUESTS = 11;
 
 export function SearchPanel() {
   const tFilter = useTranslations("apartments.filter");
