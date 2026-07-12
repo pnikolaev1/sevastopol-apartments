@@ -258,6 +258,32 @@
         "title": "Top-Lage",
         "desc": "Nur wenige Schritte vom Strand, Meeresgarten und Stadtzentrum entfernt."
       }
+    },
+    "story": {
+      "eyebrow": "Unsere Geschichte",
+      "title": "Ein kleiner Familienbetrieb am Meer",
+      "p1": "Sevastopol Apartments ist ein Familienbetrieb. Seit 2018 empfangen wir Gäste in unseren drei Apartments im Zentrum von Varna — und das bis heute auf dieselbe Art: persönlich. Die Eigentümerin beantwortet jede Nachricht selbst, begrüßt die Gäste an der Tür und ist nur Minuten entfernt, falls Sie etwas brauchen.",
+      "p2": "Wir pflegen die Apartments so, wie wir sie selbst vorfinden möchten — vor jedem Aufenthalt professionell gereinigt, voll ausgestattet und bis ins Detail gepflegt. Deshalb kommen so viele unserer Gäste wieder."
+    },
+    "ratingLabel": "auf Booking.com",
+    "reviewsCta": "Lesen Sie die Bewertungen unserer Gäste",
+    "building": {
+      "eyebrow": "Gebäude & Lage",
+      "title": "Im Herzen von Varna",
+      "desc": "Unsere Apartments liegen in einem modernen Gebäude im Stadtzentrum (Bezirk Odesos) — ruhig, sicher, mit kostenlosen Privatparkplätzen vor Ort. Der Strand ist 700 m entfernt, das Archäologische Museum 600 m, und die Fußgängerzone mit Cafés und Restaurants beginnt gleich um die Ecke.",
+      "mapCta": "In Google Maps öffnen",
+      "guideCta": "Zu unserem Varna-Guide"
+    },
+    "practical": {
+      "title": "Gut zu wissen",
+      "checkin": "Check-in ab 15:00 · Check-out bis 11:00",
+      "selfCheckIn": "Self-Check-in — kommen Sie an, wann es Ihnen passt",
+      "parking": "Kostenlose Privatparkplätze vor Ort",
+      "languages": "Wir sprechen Bulgarisch und Englisch"
+    },
+    "cta": {
+      "title": "Kommen Sie zu uns",
+      "button": "Zu den Apartments"
     }
   },
   "areaGuide": {

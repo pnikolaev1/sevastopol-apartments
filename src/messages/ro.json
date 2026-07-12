@@ -258,6 +258,32 @@
         "title": "Locație excelentă",
         "desc": "La câțiva pași de plajă, Grădina Mării și centrul orașului."
       }
+    },
+    "story": {
+      "eyebrow": "Povestea noastră",
+      "title": "O mică afacere de familie lângă mare",
+      "p1": "Sevastopol Apartments este o afacere de familie. Din 2018 primim oaspeți în cele trei apartamente ale noastre din centrul Varnei — și o facem în continuare la fel: personal. Proprietara răspunde personal la fiecare mesaj, întâmpină oaspeții la ușă și este la doar câteva minute distanță dacă aveți nevoie de ceva.",
+      "p2": "Întreținem apartamentele așa cum ne-ar plăcea să le găsim noi înșine — curățate profesional înainte de fiecare sejur, complet utilate și îngrijite până la cele mai mici detalii. De aceea atât de mulți dintre oaspeții noștri revin."
+    },
+    "ratingLabel": "pe Booking.com",
+    "reviewsCta": "Citiți recenziile oaspeților noștri",
+    "building": {
+      "eyebrow": "Clădirea și locația",
+      "title": "În inima Varnei",
+      "desc": "Apartamentele noastre se află într-o clădire modernă din centrul orașului (cartierul Odesos) — liniște, siguranță și parcare privată gratuită la fața locului. Plaja este la 700 m, Muzeul de Arheologie la 600 m, iar centrul pietonal cu cafenele și restaurante începe după colț.",
+      "mapCta": "Deschide în Google Maps",
+      "guideCta": "Vedeți ghidul nostru pentru Varna"
+    },
+    "practical": {
+      "title": "Bine de știut",
+      "checkin": "Check-in de la 15:00 · check-out până la 11:00",
+      "selfCheckIn": "Check-in autonom — sosiți când vă convine",
+      "parking": "Parcare privată gratuită la fața locului",
+      "languages": "Vorbim bulgară și engleză"
+    },
+    "cta": {
+      "title": "Veniți să stați la noi",
+      "button": "Vedeți apartamentele"
     }
   },
   "areaGuide": {
