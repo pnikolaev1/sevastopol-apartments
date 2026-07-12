@@ -258,6 +258,32 @@
         "title": "Great Location",
         "desc": "Steps from the beach, Sea Garden, and city centre."
       }
+    },
+    "story": {
+      "eyebrow": "Our story",
+      "title": "A small family-run place by the sea",
+      "p1": "Sevastopol Apartments is a family business. Since 2018 we have been welcoming guests to our three apartments in the centre of Varna — and we still do it the same way: personally. The owner answers every message herself, meets guests at the door and is usually just minutes away if you need anything.",
+      "p2": "The apartments are kept the way we would want to find them ourselves — professionally cleaned before every stay, fully equipped, and looked after down to the small details. That is why so many of our guests come back."
+    },
+    "ratingLabel": "on Booking.com",
+    "reviewsCta": "Read our guest reviews",
+    "building": {
+      "eyebrow": "The building & location",
+      "title": "In the heart of Varna",
+      "desc": "Our apartments are in a modern building in the Odesos city centre — quiet, safe, with free private parking on site. The beach is 700 m away, the Archaeological Museum 600 m, and the pedestrian centre with its cafés and restaurants starts around the corner.",
+      "mapCta": "Open in Google Maps",
+      "guideCta": "See our Varna area guide"
+    },
+    "practical": {
+      "title": "Good to know",
+      "checkin": "Check-in from 15:00 · check-out by 11:00",
+      "selfCheckIn": "Self check-in — arrive whenever suits you",
+      "parking": "Free private parking on site",
+      "languages": "We speak Bulgarian and English"
+    },
+    "cta": {
+      "title": "Come stay with us",
+      "button": "See the apartments"
     }
   },
   "areaGuide": {
@@ -268,21 +294,21 @@
     "eyebrow": "Explore Varna",
     "intro": "Everything worth seeing is within easy reach of the apartments. Here is what we recommend to our guests.",
     "gettingAround": "Getting around",
-    "gettingAroundDesc": "The apartments sit in central Varna — most sights below are walkable. Taxis are inexpensive (order via TaxiMe or Yellow Taxi apps), buses run frequently, and Varna Airport is about 20 minutes away (7 km).",
+    "gettingAroundDesc": "The apartments sit in central Varna — most sights below are walkable. Taxis are inexpensive (order via the TaxiMe app), buses run frequently, and Varna Airport is about 20 minutes away (7 km).",
     "spots": [
       {
         "title": "Varna Beach",
-        "desc": "The city's long sandy beach with beach bars and swimming from May to October.",
+        "desc": "The city's long sandy beach with beach bars — swimming season roughly June to September.",
         "dist": "700 m"
       },
       {
         "title": "Sea Garden",
-        "desc": "Varna's vast seaside park — perfect for morning runs, sunsets, and the summer open-air stages.",
+        "desc": "Varna's vast seaside park with the Dolphinarium and Zoo inside — perfect for morning runs, sunsets and the summer open-air stages.",
         "dist": "900 m"
       },
       {
         "title": "City Centre & Boulevard",
-        "desc": "Pedestrian boulevards with shops, cafés and restaurants around Nezavisimost Square.",
+        "desc": "Pedestrian boulevards with shops, cafés and restaurants around the Opera and Nezavisimost Square.",
         "dist": "600 m"
       },
       {
@@ -296,9 +322,9 @@
         "dist": "600 m"
       },
       {
-        "title": "Port & Marina",
-        "desc": "Seafront promenade with fish restaurants and boat trips along the coast.",
-        "dist": "1.4 km"
+        "title": "Varna Cathedral",
+        "desc": "The Cathedral of the Dormition of the Mother of God (1886) — one of Bulgaria's largest churches and the symbol of the city.",
+        "dist": "1 km"
       },
       {
         "title": "Aladzha Monastery",

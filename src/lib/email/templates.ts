@@ -47,6 +47,8 @@ function to(nominal: string): string {
 
 const OWNER_EMAIL = process.env.OWNER_EMAIL ?? "5areood@gmail.com";
 const OWNER_PHONE = process.env.OWNER_WHATSAPP ?? "35989436230";
+const PROPERTY_ADDRESS = "ul. „Lyuben Karavelov“ 7, Varna Center–Odesos, 9002 Varna, Bulgaria";
+const PROPERTY_MAPS_URL = "https://maps.google.com/?q=ul.+Lyuben+Karavelov+7,+9002+Varna,+Bulgaria";
 
 function formatDateBg(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString("bg-BG", { weekday: "short", day: "numeric", month: "long", year: "numeric" });
@@ -175,10 +177,12 @@ export async function sendBookingConfirmation(params: BookingConfirmationParams)
       ["Check-in", `${formatDate(checkIn)} · from 15:00`],
       ["Check-out", `${formatDate(checkOut)} · by 11:00`],
       ["Guests", String(guests)],
+      ["Address", `<a href="${PROPERTY_MAPS_URL}" style="color:${C.ink};text-decoration:underline;">${PROPERTY_ADDRESS}</a>`],
       ["Total paid", `€${totalEur.toFixed(2)}`],
     ])}
     <p style="margin:20px 0 16px;color:${C.muted};font-size:13px;line-height:1.6;">The owner will send arrival instructions 3 days before your check-in. For any questions, reply to this email or message us on WhatsApp.</p>
     ${ctaButton(`https://wa.me/${OWNER_PHONE}`, "WhatsApp the owner")}
+    ${ctaButton(PROPERTY_MAPS_URL, "Open in Google Maps", "navy")}
     <p style="margin:16px 0 0;color:${C.muted};font-size:12px;">Manage your stay: <a href="${appUrl}" style="color:${C.gold};">${appUrl.replace(/^https?:\/\//, "")}</a></p>
   `);
 
