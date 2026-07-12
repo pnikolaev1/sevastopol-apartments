@@ -96,7 +96,7 @@ export async function POST(request: Request) {
   // advisory lock, rechecking availability inside the transaction so a request
   // cannot be created for dates already taken by a confirmed/pending booking.
   const booking = await prisma.$transaction(async (tx) => {
-    await tx.$queryRaw`SELECT pg_advisory_xact_lock(hashtext(${apt.id}))`;
+    await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${apt.id}))`;
 
     const availability = await checkAvailability(apt.id, checkIn, checkOut, undefined, tx);
     if (!availability.available) return null;

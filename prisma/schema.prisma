@@ -145,7 +145,11 @@ model Booking {
   specialRequests String? @db.Text
   internalNotes   String? @db.Text
 
-  stripePaymentIntentId String?   @unique
+  // Shared by every booking in a group checkout — one PaymentIntent may confirm
+  // several bookings, so this is indexed, not unique.
+  stripePaymentIntentId String?
+  // Set when the booking was created in a multi-apartment group checkout
+  groupId               String?
   stripePaidAt          DateTime?
 
   expiresAt DateTime?
@@ -158,6 +162,8 @@ model Booking {
 
   @@index([apartmentId, checkIn, checkOut])
   @@index([status])
+  @@index([stripePaymentIntentId])
+  @@index([groupId])
   @@map("bookings")
 }
 

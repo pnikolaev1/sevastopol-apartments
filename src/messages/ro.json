@@ -93,7 +93,18 @@
     "unavailable": "Indisponibil pentru aceste date",
     "groupSuggestion": "Grupul dvs. de {count} oaspeți este mai mare decât orice apartament individual. Puteți rezerva mai multe apartamente de mai jos — toate sunt disponibile pentru datele dvs.",
     "groupSuggestionNoDates": "Grupul dvs. de {count} oaspeți este mai mare decât orice apartament individual. Luați în considerare rezervarea a 2 sau mai multe apartamente.",
-    "resultsCount": "{available} disponibile / {total} în total"
+    "resultsCount": "{available} disponibile / {total} în total",
+    "group": {
+      "title": "Rezervați împreună pentru {count} oaspeți",
+      "subtitle": "Combinați apartamente și plătiți o singură dată — aceste combinații sunt libere pentru datele dvs.:",
+      "capacity": "până la {count} oaspeți",
+      "nights": "{count, plural, one {# noapte} few {# nopți} other {# de nopți}}",
+      "totalLabel": "în total",
+      "bookTogether": "Rezervă împreună",
+      "customTitle": "Sau creați propria combinație",
+      "customHint": "Selectați două sau trei apartamente pentru a le rezerva împreună.",
+      "needCapacity": "Apartamentele selectate trebuie să încapă cel puțin {count} oaspeți."
+    }
   },
   "apartment": {
     "overview": "Prezentare",
@@ -199,7 +210,13 @@
       "request": "Cerere de rezervare"
     },
     "processing": "Se procesează…",
-    "priceSummary": "Rezumatul prețului"
+    "priceSummary": "Rezumatul prețului",
+    "group": {
+      "title": "Rezervare de grup",
+      "badge": "{count} apartamente · o singură plată",
+      "discountIncluded": "inclusă",
+      "onePayment": "O singură plată confirmă toate apartamentele deodată."
+    }
   },
   "contact": {
     "title": "Contact",

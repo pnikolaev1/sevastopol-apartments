@@ -93,7 +93,18 @@
     "unavailable": "Für diese Daten nicht verfügbar",
     "groupSuggestion": "Ihre Gruppe von {count} Gästen ist größer als jedes einzelne Apartment. Sie können unten mehrere Apartments buchen — alle sind für Ihre Daten verfügbar.",
     "groupSuggestionNoDates": "Ihre Gruppe von {count} Gästen ist größer als jedes einzelne Apartment. Erwägen Sie, 2 oder mehr Apartments für Ihre Gruppe zu buchen.",
-    "resultsCount": "{available} verfügbar / {total} gesamt"
+    "resultsCount": "{available} verfügbar / {total} gesamt",
+    "group": {
+      "title": "Gemeinsam buchen für {count} Gäste",
+      "subtitle": "Kombinieren Sie Apartments und zahlen Sie einmal — diese Kombinationen sind an Ihren Daten frei:",
+      "capacity": "bis zu {count} Gäste",
+      "nights": "{count, plural, one {# Nacht} other {# Nächte}}",
+      "totalLabel": "gesamt",
+      "bookTogether": "Gemeinsam buchen",
+      "customTitle": "Oder stellen Sie Ihre eigene Kombination zusammen",
+      "customHint": "Wählen Sie zwei oder drei Apartments aus, um sie zusammen zu buchen.",
+      "needCapacity": "Die gewählten Apartments müssen mindestens {count} Gäste fassen."
+    }
   },
   "apartment": {
     "overview": "Überblick",
@@ -199,7 +210,13 @@
       "request": "Buchungsanfrage"
     },
     "processing": "Wird verarbeitet…",
-    "priceSummary": "Preisübersicht"
+    "priceSummary": "Preisübersicht",
+    "group": {
+      "title": "Gruppenbuchung",
+      "badge": "{count} Apartments · eine Zahlung",
+      "discountIncluded": "inklusive",
+      "onePayment": "Eine Zahlung bestätigt alle Apartments auf einmal."
+    }
   },
   "contact": {
     "title": "Kontakt",

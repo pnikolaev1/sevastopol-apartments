@@ -6,6 +6,9 @@ import { ApartmentCard } from "@/components/apartments/ApartmentCard";
 import { AvailabilityFilter } from "@/components/apartments/AvailabilityFilter";
 import { getListApartments } from "@/lib/db/apartments";
 import { checkAvailability } from "@/lib/availability";
+import { prisma } from "@/lib/db/prisma";
+import { calculatePrice, calculateNights, BGN_TO_EUR, TOURIST_TAX_BGN_PER_PERSON_NIGHT } from "@/lib/pricing";
+import { GroupBookingOptions, type GroupPickerItem } from "@/components/apartments/GroupBookingOptions";
 import { Users } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -56,6 +59,45 @@ export default async function ApartmentsPage({
   const showGroupSuggestion = guestCount > 0 && guestCount > maxSingleCapacity && apartments.length > 1;
   const availableCount = apartmentsWithAvailability.filter((a) => a.isAvailable).length;
 
+  // Group mode with dates: build the bookable-combination picker. Tourist tax
+  // is linear in guests, so each apartment contributes a fixed stay cost and
+  // the panel adds the group's tax once — matching the checkout's math.
+  let groupItems: GroupPickerItem[] = [];
+  let nights = 0;
+  let taxPerGuestStayEur = 0;
+  if (showGroupSuggestion && checkIn && checkOut && checkOut > checkIn) {
+    nights = calculateNights(checkIn, checkOut);
+    taxPerGuestStayEur = nights * TOURIST_TAX_BGN_PER_PERSON_NIGHT * BGN_TO_EUR;
+    const availableIds = apartmentsWithAvailability.filter((a) => a.isAvailable).map((a) => a.id);
+    const pricable = await prisma.apartment.findMany({
+      where: { id: { in: availableIds }, minStayNights: { lte: nights } },
+      include: {
+        translations: { where: { locale } },
+        pricingRules: { where: { active: true } },
+        dateOverrides: { where: { priceEur: { not: null } } },
+      },
+    });
+    groupItems = pricable.map((apt) => {
+      const oneGuest = calculatePrice({
+        basePriceEur: apt.basePriceEur,
+        cleaningFeeEur: apt.cleaningFeeEur,
+        weekendUpliftPct: apt.weekendUpliftPct,
+        checkIn,
+        checkOut,
+        guestCount: 1,
+        pricingRules: apt.pricingRules,
+        dateOverrides: apt.dateOverrides,
+        applyDirectDiscount: true,
+      });
+      return {
+        slug: apt.slug,
+        name: apt.translations[0]?.name ?? apt.slug,
+        maxGuests: apt.maxGuests,
+        fixedEur: Math.round((oneGuest.totalEur - taxPerGuestStayEur) * 100) / 100,
+      };
+    });
+  }
+
   return (
     <>
       <Navbar />
@@ -75,8 +117,17 @@ export default async function ApartmentsPage({
         </div>
 
         <div className="container mx-auto px-4 py-12 max-w-7xl space-y-8">
-          {/* Group suggestion banner */}
-          {showGroupSuggestion && (
+          {/* Group booking: actionable combos when dates are known, hint otherwise */}
+          {showGroupSuggestion && groupItems.length >= 2 ? (
+            <GroupBookingOptions
+              items={groupItems}
+              guests={guestCount}
+              nights={nights}
+              checkIn={sp.checkIn ?? ""}
+              checkOut={sp.checkOut ?? ""}
+              taxPerGuestStayEur={taxPerGuestStayEur}
+            />
+          ) : showGroupSuggestion ? (
             <div className="rounded-xl border border-primary/30 bg-primary/5 px-6 py-4 flex items-start gap-4">
               <div className="w-10 h-10 rounded-full bg-primary/15 flex items-center justify-center shrink-0 mt-0.5">
                 <Users className="w-5 h-5 text-primary" aria-hidden />
@@ -87,7 +138,7 @@ export default async function ApartmentsPage({
                   : t("groupSuggestionNoDates", { count: guestCount })}
               </p>
             </div>
-          )}
+          ) : null}
 
           {/* Results count when filtering */}
           {(checkIn || checkOut || guestCount > 0) && (

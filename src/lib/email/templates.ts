@@ -15,6 +15,16 @@ function getResend() {
 // error }. Every send must go through this wrapper or failures (sandbox
 // recipient restrictions, quota, bad key) pass completely silently.
 async function sendEmail(payload: Parameters<Resend["emails"]["send"]>[0]) {
+  // Dry-run for template development: write the HTML to disk instead of
+  // sending. Enabled only via EMAIL_DRY_RUN_DIR (never set in production).
+  if (process.env.EMAIL_DRY_RUN_DIR) {
+    const { writeFileSync, mkdirSync } = await import("node:fs");
+    const dir = process.env.EMAIL_DRY_RUN_DIR;
+    mkdirSync(dir, { recursive: true });
+    const name = Date.now() + "-" + String(payload.subject ?? "email").replace(/[^a-z0-9]+/gi, "-").slice(0, 60) + ".html";
+    writeFileSync(dir + "/" + name, String(payload.html ?? ""));
+    return { data: { id: "dry-run" }, error: null };
+  }
   const result = await getResend().emails.send(payload);
   if (result.error) {
     throw new Error(`Resend ${result.error.name}: ${result.error.message}`);
@@ -37,6 +47,10 @@ function to(nominal: string): string {
 
 const OWNER_EMAIL = process.env.OWNER_EMAIL ?? "5areood@gmail.com";
 const OWNER_PHONE = process.env.OWNER_WHATSAPP ?? "35989436230";
+
+function formatDateBg(dateStr: string): string {
+  return new Date(dateStr).toLocaleDateString("bg-BG", { weekday: "short", day: "numeric", month: "long", year: "numeric" });
+}
 
 function formatDate(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString("en-GB", {
@@ -64,6 +78,74 @@ function waLink(text: string): string {
   return `https://wa.me/${OWNER_PHONE}?text=${encodeURIComponent(text)}`;
 }
 
+// ─── Shared branded layout (Navy & Gold, email-client-safe tables) ────────────
+
+const C = {
+  navy: "#0d1f35",
+  gold: "#c7a468",
+  goldPale: "#f3d9a4",
+  ink: "#22303b",
+  muted: "#6e7684",
+  paper: "#f6f4ef",
+  goldTint: "#f6f1e4",
+  border: "#e8e3d8",
+};
+
+/** Wraps content in the site's navy/gold chrome. Tables + inline styles only. */
+function emailShell(content: string): string {
+  const year = new Date().getFullYear();
+  return `<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:24px 12px;background:${C.paper};font-family:Inter,Helvetica,Arial,sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;">
+    <tr><td style="background:${C.navy};border-radius:14px 14px 0 0;padding:22px 30px;">
+      <span style="display:block;color:#ffffff;font-size:17px;font-weight:700;">Sevastopol Apartments</span>
+      <span style="display:block;color:${C.gold};font-size:11px;letter-spacing:3px;margin-top:3px;">VARNA</span>
+    </td></tr>
+    <tr><td style="background:#ffffff;padding:30px;border:1px solid ${C.border};border-top:none;">
+      ${content}
+    </td></tr>
+    <tr><td style="background:${C.navy};border-radius:0 0 14px 14px;padding:16px 30px;">
+      <span style="color:rgba(255,255,255,0.55);font-size:12px;">© ${year} Sevastopol Apartments · Varna, Bulgaria</span><br>
+      <span style="color:rgba(255,255,255,0.4);font-size:12px;">+359 89 436 2230 · ${OWNER_EMAIL}</span>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+}
+
+function detailRows(rows: Array<[string, string]>): string {
+  const tr = rows
+    .map(
+      ([label, value]) => `<tr>
+        <td style="padding:7px 0;color:${C.muted};font-size:13px;vertical-align:top;">${label}</td>
+        <td style="padding:7px 0;color:${C.ink};font-size:13px;font-weight:600;text-align:right;">${value}</td>
+      </tr>`
+    )
+    .join("");
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${C.goldTint};border-radius:10px;padding:8px 18px;border-collapse:separate;">${tr}</table>`;
+}
+
+function ctaButton(href: string, label: string, variant: "gold" | "navy" | "whatsapp" = "gold"): string {
+  const bg = variant === "gold" ? C.gold : variant === "navy" ? C.navy : "#25d366";
+  const color = variant === "gold" ? C.navy : "#ffffff";
+  return `<a href="${href}" style="display:inline-block;background:${bg};color:${color};font-size:14px;font-weight:700;padding:13px 26px;border-radius:999px;text-decoration:none;margin:4px 8px 4px 0;">${label}</a>`;
+}
+
+function heading(text: string): string {
+  return `<h1 style="margin:0 0 6px;color:${C.navy};font-size:21px;">${text}</h1>`;
+}
+
+function eyebrow(text: string): string {
+  return `<p style="margin:0 0 10px;color:${C.gold};font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">${text}</p>`;
+}
+
+function para(text: string): string {
+  return `<p style="margin:0 0 18px;color:${C.muted};font-size:14px;line-height:1.6;">${text}</p>`;
+}
+
+
 // ─── Guest: Booking Confirmed ─────────────────────────────────────────────────
 
 interface BookingConfirmationParams {
@@ -83,61 +165,22 @@ export async function sendBookingConfirmation(params: BookingConfirmationParams)
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://sevastopolapartments.com";
 
-  const html = `
-<!DOCTYPE html>
-<html>
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="font-family:Inter,Helvetica,Arial,sans-serif;background:#f8f7f4;margin:0;padding:24px;">
-  <div style="max-width:600px;margin:0 auto;background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
-    <div style="background:linear-gradient(135deg,#3b6cb8,#2a4f8a);padding:32px;text-align:center;">
-      <h1 style="color:white;margin:0;font-size:24px;font-weight:700;">🌊 Sevastopol Apartments</h1>
-      <p style="color:rgba(255,255,255,0.85);margin:8px 0 0;">Booking Confirmed</p>
-    </div>
-    <div style="padding:32px;">
-      <h2 style="color:#1a2744;margin:0 0 16px;">Your booking is confirmed, ${escapeHtml(guestName)}!</h2>
-      <p style="color:#5a6a8a;margin:0 0 24px;">Thank you for booking directly with us. Here are your details:</p>
-
-      <div style="background:#f0f4ff;border-radius:8px;padding:20px;margin-bottom:24px;">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-          <div>
-            <p style="color:#8a95b0;font-size:12px;margin:0 0 4px;text-transform:uppercase;letter-spacing:0.05em;">Apartment</p>
-            <p style="color:#1a2744;font-weight:600;margin:0;">${escapeHtml(aptName)}</p>
-          </div>
-          <div>
-            <p style="color:#8a95b0;font-size:12px;margin:0 0 4px;text-transform:uppercase;letter-spacing:0.05em;">Booking Ref</p>
-            <p style="color:#1a2744;font-weight:600;margin:0;font-size:12px;">${bookingId}</p>
-          </div>
-          <div>
-            <p style="color:#8a95b0;font-size:12px;margin:0 0 4px;text-transform:uppercase;letter-spacing:0.05em;">Check-in</p>
-            <p style="color:#1a2744;font-weight:600;margin:0;">${formatDate(checkIn)}</p>
-            <p style="color:#5a6a8a;font-size:13px;margin:2px 0 0;">From 15:00</p>
-          </div>
-          <div>
-            <p style="color:#8a95b0;font-size:12px;margin:0 0 4px;text-transform:uppercase;letter-spacing:0.05em;">Check-out</p>
-            <p style="color:#1a2744;font-weight:600;margin:0;">${formatDate(checkOut)}</p>
-            <p style="color:#5a6a8a;font-size:13px;margin:2px 0 0;">By 11:00</p>
-          </div>
-          <div>
-            <p style="color:#8a95b0;font-size:12px;margin:0 0 4px;text-transform:uppercase;letter-spacing:0.05em;">Guests</p>
-            <p style="color:#1a2744;font-weight:600;margin:0;">${guests}</p>
-          </div>
-          <div>
-            <p style="color:#8a95b0;font-size:12px;margin:0 0 4px;text-transform:uppercase;letter-spacing:0.05em;">Total Paid</p>
-            <p style="color:#1a2744;font-weight:600;margin:0;">€${totalEur.toFixed(2)}</p>
-          </div>
-        </div>
-      </div>
-
-      <p style="color:#5a6a8a;font-size:14px;margin:0 0 24px;">The owner will send arrival instructions 3 days before your check-in. For any questions, reply to this email or WhatsApp us.</p>
-
-      <a href="https://wa.me/${OWNER_PHONE}" style="display:inline-block;background:#25d366;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;">💬 WhatsApp the Owner</a>
-    </div>
-    <div style="background:#f0f4ff;padding:16px 32px;text-align:center;">
-      <p style="color:#8a95b0;font-size:12px;margin:0;">© ${new Date().getFullYear()} Sevastopol Apartments, Varna, Bulgaria</p>
-    </div>
-  </div>
-</body>
-</html>`;
+  const html = emailShell(`
+    ${eyebrow("Booking confirmed")}
+    ${heading(`Thank you, ${escapeHtml(guestName)}!`)}
+    ${para("Your direct booking is confirmed. Here are your stay details:")}
+    ${detailRows([
+      ["Apartment", escapeHtml(aptName)],
+      ["Booking ref", `<span style="font-family:monospace;font-size:12px;">${bookingId}</span>`],
+      ["Check-in", `${formatDate(checkIn)} · from 15:00`],
+      ["Check-out", `${formatDate(checkOut)} · by 11:00`],
+      ["Guests", String(guests)],
+      ["Total paid", `€${totalEur.toFixed(2)}`],
+    ])}
+    <p style="margin:20px 0 16px;color:${C.muted};font-size:13px;line-height:1.6;">The owner will send arrival instructions 3 days before your check-in. For any questions, reply to this email or message us on WhatsApp.</p>
+    ${ctaButton(`https://wa.me/${OWNER_PHONE}`, "WhatsApp the owner")}
+    <p style="margin:16px 0 0;color:${C.muted};font-size:12px;">Manage your stay: <a href="${appUrl}" style="color:${C.gold};">${appUrl.replace(/^https?:\/\//, "")}</a></p>
+  `);
 
   try {
     await sendEmail({
@@ -170,20 +213,23 @@ export async function sendOwnerNotification(params: OwnerNotificationParams) {
 
   const waMessage = `New booking!\n${aptName}\n${formatDate(checkIn)} → ${formatDate(checkOut)}\n${guests} guests\nGuest: ${guestName}\nTotal: €${totalEur.toFixed(2)}`;
 
-  const html = `
-<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
-  <h2>💰 New Confirmed Booking</h2>
-  <p><strong>Apartment:</strong> ${escapeHtml(aptName)}</p>
-  <p><strong>Booking ID:</strong> ${bookingId}</p>
-  <p><strong>Check-in:</strong> ${formatDate(checkIn)}</p>
-  <p><strong>Check-out:</strong> ${formatDate(checkOut)}</p>
-  <p><strong>Guests:</strong> ${guests}</p>
-  <p><strong>Guest:</strong> ${escapeHtml(guestName)} (${escapeHtml(guestEmail)})</p>
-  <p><strong>Phone:</strong> ${escapeHtml(guestPhone)}</p>
-  <p><strong>Total:</strong> €${totalEur.toFixed(2)}</p>
-  <hr/>
-  <a href="${waLink(waMessage)}" style="background:#25d366;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;display:inline-block;font-weight:600;">Forward to WhatsApp</a>
-</div>`;
+  const html = emailShell(`
+    ${eyebrow("Ново плащане")}
+    ${heading("Нова потвърдена резервация")}
+    ${detailRows([
+      ["Апартамент", escapeHtml(aptName)],
+      ["Резервация", `<span style="font-family:monospace;font-size:12px;">${bookingId}</span>`],
+      ["Настаняване", formatDateBg(checkIn)],
+      ["Напускане", formatDateBg(checkOut)],
+      ["Гости", String(guests)],
+      ["Гост", `${escapeHtml(guestName)}<br><span style="font-weight:400;color:#6e7684;">${escapeHtml(guestEmail)} · ${escapeHtml(guestPhone)}</span>`],
+      ["Общо платено", `<span style="font-size:15px;">€${totalEur.toFixed(2)}</span>`],
+    ])}
+    <div style="margin-top:20px;">
+      ${ctaButton(`${process.env.NEXT_PUBLIC_APP_URL ?? "https://sevastopolapartments.com"}/admin/bookings`, "Отвори в администрацията", "navy")}
+      ${ctaButton(waLink(waMessage), "Препрати в WhatsApp", "whatsapp")}
+    </div>
+  `);
 
   try {
     await sendEmail({
@@ -218,23 +264,25 @@ export async function sendOwnerBookingRequest(params: OwnerBookingRequestParams)
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://sevastopolapartments.com";
   const waMessage = `Booking request!\n${aptName}\n${formatDate(checkIn)} → ${formatDate(checkOut)}\n${guests} guests\nGuest: ${guestName} (${guestPhone})\nTotal: €${totalEur.toFixed(2)}\nApprove: ${appUrl}/admin/bookings`;
 
-  const html = `
-<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
-  <h2>📋 New Booking Request (Pending Approval)</h2>
-  <p><strong>Apartment:</strong> ${escapeHtml(aptName)}</p>
-  <p><strong>Booking ID:</strong> ${bookingId}</p>
-  <p><strong>Check-in:</strong> ${formatDate(checkIn)}</p>
-  <p><strong>Check-out:</strong> ${formatDate(checkOut)}</p>
-  <p><strong>Guests:</strong> ${guests}</p>
-  <p><strong>Guest:</strong> ${escapeHtml(guestName)} (${escapeHtml(guestEmail)})</p>
-  <p><strong>Phone:</strong> ${escapeHtml(guestPhone)}</p>
-  <p><strong>Total:</strong> €${totalEur.toFixed(2)}</p>
-  ${specialRequests ? `<p><strong>Special requests:</strong> ${escapeHtml(specialRequests)}</p>` : ""}
-  <hr/>
-  <p>This request expires in 24 hours if not confirmed.</p>
-  <a href="${appUrl}/admin/bookings" style="background:#3b6cb8;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;display:inline-block;font-weight:600;margin-right:10px;">Manage in Admin Panel</a>
-  <a href="${waLink(waMessage)}" style="background:#25d366;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;display:inline-block;font-weight:600;">Forward to WhatsApp</a>
-</div>`;
+  const html = emailShell(`
+    ${eyebrow("Изисква одобрение")}
+    ${heading("Нова заявка за резервация")}
+    ${para("Заявката изтича след 24 часа, ако не бъде потвърдена.")}
+    ${detailRows([
+      ["Апартамент", escapeHtml(aptName)],
+      ["Резервация", `<span style="font-family:monospace;font-size:12px;">${bookingId}</span>`],
+      ["Настаняване", formatDateBg(checkIn)],
+      ["Напускане", formatDateBg(checkOut)],
+      ["Гости", String(guests)],
+      ["Гост", `${escapeHtml(guestName)}<br><span style="font-weight:400;color:#6e7684;">${escapeHtml(guestEmail)} · ${escapeHtml(guestPhone)}</span>`],
+      ["Сума", `<span style="font-size:15px;">€${totalEur.toFixed(2)}</span>`],
+      ...(specialRequests ? [["Специални изисквания", escapeHtml(specialRequests)] as [string, string]] : []),
+    ])}
+    <div style="margin-top:20px;">
+      ${ctaButton(`${appUrl}/admin/bookings`, "Одобри в администрацията")}
+      ${ctaButton(waLink(waMessage), "Препрати в WhatsApp", "whatsapp")}
+    </div>
+  `);
 
   try {
     await sendEmail({
@@ -253,24 +301,14 @@ export async function sendOwnerBookingRequest(params: OwnerBookingRequestParams)
 export async function sendAdminLoginCode(params: { email: string; code: string }) {
   const { email, code } = params;
 
-  const html = `
-<!DOCTYPE html>
-<html>
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="font-family:Inter,Helvetica,Arial,sans-serif;background:#f8f7f4;margin:0;padding:24px;">
-  <div style="max-width:480px;margin:0 auto;background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
-    <div style="background:#0d1f35;padding:20px 28px;">
-      <p style="color:#c7a468;font-size:14px;font-weight:600;margin:0;">Sevastopol Apartments — Admin</p>
-    </div>
-    <div style="padding:28px;">
-      <p style="font-size:15px;color:#22303b;margin:0 0 16px;">Your login verification code:</p>
-      <p style="font-size:34px;font-weight:700;letter-spacing:8px;color:#0d1f35;text-align:center;background:#f3efe6;border-radius:10px;padding:16px 0;margin:0 0 16px;">${code}</p>
-      <p style="font-size:13px;color:#6e7684;margin:0 0 6px;">The code expires in 10 minutes.</p>
-      <p style="font-size:13px;color:#6e7684;margin:0;">If you didn't try to sign in, someone knows your password — change it immediately in the admin settings.</p>
-    </div>
-  </div>
-</body>
-</html>`;
+  const html = emailShell(`
+    ${eyebrow("Admin вход")}
+    ${heading("Код за потвърждение")}
+    ${para("Вашият код за вход в администрацията:")}
+    <p style="font-size:34px;font-weight:700;letter-spacing:8px;color:${C.navy};text-align:center;background:${C.goldTint};border-radius:10px;padding:16px 0;margin:0 0 16px;">${code}</p>
+    <p style="margin:0 0 6px;color:${C.muted};font-size:13px;">Кодът е валиден 10 минути.</p>
+    <p style="margin:0;color:${C.muted};font-size:13px;">Ако не сте опитвали да влезете, някой знае паролата ви — сменете я веднага от настройките.</p>
+  `);
 
   // Deliberately throws on failure: the login flow shows the code field only
   // after this resolves, and a silently-lost email would strand the admin.
@@ -293,7 +331,12 @@ export async function sendContactEmail(params: { name: string; email: string; me
       to: to(OWNER_EMAIL),
       replyTo: email,
       subject: subject(`Contact form message from ${name}`),
-      html: `<p><strong>From:</strong> ${escapeHtml(name)} (${escapeHtml(email)})</p><p><strong>Message:</strong></p><p>${escapeHtml(message).replace(/\n/g, "<br/>")}</p>`,
+      html: emailShell(`
+        ${eyebrow("Форма за контакт")}
+        ${heading(`Съобщение от ${escapeHtml(name)}`)}
+        ${para(`<a href="mailto:${escapeHtml(email)}" style="color:${C.gold};">${escapeHtml(email)}</a> — отговорете директно на този имейл.`)}
+        <div style="background:${C.goldTint};border-radius:10px;padding:16px 18px;color:${C.ink};font-size:14px;line-height:1.6;">${escapeHtml(message).replace(/\n/g, "<br/>")}</div>
+      `),
     });
   } catch (err) {
     logger.error("Failed to send contact email", err);
