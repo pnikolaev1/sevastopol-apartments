@@ -39,6 +39,21 @@ export default async function ConfirmationPage({ params, searchParams }: Props) 
 
   if (!booking) notFound();
 
+  // Group checkout: show every apartment booked and paid together.
+  const groupBookings = booking.groupId
+    ? await prisma.booking.findMany({
+        where: { groupId: booking.groupId },
+        include: { apartment: { include: { translations: { where: { locale } } } } },
+        orderBy: { createdAt: "asc" },
+      })
+    : null;
+  const groupTotal = groupBookings
+    ? groupBookings.reduce((sum, b) => sum + Number(b.totalAmount), 0)
+    : Number(booking.totalAmount);
+  const totalGuests = groupBookings
+    ? groupBookings.reduce((sum, b) => sum + b.guestCount, 0)
+    : booking.guestCount;
+
   const aptName = booking.apartment.translations[0]?.name ?? booking.apartment.slug;
   const isRequest = sp.type === "request";
 
@@ -71,10 +86,23 @@ export default async function ConfirmationPage({ params, searchParams }: Props) 
                   <span className="text-muted-foreground">{t("confirmation.bookingRef")}</span>
                   <span className="font-mono text-xs font-medium">{booking.id.slice(0, 12)}…</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Apartment</span>
-                  <span className="font-medium">{aptName}</span>
-                </div>
+                {groupBookings ? (
+                  groupBookings.map((b) => (
+                    <div key={b.id} className="flex justify-between">
+                      <span className="text-muted-foreground">
+                        {b.apartment.translations[0]?.name ?? b.apartment.slug}
+                      </span>
+                      <span className="font-medium">
+                        {b.guestCount} · €{Number(b.totalAmount).toFixed(2)}
+                      </span>
+                    </div>
+                  ))
+                ) : (
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Apartment</span>
+                    <span className="font-medium">{aptName}</span>
+                  </div>
+                )}
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">{t("confirmation.checkIn")}</span>
                   <span className="font-medium">{format(booking.checkIn, "MMM d, yyyy")}</span>
@@ -85,12 +113,12 @@ export default async function ConfirmationPage({ params, searchParams }: Props) 
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">{t("confirmation.guests")}</span>
-                  <span className="font-medium">{booking.guestCount}</span>
+                  <span className="font-medium">{totalGuests}</span>
                 </div>
                 {!isRequest && (
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">{t("confirmation.total")}</span>
-                    <span className="font-semibold text-foreground">€{Number(booking.totalAmount).toFixed(2)}</span>
+                    <span className="font-semibold text-foreground">€{groupTotal.toFixed(2)}</span>
                   </div>
                 )}
               </div>

@@ -143,7 +143,7 @@ export async function POST(request: Request) {
   // double-book. The booking is created *before* the Stripe PaymentIntent so
   // the slot is held under the lock; the PI id is attached immediately after.
   const booking = await prisma.$transaction(async (tx) => {
-    await tx.$queryRaw`SELECT pg_advisory_xact_lock(hashtext(${apt.id}))`;
+    await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${apt.id}))`;
 
     const availability = await checkAvailability(apt.id, checkIn, checkOut, undefined, tx);
     if (!availability.available) return null;

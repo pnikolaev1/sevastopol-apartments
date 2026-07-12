@@ -31,37 +31,43 @@ export async function POST(request: Request) {
   if (event.type === "payment_intent.succeeded") {
     const pi = event.data.object as Stripe.PaymentIntent;
 
-    const booking = await prisma.booking.findUnique({
+    // One PaymentIntent may cover several bookings (group checkout) — the
+    // intent id is shared by every booking in the group.
+    const bookings = await prisma.booking.findMany({
       where: { stripePaymentIntentId: pi.id },
       include: { guest: true, apartment: { include: { translations: { where: { locale: "en" } } } } },
     });
 
-    if (!booking) {
+    if (bookings.length === 0) {
       logger.error("Booking not found for payment intent", { piId: pi.id });
       return NextResponse.json({ error: "Booking not found" }, { status: 404 });
     }
 
-    if (booking.status === BookingStatus.CONFIRMED) {
+    const pending = bookings.filter((b) => b.status !== BookingStatus.CONFIRMED);
+    if (pending.length === 0) {
       // Idempotent — already confirmed
       return NextResponse.json({ ok: true });
     }
 
     // Defense-in-depth: the PaymentIntent amount is created server-side from the
-    // recomputed price, so this should always match. If it does not, something
-    // tampered between creation and capture — refuse to confirm.
-    const expectedAmount = toStripeAmount(Number(booking.totalAmount));
+    // recomputed price, so this should always match the group total. If it does
+    // not, something tampered between creation and capture — refuse to confirm.
+    const expectedAmount = bookings.reduce(
+      (sum, b) => sum + toStripeAmount(Number(b.totalAmount)),
+      0
+    );
     if (typeof pi.amount_received === "number" && pi.amount_received < expectedAmount) {
-      logger.error("Payment amount mismatch — refusing to confirm booking", {
-        bookingId: booking.id,
+      logger.error("Payment amount mismatch — refusing to confirm booking(s)", {
+        bookingIds: bookings.map((b) => b.id),
         received: pi.amount_received,
         expected: expectedAmount,
       });
       return NextResponse.json({ error: "amount_mismatch" }, { status: 400 });
     }
 
-    // Confirm booking in DB
-    await prisma.booking.update({
-      where: { id: booking.id },
+    // Confirm all bookings covered by this payment
+    await prisma.booking.updateMany({
+      where: { stripePaymentIntentId: pi.id },
       data: {
         status: BookingStatus.CONFIRMED,
         stripePaidAt: new Date(),
@@ -69,35 +75,39 @@ export async function POST(request: Request) {
       },
     });
 
-    const aptName = booking.apartment.translations[0]?.name ?? booking.apartment.slug;
+    // Send emails per booking — don't fail the webhook if email fails
+    const emailTasks = pending.flatMap((booking) => {
+      const aptName = booking.apartment.translations[0]?.name ?? booking.apartment.slug;
+      return [
+        sendBookingConfirmation({
+          bookingId: booking.id,
+          guestName: `${booking.guest.firstName} ${booking.guest.lastName}`,
+          guestEmail: booking.guest.email,
+          aptName,
+          checkIn: booking.checkIn.toISOString().split("T")[0] ?? "",
+          checkOut: booking.checkOut.toISOString().split("T")[0] ?? "",
+          guests: booking.guestCount,
+          totalEur: Number(booking.totalAmount),
+          locale: booking.guest.locale,
+        }),
+        sendOwnerNotification({
+          bookingId: booking.id,
+          aptName,
+          checkIn: booking.checkIn.toISOString().split("T")[0] ?? "",
+          checkOut: booking.checkOut.toISOString().split("T")[0] ?? "",
+          guests: booking.guestCount,
+          guestName: `${booking.guest.firstName} ${booking.guest.lastName}`,
+          guestEmail: booking.guest.email,
+          guestPhone: booking.guest.phone ?? "",
+          totalEur: Number(booking.totalAmount),
+        }),
+      ];
+    });
+    await Promise.allSettled(emailTasks);
 
-    // Send emails in parallel — don't fail the webhook if email fails
-    await Promise.allSettled([
-      sendBookingConfirmation({
-        bookingId: booking.id,
-        guestName: `${booking.guest.firstName} ${booking.guest.lastName}`,
-        guestEmail: booking.guest.email,
-        aptName,
-        checkIn: booking.checkIn.toISOString().split("T")[0] ?? "",
-        checkOut: booking.checkOut.toISOString().split("T")[0] ?? "",
-        guests: booking.guestCount,
-        totalEur: Number(booking.totalAmount),
-        locale: booking.guest.locale,
-      }),
-      sendOwnerNotification({
-        bookingId: booking.id,
-        aptName,
-        checkIn: booking.checkIn.toISOString().split("T")[0] ?? "",
-        checkOut: booking.checkOut.toISOString().split("T")[0] ?? "",
-        guests: booking.guestCount,
-        guestName: `${booking.guest.firstName} ${booking.guest.lastName}`,
-        guestEmail: booking.guest.email,
-        guestPhone: booking.guest.phone ?? "",
-        totalEur: Number(booking.totalAmount),
-      }),
-    ]);
-
-    logger.info("Booking confirmed via webhook", { bookingId: booking.id });
+    logger.info("Booking(s) confirmed via webhook", {
+      bookingIds: pending.map((b) => b.id),
+    });
   }
 
   if (event.type === "payment_intent.payment_failed") {

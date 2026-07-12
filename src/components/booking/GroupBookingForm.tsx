@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useTranslations } from "next-intl";
-import { Link, useRouter } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
 import { Elements } from "@stripe/react-stripe-js";
 import { PaymentStep, stripePromise } from "./PaymentStep";
 import { Button } from "@/components/ui/button";
@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, Shield, FlaskConical } from "lucide-react";
+import { Loader2, Shield, FlaskConical, Users } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import type { PriceBreakdown } from "@/lib/pricing";
@@ -35,28 +35,24 @@ const buildGuestSchema = (agreeTermsMessage: string) =>
 
 type GuestFormData = z.infer<ReturnType<typeof buildGuestSchema>>;
 
-interface BookingProps {
-  apartment: { id: string; slug: string; name: string };
+export interface GroupItem {
+  id: string;
+  name: string;
+  guestCount: number;
+  pricing: PriceBreakdown;
+}
+
+interface Props {
+  items: GroupItem[];
   checkIn: string;
   checkOut: string;
   guests: number;
-  pricing: PriceBreakdown;
-  bookingType: "instant" | "request";
   locale: string;
 }
 
-export function BookingForm({
-  apartment,
-  checkIn,
-  checkOut,
-  guests,
-  pricing,
-  bookingType,
-  locale,
-}: BookingProps) {
+export function GroupBookingForm({ items, checkIn, checkOut, guests, locale }: Props) {
   const t = useTranslations("booking");
   const tApt = useTranslations("apartment");
-  const router = useRouter();
   const [step, setStep] = useState<"details" | "payment">("details");
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [bookingId, setBookingId] = useState<string | null>(null);
@@ -66,21 +62,22 @@ export function BookingForm({
     resolver: zodResolver(buildGuestSchema(t("form.agreeTermsError"))),
   });
 
+  const totalEur = Math.round(items.reduce((s, i) => s + i.pricing.totalEur, 0) * 100) / 100;
+  const totalBgn = Math.round(items.reduce((s, i) => s + i.pricing.totalBgn, 0) * 100) / 100;
+  const discountEur = Math.round(items.reduce((s, i) => s + i.pricing.directDiscountEur, 0) * 100) / 100;
+  const nights = items[0]?.pricing.nights ?? 0;
+
   async function onDetailsSubmit(data: GuestFormData) {
     setSubmitting(true);
     try {
-      const endpoint =
-        bookingType === "instant" ? "/api/booking/confirm" : "/api/booking/request";
-
-      const res = await fetch(endpoint, {
+      const res = await fetch("/api/booking/group", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          apartmentId: apartment.id,
+          apartmentIds: items.map((i) => i.id),
           checkIn,
           checkOut,
           guests,
-          pricing,
           guest: {
             firstName: data.firstName,
             lastName: data.lastName,
@@ -98,16 +95,7 @@ export function BookingForm({
         throw new Error(err.error ?? t("errors.generic"));
       }
 
-      const result = (await res.json()) as {
-        bookingId: string;
-        clientSecret?: string;
-      };
-
-      if (bookingType === "request") {
-        router.push(`/booking/confirmation/${result.bookingId}?type=request`);
-        return;
-      }
-
+      const result = (await res.json()) as { bookingId: string; clientSecret?: string };
       setBookingId(result.bookingId);
       setClientSecret(result.clientSecret ?? null);
       setStep("payment");
@@ -118,6 +106,8 @@ export function BookingForm({
     }
   }
 
+  const linkCls = "font-medium text-gold-deep underline-offset-2 hover:underline dark:text-gold";
+
   return (
     <div className="space-y-6">
       {IS_STRIPE_TEST && (
@@ -126,29 +116,25 @@ export function BookingForm({
           <div className="text-sm">
             <span className="font-semibold">TEST MODE — NO REAL CHARGES.</span>{" "}
             Use card <span className="font-mono font-semibold">4242 4242 4242 4242</span>, any
-            future expiry, any CVC. Your real payment details are never needed.
+            future expiry, any CVC.
           </div>
         </div>
       )}
 
       <div>
-        <h1 className="text-2xl font-bold text-foreground">{t("title")}</h1>
+        <h1 className="text-2xl font-bold text-foreground">{t("group.title")}</h1>
         <p className="text-muted-foreground mt-1">
-          {apartment.name} · {format(new Date(checkIn), "MMM d")} –{" "}
-          {format(new Date(checkOut), "MMM d, yyyy")} · {tApt("guests", { count: guests })}
+          {format(new Date(checkIn), "MMM d")} – {format(new Date(checkOut), "MMM d, yyyy")} ·{" "}
+          {tApt("guests", { count: guests })}
         </p>
       </div>
 
-      {/* Booking type badge */}
-      <Badge
-        variant={bookingType === "instant" ? "default" : "secondary"}
-        className="text-sm px-3 py-1"
-      >
-        {t(`type.${bookingType}`)}
+      <Badge variant="secondary" className="flex w-fit items-center gap-1.5 px-3 py-1 text-sm">
+        <Users className="h-3.5 w-3.5" aria-hidden />
+        {t("group.badge", { count: items.length })}
       </Badge>
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        {/* Form */}
         <div className="lg:col-span-3">
           {step === "details" ? (
             <Card>
@@ -161,9 +147,6 @@ export function BookingForm({
                     <div>
                       <Label htmlFor="firstName">{t("form.firstName")}</Label>
                       <Input id="firstName" {...form.register("firstName")} />
-                      {form.formState.errors.firstName && (
-                        <p className="text-xs text-destructive mt-1">{form.formState.errors.firstName.message}</p>
-                      )}
                     </div>
                     <div>
                       <Label htmlFor="lastName">{t("form.lastName")}</Label>
@@ -201,22 +184,10 @@ export function BookingForm({
                     <Label htmlFor="agreeTerms" className="text-sm leading-snug cursor-pointer">
                       {t.rich("form.agreeTermsRich", {
                         terms: (chunks) => (
-                          <Link
-                            href="/legal/terms"
-                            target="_blank"
-                            className="font-medium text-gold-deep underline-offset-2 hover:underline dark:text-gold"
-                          >
-                            {chunks}
-                          </Link>
+                          <Link href="/legal/terms" target="_blank" className={linkCls}>{chunks}</Link>
                         ),
                         privacy: (chunks) => (
-                          <Link
-                            href="/legal/privacy"
-                            target="_blank"
-                            className="font-medium text-gold-deep underline-offset-2 hover:underline dark:text-gold"
-                          >
-                            {chunks}
-                          </Link>
+                          <Link href="/legal/privacy" target="_blank" className={linkCls}>{chunks}</Link>
                         ),
                       })}
                     </Label>
@@ -231,10 +202,8 @@ export function BookingForm({
                   >
                     {submitting ? (
                       <><Loader2 className="w-4 h-4 mr-2 animate-spin" />{t("processing")}</>
-                    ) : bookingType === "instant" ? (
-                      t("form.continuePayment")
                     ) : (
-                      t("form.submitRequest")
+                      t("form.continuePayment")
                     )}
                   </Button>
                 </form>
@@ -246,10 +215,7 @@ export function BookingForm({
                 <CardTitle className="text-lg">{t("steps.payment")}</CardTitle>
               </CardHeader>
               <CardContent>
-                <Elements
-                  stripe={stripePromise}
-                  options={{ clientSecret, appearance: { theme: "stripe" } }}
-                >
+                <Elements stripe={stripePromise} options={{ clientSecret, appearance: { theme: "stripe" } }}>
                   <PaymentStep bookingId={bookingId} locale={locale} />
                 </Elements>
                 <div className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground mt-4">
@@ -261,46 +227,39 @@ export function BookingForm({
           ) : null}
         </div>
 
-        {/* Price summary */}
+        {/* Combined price summary */}
         <div className="lg:col-span-2">
           <Card className="sticky top-24">
             <CardHeader>
               <CardTitle className="text-base">{t("priceSummary")}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3 text-sm">
-              <div className="flex justify-between text-muted-foreground">
-                <span>
-                  {tApt("priceBreakdown.nights", {
-                    rate: `€${pricing.nightlyRateEur.toFixed(2)}`,
-                    nights: pricing.nights,
-                  })}
-                </span>
-                <span>€{pricing.subtotalEur.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between text-muted-foreground">
-                <span>{tApt("priceBreakdown.cleaning")}</span>
-                <span>€{pricing.cleaningFeeEur.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between text-muted-foreground">
-                <span>{tApt("priceBreakdown.touristTax")}</span>
-                <span>€{pricing.touristTaxEur.toFixed(2)}</span>
-              </div>
-              {pricing.directDiscountEur > 0 && (
+              {items.map((item) => (
+                <div key={item.id} className="flex justify-between text-muted-foreground">
+                  <span>
+                    {item.name}
+                    <span className="block text-xs">{tApt("guests", { count: item.guestCount })} · {tApt("nights", { count: nights })}</span>
+                  </span>
+                  <span className="font-medium text-foreground">€{item.pricing.totalEur.toFixed(2)}</span>
+                </div>
+              ))}
+              {discountEur > 0 && (
                 <div className="flex justify-between text-emerald-600">
                   <span>{tApt("priceBreakdown.directDiscount")}</span>
-                  <span>−€{pricing.directDiscountEur.toFixed(2)}</span>
+                  <span>{t("group.discountIncluded")}</span>
                 </div>
               )}
               <Separator />
               <div className="flex justify-between font-semibold text-foreground text-base">
                 <span>{tApt("priceBreakdown.total")}</span>
                 <div className="text-right">
-                  <div>€{pricing.totalEur.toFixed(2)}</div>
+                  <div>€{totalEur.toFixed(2)}</div>
                   <div className="text-xs text-muted-foreground font-normal">
-                    {tApt("priceBreakdown.inBgn", { amount: pricing.totalBgn.toFixed(2) })}
+                    {tApt("priceBreakdown.inBgn", { amount: totalBgn.toFixed(2) })}
                   </div>
                 </div>
               </div>
+              <p className="text-xs text-muted-foreground">{t("group.onePayment")}</p>
             </CardContent>
           </Card>
         </div>

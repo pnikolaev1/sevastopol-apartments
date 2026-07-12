@@ -93,7 +93,18 @@
     "unavailable": "Not available for these dates",
     "groupSuggestion": "Your group of {count} guests is larger than any single apartment. You can book multiple apartments below — all are available for your dates.",
     "groupSuggestionNoDates": "Your group of {count} guests is larger than any single apartment. Consider booking 2 or more apartments for your group.",
-    "resultsCount": "{available} available / {total} total"
+    "resultsCount": "{available} available / {total} total",
+    "group": {
+      "title": "Book together for {count} guests",
+      "subtitle": "Combine apartments and pay once — these combinations are free on your dates:",
+      "capacity": "up to {count} guests",
+      "nights": "{count, plural, one {# night} other {# nights}}",
+      "totalLabel": "total",
+      "bookTogether": "Book together",
+      "customTitle": "Or build your own combination",
+      "customHint": "Select two or three apartments to book them together.",
+      "needCapacity": "Selected apartments must fit at least {count} guests."
+    }
   },
   "apartment": {
     "overview": "Overview",
@@ -199,7 +210,13 @@
       "request": "Request to Book"
     },
     "processing": "Processing…",
-    "priceSummary": "Price Summary"
+    "priceSummary": "Price Summary",
+    "group": {
+      "title": "Group Booking",
+      "badge": "{count} apartments · one payment",
+      "discountIncluded": "included",
+      "onePayment": "One payment confirms all apartments at once."
+    }
   },
   "contact": {
     "title": "Contact Us",
