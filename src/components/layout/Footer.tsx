@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
-import { Phone, Mail } from "lucide-react";
+import { Phone, Mail, MapPin } from "lucide-react";
 
 export function Footer() {
   const t = useTranslations("footer");
@@ -87,6 +87,17 @@ export function Footer() {
               {t("contactHeading")}
             </h3>
             <ul className="space-y-3 text-sm">
+              <li>
+                <a
+                  href="https://maps.google.com/?q=ul.+Lyuben+Karavelov+7,+9002+Varna,+Bulgaria"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-start gap-2.5 text-white/50 hover:text-white transition-colors"
+                >
+                  <MapPin className="w-4 h-4 shrink-0 mt-0.5" aria-hidden />
+                  <span>ul. „Lyuben Karavelov“ 7<br />9002 Varna</span>
+                </a>
+              </li>
               <li>
                 <a
                   href="tel:+35989436230"

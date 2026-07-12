@@ -268,21 +268,21 @@
     "eyebrow": "Explore Varna",
     "intro": "Everything worth seeing is within easy reach of the apartments. Here is what we recommend to our guests.",
     "gettingAround": "Getting around",
-    "gettingAroundDesc": "The apartments sit in central Varna — most sights below are walkable. Taxis are inexpensive (order via TaxiMe or Yellow Taxi apps), buses run frequently, and Varna Airport is about 20 minutes away (7 km).",
+    "gettingAroundDesc": "The apartments sit in central Varna — most sights below are walkable. Taxis are inexpensive (order via the TaxiMe app), buses run frequently, and Varna Airport is about 20 minutes away (7 km).",
     "spots": [
       {
         "title": "Varna Beach",
-        "desc": "The city's long sandy beach with beach bars and swimming from May to October.",
+        "desc": "The city's long sandy beach with beach bars — swimming season roughly June to September.",
         "dist": "700 m"
       },
       {
         "title": "Sea Garden",
-        "desc": "Varna's vast seaside park — perfect for morning runs, sunsets, and the summer open-air stages.",
+        "desc": "Varna's vast seaside park with the Dolphinarium and Zoo inside — perfect for morning runs, sunsets and the summer open-air stages.",
         "dist": "900 m"
       },
       {
         "title": "City Centre & Boulevard",
-        "desc": "Pedestrian boulevards with shops, cafés and restaurants around Nezavisimost Square.",
+        "desc": "Pedestrian boulevards with shops, cafés and restaurants around the Opera and Nezavisimost Square.",
         "dist": "600 m"
       },
       {
@@ -296,9 +296,9 @@
         "dist": "600 m"
       },
       {
-        "title": "Port & Marina",
-        "desc": "Seafront promenade with fish restaurants and boat trips along the coast.",
-        "dist": "1.4 km"
+        "title": "Varna Cathedral",
+        "desc": "The Cathedral of the Dormition of the Mother of God (1886) — one of Bulgaria's largest churches and the symbol of the city.",
+        "dist": "1 km"
       },
       {
         "title": "Aladzha Monastery",

@@ -268,21 +268,21 @@
     "eyebrow": "Varna entdecken",
     "intro": "Alles Sehenswerte ist von den Apartments aus gut erreichbar. Das empfehlen wir unseren Gästen.",
     "gettingAround": "Unterwegs in Varna",
-    "gettingAroundDesc": "Die Apartments liegen im Zentrum von Varna — die meisten Ziele unten sind zu Fuß erreichbar. Taxis sind günstig (per TaxiMe- oder Yellow-Taxi-App), Busse fahren häufig, und der Flughafen Varna ist etwa 20 Minuten entfernt (7 km).",
+    "gettingAroundDesc": "Die Apartments liegen im Zentrum von Varna — die meisten Ziele unten sind zu Fuß erreichbar. Taxis sind günstig (per TaxiMe-App bestellen), Busse fahren häufig, und der Flughafen Varna ist etwa 20 Minuten entfernt (7 km).",
     "spots": [
       {
         "title": "Strand von Varna",
-        "desc": "Der lange Sandstrand der Stadt mit Strandbars und Badesaison von Mai bis Oktober.",
+        "desc": "Der lange Sandstrand der Stadt mit Strandbars — Badesaison etwa von Juni bis September.",
         "dist": "700 m"
       },
       {
         "title": "Meeresgarten",
-        "desc": "Varnas riesiger Küstenpark — perfekt für Morgenläufe, Sonnenuntergänge und die Sommer-Freilichtbühnen.",
+        "desc": "Varnas riesiger Küstenpark mit Delfinarium und Zoo — perfekt für Morgenläufe, Sonnenuntergänge und die Sommer-Freilichtbühnen.",
         "dist": "900 m"
       },
       {
         "title": "Zentrum & Boulevard",
-        "desc": "Fußgängerboulevards mit Geschäften, Cafés und Restaurants rund um den Nezavisimost-Platz.",
+        "desc": "Fußgängerboulevards mit Geschäften, Cafés und Restaurants rund um die Oper und den Nezavisimost-Platz.",
         "dist": "600 m"
       },
       {
@@ -296,9 +296,9 @@
         "dist": "600 m"
       },
       {
-        "title": "Hafen & Marina",
-        "desc": "Uferpromenade mit Fischrestaurants und Bootsausflügen entlang der Küste.",
-        "dist": "1.4 km"
+        "title": "Kathedrale von Varna",
+        "desc": "Die Kathedrale Mariä Entschlafung (1886) — eine der größten Kirchen Bulgariens und das Wahrzeichen der Stadt.",
+        "dist": "1 km"
       },
       {
         "title": "Aladzha-Kloster",

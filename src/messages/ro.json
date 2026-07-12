@@ -268,21 +268,21 @@
     "eyebrow": "Explorați Varna",
     "intro": "Tot ce merită văzut este la îndemână față de apartamente. Iată ce le recomandăm oaspeților noștri.",
     "gettingAround": "Cum vă deplasați",
-    "gettingAroundDesc": "Apartamentele sunt în centrul Varnei — majoritatea obiectivelor de mai jos sunt accesibile pe jos. Taxiurile sunt ieftine (comandați prin TaxiMe sau Yellow Taxi), autobuzele circulă des, iar aeroportul Varna este la circa 20 de minute (7 km).",
+    "gettingAroundDesc": "Apartamentele sunt în centrul Varnei — majoritatea obiectivelor de mai jos sunt accesibile pe jos. Taxiurile sunt ieftine (comandați prin aplicația TaxiMe), autobuzele circulă des, iar aeroportul Varna este la circa 20 de minute (7 km).",
     "spots": [
       {
         "title": "Plaja Varna",
-        "desc": "Plaja lungă de nisip a orașului, cu baruri de plajă și sezon de înot din mai până în octombrie.",
+        "desc": "Plaja lungă de nisip a orașului, cu baruri de plajă — sezonul de înot este aproximativ din iunie până în septembrie.",
         "dist": "700 m"
       },
       {
         "title": "Grădina Mării",
-        "desc": "Parcul imens de pe litoral al Varnei — perfect pentru alergare, apusuri și scenele de vară în aer liber.",
+        "desc": "Parcul imens de pe litoral al Varnei, cu Delfinariul și Grădina Zoologică în interior — perfect pentru alergare, apusuri și scenele de vară în aer liber.",
         "dist": "900 m"
       },
       {
         "title": "Centrul și bulevardul",
-        "desc": "Bulevarde pietonale cu magazine, cafenele și restaurante în jurul Pieței Nezavisimost.",
+        "desc": "Bulevarde pietonale cu magazine, cafenele și restaurante în jurul Operei și al Pieței Nezavisimost.",
         "dist": "600 m"
       },
       {
@@ -296,9 +296,9 @@
         "dist": "600 m"
       },
       {
-        "title": "Portul și Marina",
-        "desc": "Promenada de pe malul mării cu restaurante pescărești și plimbări cu barca de-a lungul coastei.",
-        "dist": "1.4 km"
+        "title": "Catedrala din Varna",
+        "desc": "Catedrala „Adormirea Maicii Domnului“ (1886) — una dintre cele mai mari biserici din Bulgaria și simbolul orașului.",
+        "dist": "1 km"
       },
       {
         "title": "Mănăstirea Aladzha",
